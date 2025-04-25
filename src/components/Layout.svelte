@@ -1,49 +1,51 @@
 <script lang="ts">
-  import { page } from '$app/stores'
-  import { goto } from '$app/navigation'
-  import NavLink from './NavLink.svelte'
-  import WalletConnect from './WalletConnect.svelte'
-  import { fade } from 'svelte/transition'
-  import { onMount } from 'svelte'
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+  import NavLink from './NavLink.svelte';
+  import WalletConnect from './WalletConnect.svelte';
+  import { fade } from 'svelte/transition';
+  import { onMount } from 'svelte';
 
   // Mobile menu state
-  let isMenuOpen = false
-  
+  let isMenuOpen = false;
+
   // Check if user is connected to wallet
-  let isConnected = false
-  
+  let isConnected = false; // Keep mock state for now
+
   // Sample wallet address for mock functionality
-  let walletAddress = '0x1234...5678'
+  let walletAddress = '0x1234...5678'; // Keep mock state for now
+
   // Close mobile menu when route changes
   $: {
     if ($page.url) {
-      isMenuOpen = false
+      isMenuOpen = false;
     }
   }
 
   // Determine if we should show the app navigation
-  $: showAppNav = $page.url.pathname !== '/' && isConnected
+  $: showAppNav = $page.url.pathname !== '/' && isConnected;
 
   // Toggle wallet connection state (mock functionality)
   function toggleConnection() {
-    isConnected = !isConnected
+    isConnected = !isConnected;
     if (isConnected && $page.url.pathname === '/') {
-      goto('/dashboard')
+      goto('/dashboard');
     }
   }
-  
+
   onMount(() => {
     // Any initialization logic can go here
-  })
+  });
 </script>
 
-<div class="min-h-full flex flex-col">
+<div class="min-h-screen flex flex-col bg-[var(--color-background)]"> <!-- Ensure base background -->
   <!-- Header -->
   <header class="sticky top-0 z-50">
     <div class="relative">
-      <div class="glass border-b border-[var(--color-border-subtle)] shadow-sm transition-all duration-200 ease-out">
+      <!-- Apply .glass effect here -->
+      <div class="glass border-b border-[var(--color-border-subtle)] shadow-sm">
         <div class="app-container">
-          <div class="flex items-center justify-between py-4">
+          <div class="flex items-center justify-between py-[var(--spacing)]"> <!-- py-2 = 8px -->
             <!-- Logo -->
             <div class="flex items-center">
               <button
@@ -64,7 +66,7 @@
                 <span class="text-xl font-semibold tracking-tight text-[var(--color-foreground)]">Fluctra</span>
               </button>
             </div>
-            
+
             <!-- Desktop Navigation (if applicable) -->
             {#if showAppNav}
               <nav class="hidden md:flex space-x-1">
@@ -75,23 +77,23 @@
                 <NavLink href="/discover">Discover</NavLink>
               </nav>
             {/if}
-            
-            <!-- Wallet Connection -->
+
+            <!-- Wallet Connection & Mobile Menu Trigger -->
             <div class="flex items-center">
               <WalletConnect
-                isConnected={isConnected}
-                walletAddress={walletAddress}
+                {isConnected}
+                {walletAddress}
                 onToggle={toggleConnection}
               />
-              
+
               <!-- Mobile menu button -->
               {#if showAppNav}
                 <button
                   on:click={() => isMenuOpen = !isMenuOpen}
-                  class="ml-4 md:hidden rounded-lg p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)] focus:outline-none transition-colors duration-200 ease-out"
+                  class="ml-4 md:hidden rounded-lg p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] focus:outline-none transition-colors duration-200 ease-out"
                   aria-label="Open menu"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     {#if isMenuOpen}
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     {:else}
@@ -104,47 +106,27 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Mobile Navigation Menu -->
       {#if isMenuOpen && showAppNav}
-        <div 
+        <div
           transition:fade={{ duration: 150 }}
-          class="glass absolute w-full md:hidden shadow-lg border-b border-[var(--color-border-subtle)] transition-all duration-200 ease-out"
+          class="glass absolute w-full md:hidden shadow-lg border-b border-[var(--color-border-subtle)]"
         >
           <div class="pt-2 pb-4 space-y-1 px-4">
-            <NavLink
-              href="/dashboard"
-              isMobile={true}
-              on:click={() => isMenuOpen = false}
-            >
+            <NavLink href="/dashboard" isMobile={true} on:click={() => isMenuOpen = false}>
               Dashboard
             </NavLink>
-            <NavLink
-              href="/create-discount"
-              isMobile={true}
-              on:click={() => isMenuOpen = false}
-            >
+            <NavLink href="/create-discount" isMobile={true} on:click={() => isMenuOpen = false}>
               Create Discount
             </NavLink>
-            <NavLink
-              href="/my-pools"
-              isMobile={true}
-              on:click={() => isMenuOpen = false}
-            >
+            <NavLink href="/my-pools" isMobile={true} on:click={() => isMenuOpen = false}>
               My Pools
             </NavLink>
-            <NavLink
-              href="/analytics"
-              isMobile={true}
-              on:click={() => isMenuOpen = false}
-            >
+            <NavLink href="/analytics" isMobile={true} on:click={() => isMenuOpen = false}>
               Analytics
             </NavLink>
-            <NavLink
-              href="/discover"
-              isMobile={true}
-              on:click={() => isMenuOpen = false}
-            >
+            <NavLink href="/discover" isMobile={true} on:click={() => isMenuOpen = false}>
               Discover
             </NavLink>
           </div>
@@ -152,26 +134,27 @@
       {/if}
     </div>
   </header>
-  
+
   <!-- Main Content -->
-  <main class="flex-1 py-6">
+  <main class="flex-1 py-[calc(var(--spacing)*3)]"> <!-- py-6 = 24px -->
     <div class="app-container animate-fade-in">
       <slot />
     </div>
   </main>
-  
+
   <!-- Footer -->
-  <footer class="border-t border-neutral-100 py-6 mt-12">
+  <footer class="border-t border-[var(--color-border-subtle)] py-[calc(var(--spacing)*3)] mt-[calc(var(--spacing)*6)]"> <!-- py-6, mt-12 -->
     <div class="app-container">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 flex items-center">
-          <span class="text-sm text-neutral-500">© 2025 Fluctra. All rights reserved.</span>
+          <span class="text-sm text-[var(--color-text-secondary)]">© 2025 Fluctra. All rights reserved.</span>
         </div>
         <div class="flex space-x-6">
-          <button class="text-sm text-neutral-500 hover:text-neutral-700">Terms</button>
-          <button class="text-sm text-neutral-500 hover:text-neutral-700">Privacy</button>
-          <button class="text-sm text-neutral-500 hover:text-neutral-700">Docs</button>
-          <button class="text-sm text-neutral-500 hover:text-neutral-700">Contact</button>
+          <!-- Using anchor tags for semantic correctness, style as buttons if interactive -->
+           <a href="/terms" class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline">Terms</a>
+           <a href="/privacy" class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline">Privacy</a>
+           <a href="/docs" class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline">Docs</a>
+           <a href="/contact" class="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline">Contact</a>
         </div>
       </div>
     </div>

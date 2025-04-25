@@ -1,93 +1,108 @@
 <script lang="ts">
-  import { goto } from '$app/navigation'
-  import Card from '../../../components/Card.svelte'
-  import Button from '../../../components/Button.svelte'
-  import Input from '../../../components/Input.svelte'
-  import Select from '../../../components/Select.svelte'
-  import { discountFormData } from '../formStore'
-  
+  // No need for goto here as navigation is in parent
+  import Card from '../../../components/Card.svelte';
+  // No need for Button here
+  import Input from '../../../components/Input.svelte';
+  import Select from '../../../components/Select.svelte';
+  import { discountFormData, type TokenInfo } from '../formStore'; // Import type
+  import { derived } from 'svelte/store';
+
   // Distribution strategy options
   const strategyOptions = [
     { value: 'standard', label: 'Standard (First-come, first-served)' },
-    { value: 'tiered', label: 'Tiered (AI Optimized)' },
-    { value: 'whitelist', label: 'Whitelist Only' }
-  ]
-  
-  // Convert string inputs to numbers for calculations
-  $: discountRateNum = typeof $discountFormData.discountRate === 'string' 
-    ? parseFloat($discountFormData.discountRate) || 0 
-    : $discountFormData.discountRate
-    
-  $: maxSaleAmountNum = typeof $discountFormData.maxSaleAmount === 'string'
-    ? parseFloat($discountFormData.maxSaleAmount) || 0
-    : $discountFormData.maxSaleAmount
+    { value: 'tiered', label: 'Tiered (AI Optimized Schedule)' },
+    { value: 'whitelist', label: 'Whitelist Only (Requires Setup)' }
+  ];
 
-  // Derived values
-  $: discountedPrice = $discountFormData.tokenInfo.marketPrice * (1 - discountRateNum / 100)
-  $: estimatedValue = discountedPrice * maxSaleAmountNum
-  
+  // Reactive calculations for display
+  const calculatedValues = derived(discountFormData, ($data) => {
+    const discountRateNum = parseFloat($data.discountRate) || 0;
+    const maxSaleAmountNum = parseFloat($data.maxSaleAmount) || 0;
+    // Using a placeholder market price if not set
+    const marketPrice = $data.tokenInfo?.marketPrice || 0.05; // Example placeholder
+    const discountedPrice = marketPrice * (1 - discountRateNum / 100);
+    const estimatedValue = discountedPrice * maxSaleAmountNum;
+    return { discountedPrice, estimatedValue };
+  });
+
   // Format numbers for display
   function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(amount)
+      maximumFractionDigits: 4 // Allow more precision for token prices
+    }).format(amount);
   }
+
+  // Example: Fetch market price based on token address/chain (placeholder)
+  $: {
+      if ($discountFormData.tokenAddress && $discountFormData.blockchain) {
+          // console.log('Fetching market price for', $discountFormData.tokenAddress);
+          // Simulating fetch
+          setTimeout(() => {
+              discountFormData.update(data => ({
+                  ...data,
+                  tokenInfo: { ...data.tokenInfo, marketPrice: 0.05 } // Example price
+              }));
+          }, 500);
+      }
+  }
+
 </script>
 
 <Card>
-  <h2 class="text-xl font-semibold text-neutral-900 mb-6">Discount Strategy</h2>
-  
-  <div class="space-y-6">
+  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-[calc(var(--spacing)*3)]">Discount Strategy</h2> <!-- mb-6 -> 24px -->
+
+  <div class="space-y-[calc(var(--spacing)*3)]"> <!-- space-y-6 -> 24px -->
     <div>
       <Input
         type="number"
         label="Discount Rate (%)"
         bind:value={$discountFormData.discountRate}
         required
-        helpText="AI Recommended: 25-35% based on market volatility (1-90%)"
+        min="1"
+        max="90"
+        helpText="Set the percentage discount off the current market price. AI Suggestion: 25-35% based on volatility."
       />
     </div>
-    
+
     <div>
       <Input
         type="number"
         label="Sale Duration (Days)"
         bind:value={$discountFormData.duration}
         required
-        helpText="AI Recommended: 3-7 days for optimal momentum (1-30 days)"
+        min="1"
+        max="30"
+        helpText="How long the discount pool will remain active. AI Suggestion: 3-7 days for optimal momentum."
       />
     </div>
-    
+
     <div>
       <Input
         type="number"
-        label="Maximum Sale Amount (Tokens)"
+        label="Maximum Sale Amount (Total Tokens)"
         bind:value={$discountFormData.maxSaleAmount}
         required
-        helpText={`Estimated Value: ${formatCurrency(estimatedValue)} USD at discounted price (Minimum 1 token)`}
+        min="1"
+        helpText={`Value at current market price (discounted): ~${formatCurrency($calculatedValues.estimatedValue)} USD. This is the total number of your tokens available in the pool.`}
       />
+      {#if $discountFormData.tokenInfo.marketPrice === 0 && $discountFormData.tokenAddress}
+         <p class="mt-1 text-sm text-[var(--color-warning-700)]">Fetching market price...</p>
+      {/if}
     </div>
-    
+
     <div>
       <Select
         label="Distribution Strategy"
         options={strategyOptions}
         bind:value={$discountFormData.distributionStrategy}
         required
-        helpText="Tiered strategy recommended for attracting quality holders"
+        helpText="Choose how tokens are sold. Tiered strategy recommended for attracting quality holders."
       />
     </div>
   </div>
-  
-  <div class="flex justify-between mt-8">
-    <Button variant="ghost" on:click={() => goto('/create-discount/step1')}>
-      Back
-    </Button>
-    <Button on:click={() => goto('/create-discount/step3')}>
-      Continue to Review
-    </Button>
-  </div>
 </Card>
+
+<!-- Navigation buttons are handled by the parent layout -->

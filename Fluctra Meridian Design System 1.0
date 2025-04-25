@@ -65,35 +65,34 @@ Okay, drawing inspiration from the sophisticated interfaces of Base, the clean t
         *   `--color-border-default: var(--color-gray-800);`
         *   `--color-border-subtle: var(--color-gray-900);`
         *   `--color-interactive: var(--color-primary-500);`
-        *   `--color-interactive-hover: var(--color-primary-400);`
+        *   `--color-interactive-hover: var(--color-primary-300);` /* Adjusted from 400 as 400 not defined */
         *   `--color-interactive-text: var(--color-gray-0);`
         *   `--color-shadow: oklch(0% 0 0);` (Can remain black, adjust opacity)
 
 *   **Typography (`@layer base` & `@theme`)**
     *   **Font:** `--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;` `--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;`
-    *   **Base:** Apply `--font-sans` to `body`. Set base `color: var(--color-text-primary);` `font-size: var(--font-size-base);` etc.
-    *   **Type Scale & Weights:** Use the previously defined scale (adjust sizes slightly if needed for refinement, e.g., slightly larger base size like 17px).
-    *   **Headings:** `h1-h6` defined with clear size/weight differences (e.g., `h1 { @apply text-4xl font-bold text-[var(--color-foreground)]; }`).
-    *   **Links:** `a { @apply text-[var(--color-interactive)] transition-colors duration-150 hover:text-[var(--color-interactive-hover)] hover:underline; }`
+    *   **Base:** Apply `--font-sans` to `body`. Set base `color: var(--color-text-primary);` `font-size: 1.0625rem;` (17px) `line-height: 1.5;`.
+    *   **Headings:** `h1-h6` defined with clear size/weight differences (e.g., `h1 { @apply text-4xl font-bold text-[var(--color-foreground)]; }`). Specific sizes TBD or use Tailwind scale based on 17px base.
+    *   **Links:** `a { @apply text-[var(--color-interactive)] transition-colors duration-150 hover:text-[var(--color-interactive-hover)] hover:underline; }` (Use `var(--ease-out-expo)` for transition timing).
 
 *   **Spacing (8px Grid):** Enhance spaciousness.
     *   `--spacing: 0.5rem;` (8px) in `@theme`.
-    *   **Tailwind:** Rely on `p-1` (8px), `p-2` (16px), `p-3` (24px), `p-4` (32px), `gap-4`, `mb-8`, etc.
-    *   **Rules:** Card Padding `p-4` (sm), `p-5` (md+). Section Padding `py-20`, `py-24`. Gaps `gap-4`, `gap-6`.
+    *   **Tailwind:** Rely on `p-1` (4px -> use `p-[calc(var(--spacing)/2)]` or direct values), `p-2` (8px -> use `p-[var(--spacing)]`), `p-3` (12px -> `p-[calc(var(--spacing)*1.5)]`), `p-4` (16px -> `p-[calc(var(--spacing)*2)]`), `gap-4` (`gap-[calc(var(--spacing)*2)]`), `mb-8` (`mb-[calc(var(--spacing)*4)]`), etc. Or define spacing scale in `@theme`.
+    *   **Rules:** Card Padding `p-[calc(var(--spacing)*3)]` (24px - based on component code) or `p-4`/`p-5` (32px/40px). Section Padding `py-[calc(var(--spacing)*10)]`, `py-[calc(var(--spacing)*12)]`. Gaps `gap-[calc(var(--spacing)*2)]`, `gap-[calc(var(--spacing)*3)]`.
 
 *   **Layout:**
     *   `.app-container`: `max-w-7xl mx-auto px-4 md:px-6 lg:px-8`.
 
 *   **Borders & Radii:**
     *   Radii: `--radius-md: 0.5rem;` (8px `rounded-lg`), `--radius-lg: 0.75rem;` (12px `rounded-xl`), `--radius-xl: 1rem;` (16px `rounded-2xl`), `--radius-full`.
-    *   **Usage:** `rounded-lg` for buttons/inputs. `rounded-xl` for cards. `rounded-2xl` for modals/larger elements. `rounded-full` for small indicators/badges. Borders use `--color-border-*` and `border` utility.
+    *   **Usage:** `rounded-lg` (`var(--radius-md)`) for buttons/inputs. `rounded-xl` (`var(--radius-lg)`) for cards. `rounded-2xl` (`var(--radius-xl)`) for modals/larger elements. `rounded-full` (`var(--radius-full)`) for small indicators/badges. Borders use `--color-border-*` and `border` utility.
 
 *   **Shadows (`@theme`):** Refined for light theme. Softer, more diffused.
     *   `--shadow-sm: 0 1px 2px 0 oklch(var(--color-shadow) / 0.03);`
     *   `--shadow-md: 0 2px 8px -1px oklch(var(--color-shadow) / 0.06), 0 2px 4px -2px oklch(var(--color-shadow) / 0.04);` (Card default)
     *   `--shadow-lg: 0 8px 16px -4px oklch(var(--color-shadow) / 0.08), 0 4px 6px -3px oklch(var(--color-shadow) / 0.05);` (Hover/Elevated)
     *   `--shadow-xl: 0 16px 24px -8px oklch(var(--color-shadow) / 0.08), 0 6px 10px -6px oklch(var(--color-shadow) / 0.06);` (Modals/Dropdowns)
-    *   **Usage:** Apply via `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`.
+    *   **Usage:** Apply via `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl` utilities referencing these variables.
 
 *   **Icons (Lucide):** Standardize on `w-5 h-5` (20px). `stroke-width="1.75"`.
 
@@ -112,7 +111,7 @@ Okay, drawing inspiration from the sophisticated interfaces of Base, the clean t
           /* Dark Mode */
           background-color: oklch(15% 0.005 240 / 0.7); /* gray-1000 @ 70% */
           backdrop-filter: blur(24px) saturate(180%);
-          border: 1px solid oklch(28% 0.015 250 / 0.15); /* gray-900 @ 15% */
+          border: 1px solid oklch(32% 0.012 240 / 0.15); /* gray-900 @ 15% - Adjusted alpha based on implementation */
         }
       }
     }
@@ -120,24 +119,33 @@ Okay, drawing inspiration from the sophisticated interfaces of Base, the clean t
     *   **Usage:** Header, Mobile Menu, Dropdowns, Modals.
 *   **Gradients:**
     *   **Subtle:** Use very soft linear gradients for backgrounds: `bg-gradient-to-b from-[var(--color-background)] to-[var(--color-gray-100)]` (light) or `from-[var(--color-background)] to-[var(--color-gray-950)]` (dark).
-    *   **Accents:** Use primary/secondary for button backgrounds or small highlights: `bg-gradient-to-r from-primary-500 to-primary-600`.
+    *   **Accents:** Use primary/secondary for button backgrounds or small highlights: `bg-gradient-to-r from-[var(--color-primary-500)] to-[var(--color-primary-600)]`.
     *   **Hero:** Consider a subtle radial gradient originating from the center: `bg-[radial-gradient(ellipse_at_center,var(--color-primary-100)_0%,transparent_70%)]`.
 
 **3. Core UI Components (Refined Styles)**
 
-*   **Buttons:** Base: `rounded-lg font-semibold transition duration-150 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)]/[var(--tw-ring-opacity,0.4)] focus:outline-none active:scale-[0.98]`.
-    *   `.button-primary`: `bg-[var(--color-interactive)] text-[var(--color-interactive-text)] shadow-sm hover:bg-[var(--color-interactive-hover)] disabled:opacity-50 disabled:cursor-not-allowed`.
-    *   `.button-secondary`: `bg-[var(--color-card-background)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] shadow-sm hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] disabled:opacity-50 disabled:cursor-not-allowed`.
-    *   `.button-ghost`: `bg-transparent text-[var(--color-interactive)] hover:bg-[var(--color-primary-100)]/[0.7] dark:hover:bg-[var(--color-primary-900)]/[0.3] disabled:text-[var(--color-text-disabled)] disabled:bg-transparent`.
-*   **Inputs/Selects:** `.input`: `rounded-lg border border-[var(--color-border-default)] bg-[var(--color-card-background)] focus:border-[var(--color-border-interactive)] focus:ring-2 ...`.
-*   **Cards:** `.card`: `bg-[var(--color-card-background)] rounded-xl border border-[var(--color-border-default)] shadow-md`. Add optional `hover:shadow-lg hover:border-[var(--color-gray-300)] dark:hover:border-[var(--color-gray-700)] transition-all duration-200`.
-*   **Badges:** `.badge`: `rounded-full px-2.5 py-0.5 text-xs font-medium`. Variants use light background tints and medium text colors (e.g., `bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300`).
+*   **Buttons:**
+    *   **Base (`.button-base`):** `inline-flex items-center justify-center rounded-lg font-semibold transition duration-150 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)]/[var(--tw-ring-opacity,0.4)] focus:outline-none active:scale-[0.98] border`. Uses `--radius-md` (8px).
+    *   **Variants:**
+        *   `.button-primary`: `button-base bg-[var(--color-interactive)] text-[var(--color-interactive-text)] border-transparent shadow-sm hover:bg-[var(--color-interactive-hover)] disabled:opacity-50 disabled:cursor-not-allowed`.
+        *   `.button-secondary`: `button-base bg-[var(--color-card-background)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] shadow-sm hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] disabled:opacity-50 disabled:cursor-not-allowed`.
+        *   `.button-ghost`: `button-base bg-transparent text-[var(--color-interactive)] border-transparent hover:bg-[oklch(var(--color-primary-100)/0.7)] dark:hover:bg-[oklch(var(--color-primary-900)/0.3)] disabled:text-[var(--color-text-disabled)] disabled:bg-transparent disabled:cursor-not-allowed`.
+    *   **Sizes (Applied as additional classes):**
+        *   `.button-sm`: `px-2.5 py-1.5 text-xs`
+        *   `.button-md`: `px-4 py-2 text-sm` (Default size)
+        *   `.button-lg`: `px-5 py-2.5 text-base`
+
+*   **Inputs/Selects:** `.input`: `block w-full rounded-lg border border-[var(--color-border-default)] bg-[var(--color-card-background)] px-3 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-placeholder)] shadow-sm transition-all duration-200 ease-out focus:outline-none focus:border-[var(--color-border-interactive)] focus:ring-2 focus:ring-[var(--color-primary-100)] disabled:bg-[var(--color-gray-100)] disabled:text-[var(--color-text-disabled)] disabled:cursor-not-allowed dark:disabled:bg-[var(--color-gray-800)] dark:disabled:text-[var(--color-text-disabled)]`. Error state: `&.error { border-[var(--color-error-500)] focus:border-[var(--color-error-500)] focus:ring-[var(--color-error-100)] }`. Uses `--radius-md` (8px).
+
+*   **Cards:** `.card`: `bg-[var(--color-card-background)] rounded-xl border border-[var(--color-border-default)] shadow-md p-6 overflow-hidden transition-all duration-200 ease-out`. Optional hover: `hover:shadow-lg hover:border-[var(--color-gray-300)] dark:hover:border-[var(--color-gray-700)]`. Uses `--radius-lg` (12px). Default padding `p-6`.
+
+*   **Badges:** `.badge`: `inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium`. Variants use light background tints and medium text colors (e.g., `bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300`). Uses `--radius-full`.
 
 **4. Animation & Motion:**
 
 *   **Easing:** Define `--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);` in `@theme` for smooth decelerations.
 *   **Transitions:** `transition-all duration-200 var(--ease-out-expo)`.
-*   **Loading:** Consistent use of `.skeleton` styling.
+*   **Loading:** Consistent use of `.skeleton` styling (define in `@layer utilities`).
 
 ---
 
@@ -153,12 +161,12 @@ Okay, drawing inspiration from the sophisticated interfaces of Base, the clean t
     *   **Verification:** Run the app; check base styles, fonts, dark/light mode basics.
 
 2.  **Base Component Styles Definition:**
-    *   Implement the base styles for `.button-*`, `.card`, `.input`, `.badge`, `.badge-*` in `src/app.css @layer components`, using `@apply` and Meridian CSS variables.
+    *   Implement the base styles for `.button-base`, `.button-*` variants, `.button-sm`, `.button-md`, `.button-lg`, `.card`, `.input`, `.badge`, `.badge-*` in `src/app.css @layer components`, using `@apply` and Meridian CSS variables.
     *   **Verification:** Use a test page or Storybook (if available) to check base class rendering.
 
 3.  **Core Component Refactoring:**
     *   Systematically update each Svelte component in `src/components/`.
-    *   Apply the correct Meridian base class (e.g., `.button-primary`, `.card`).
+    *   Apply the correct Meridian base class (e.g., `.button-primary .button-md`, `.card`).
     *   Replace *all* utility classes with Meridian system equivalents (check spacing, typography, colors `text-[var(--color-text-primary)]`, borders `border-[var(--color-border-default)]`, shadows `shadow-md`, radii `rounded-xl`, opacity `/alpha`).
     *   Implement all interactive states (`:hover`, `:focus-visible`, `:active`, `:disabled`) using Meridian variables and standardized transitions.
     *   Remove component-level `<style>` blocks where possible, relying on base classes and utilities. If specific styles remain, wrap them in `@layer components`.

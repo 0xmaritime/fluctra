@@ -1,425 +1,390 @@
-@import "tailwindcss/preflight";
-@tailwind utilities;
+/* Define Tailwind CSS v4 layers */
+@layer theme, base, components, utilities;
 
+/* Import Tailwind's base, components, and utilities */
+@import "tailwindcss";
+
+/* Define custom theme properties exactly as per Fluctra Meridian Design System v1.0 */
 @theme {
-  /* --- Color Palette --- */
+  /* Color Palette (OKLCH - Light Mode Default) */
+  /* Primary (Deep Ocean Blue) */
+  --color-primary-50: oklch(97% 0.03 250);
+  --color-primary-100: oklch(94% 0.06 250);
+  --color-primary-300: oklch(85% 0.1 250);
+  --color-primary-500: oklch(68% 0.18 250);
+  --color-primary-600: oklch(60% 0.21 250);
+  --color-primary-700: oklch(52% 0.23 250);
+  --color-primary-900: oklch(35% 0.18 250);
 
-  /* Primary */
-  --color-primary-50: 239 246 255; /* #eff6ff */
-  --color-primary-100: 219 234 254; /* #dbeafe */
-  --color-primary-200: 191 219 254; /* #bfdbfe */
-  --color-primary-300: 147 197 253; /* #93c5fd */
-  --color-primary-400: 96 165 250; /* #60a5fa */
-  --color-primary-500: 59 130 246; /* #3b82f6 */
-  --color-primary-600: 37 99 235; /* #2563eb */
-  --color-primary-700: 29 78 216; /* #1d4ed8 */
-  --color-primary-800: 30 64 175; /* #1e40af */
-  --color-primary-900: 30 58 138; /* #1e3a8a */
-  --color-primary-950: 23 37 84; /* #172554 */
+  /* Secondary (Seafoam Teal) */
+  --color-secondary-100: oklch(95% 0.03 190);
+  --color-secondary-300: oklch(88% 0.06 190);
+  --color-secondary-500: oklch(78% 0.1 190);
+  --color-secondary-700: oklch(60% 0.12 190);
+  /* Interpolated for badge text based on DS v1.0 example pattern */
+  --color-secondary-800: oklch(45% 0.14 190);
 
-  /* Secondary */
-  --color-secondary-50: 248 250 252; /* #f8fafc */
-  --color-secondary-100: 241 245 249; /* #f1f5f9 */
-  --color-secondary-200: 226 232 240; /* #e2e8f0 */
-  --color-secondary-300: 203 213 225; /* #cbd5e1 */
-  --color-secondary-400: 148 163 184; /* #94a3b8 */
-  --color-secondary-500: 100 116 139; /* #64748b */
-  --color-secondary-600: 71 85 105; /* #475569 */
-  --color-secondary-700: 51 65 85; /* #334155 */
-  --color-secondary-800: 30 41 59; /* #1e293b */
-  --color-secondary-900: 15 23 42; /* #0f172a */
-  --color-secondary-950: 2 6 23; /* #020617 */
+  /* Neutrals (Grays - Crisp & Clean) */
+  --color-gray-0: oklch(100% 0 0);
+  --color-gray-50: oklch(99% 0.002 240);
+  --color-gray-100: oklch(97% 0.004 240);
+  --color-gray-200: oklch(94% 0.006 240);
+  --color-gray-300: oklch(90% 0.008 240);
+  --color-gray-400: oklch(82% 0.01 240);
+  --color-gray-500: oklch(72% 0.012 240);
+  --color-gray-600: oklch(62% 0.015 240);
+  --color-gray-700: oklch(52% 0.018 240);
+  --color-gray-800: oklch(42% 0.015 240);
+  --color-gray-900: oklch(32% 0.012 240);
+  /* Added gray-950 based on dark mode variables needing it */
+  --color-gray-950: oklch(22% 0.008 240); /* Interpolated */
+  --color-gray-1000: oklch(15% 0.005 240);
 
-  /* Neutrals (Example: Gray) */
-  --color-neutral-50: 249 250 251; /* #f9fafb */
-  --color-neutral-100: 243 244 246; /* #f3f4f6 */
-  --color-neutral-200: 229 231 235; /* #e5e7eb */
-  --color-neutral-300: 209 213 219; /* #d1d5db */
-  --color-neutral-400: 156 163 175; /* #9ca3af */
-  --color-neutral-500: 107 114 128; /* #6b7280 */
-  --color-neutral-600: 75 85 99; /* #4b5563 */
-  --color-neutral-700: 55 65 81; /* #374151 */
-  --color-neutral-800: 31 41 55; /* #1f2937 */
-  --color-neutral-900: 17 24 39; /* #111827 */
-  --color-neutral-950: 3 7 18; /* #030712 */
+  /* Semantic Colors (Success, Warning, Error) */
+  --color-success-100: oklch(96% 0.05 145);
+  --color-success-500: oklch(72% 0.16 145);
+  --color-success-700: oklch(58% 0.18 145);
+  /* Interpolated for badge text based on DS v1.0 example pattern */
+  --color-success-800: oklch(45% 0.2 145);
 
-  /* Semantic Colors */
-  --color-success-light: 236 253 245; /* #ecfdf5 */
-  --color-success-default: 34 197 94; /* #22c55e */
-  --color-success-dark: 21 128 61; /* #15803d */
-  --color-warning-light: 254 252 232; /* #fefce8 */
-  --color-warning-default: 234 179 8; /* #eab308 */
-  --color-warning-dark: 180 83 9; /* #b45309 */
-  --color-error-light: 254 242 242; /* #fef2f2 */
-  --color-error-default: 239 68 68; /* #ef4444 */
-  --color-error-dark: 185 28 28; /* #b91c1c */
-  --color-info-light: 239 246 255; /* #eff6ff */
-  --color-info-default: 59 130 246; /* #3b82f6 */
-  --color-info-dark: 30 64 175; /* #1e40af */
+  --color-warning-100: oklch(97% 0.06 85);
+  --color-warning-500: oklch(82% 0.17 85);
+  --color-warning-700: oklch(68% 0.18 85);
+  /* Interpolated for badge text based on DS v1.0 example pattern */
+  --color-warning-800: oklch(55% 0.2 85);
 
-  /* --- Base Semantic Variables (Light Mode) --- */
-  --color-text-primary: var(--color-neutral-900);
-  --color-text-secondary: var(--color-neutral-700);
-  --color-text-tertiary: var(--color-neutral-500);
-  --color-text-disabled: var(--color-neutral-400);
-  --color-text-placeholder: var(--color-neutral-500);
-  --color-text-link: var(--color-primary-600);
-  --color-text-link-hover: var(--color-primary-700);
-  --color-text-on-interactive: 255 255 255; /* White */
-  --color-text-success: var(--color-success-dark);
-  --color-text-warning: var(--color-warning-dark);
-  --color-text-error: var(--color-error-dark);
-  --color-text-info: var(--color-info-dark);
+  --color-error-100: oklch(96% 0.06 25);
+  --color-error-500: oklch(72% 0.23 25);
+  --color-error-700: oklch(58% 0.25 25);
+  /* Interpolated for badge text based on DS v1.0 example pattern */
+  --color-error-800: oklch(45% 0.27 25);
 
-  --color-background-default: 255 255 255; /* White */
-  --color-background-subtle: var(--color-neutral-50);
-  --color-background-surface: var(--color-neutral-100);
-  --color-background-interactive: var(--color-primary-600);
-  --color-background-interactive-hover: var(--color-primary-700);
-  --color-background-interactive-disabled: var(--color-neutral-200);
-  --color-background-success: var(--color-success-light);
-  --color-background-warning: var(--color-warning-light);
-  --color-background-error: var(--color-error-light);
-  --color-background-info: var(--color-info-light);
+  /* Interpolated/Alias for Neutral badge text */
+  --color-neutral-100: var(--color-gray-100);
+  --color-neutral-800: var(--color-gray-800);
+  /* Interpolated/Alias for Primary badge text */
+  --color-primary-800: oklch(40% 0.2 250);
 
-  --color-border-default: var(--color-neutral-300);
-  --color-border-subtle: var(--color-neutral-200);
-  --color-border-interactive: var(--color-primary-600);
-  --color-border-focus: var(--color-primary-500);
-  --color-border-disabled: var(--color-neutral-300);
-  --color-border-success: var(--color-success-default);
-  --color-border-warning: var(--color-warning-default);
-  --color-border-error: var(--color-error-default);
-  --color-border-info: var(--color-info-default);
+  /* Base Semantic Variables */
+  --color-background: var(--color-gray-50);
+  --color-foreground: var(--color-gray-1000);
+  --color-card-background: var(--color-gray-0);
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-placeholder: var(--color-gray-400);
+  --color-text-disabled: var(--color-gray-400);
+  --color-border-default: var(--color-gray-200);
+  --color-border-subtle: var(--color-gray-100);
+  --color-border-interactive: var(--color-primary-500);
+  --color-interactive: var(--color-primary-600);
+  --color-interactive-hover: var(--color-primary-700);
+  --color-interactive-text: var(--color-gray-0);
+  --color-shadow: oklch(0% 0 0);
 
-  /* --- Dark Mode Overrides --- */
+  /* Dark Mode Overrides */
   @media (prefers-color-scheme: dark) {
-    --color-text-primary: var(--color-neutral-100);
-    --color-text-secondary: var(--color-neutral-300);
-    --color-text-tertiary: var(--color-neutral-400);
-    --color-text-disabled: var(--color-neutral-500);
-    --color-text-placeholder: var(--color-neutral-400);
-    --color-text-link: var(--color-primary-400);
-    --color-text-link-hover: var(--color-primary-300);
-    --color-text-on-interactive: var(--color-neutral-950);
-    --color-text-success: var(--color-success-light);
-    --color-text-warning: var(--color-warning-light);
-    --color-text-error: var(--color-error-light);
-    --color-text-info: var(--color-info-light);
-
-    --color-background-default: var(--color-neutral-900);
-    --color-background-subtle: var(--color-neutral-800);
-    --color-background-surface: var(--color-neutral-700);
-    --color-background-interactive: var(--color-primary-500);
-    --color-background-interactive-hover: var(--color-primary-400);
-    --color-background-interactive-disabled: var(--color-neutral-700);
-    --color-background-success: var(--color-success-dark);
-    --color-background-warning: var(--color-warning-dark);
-    --color-background-error: var(--color-error-dark);
-    --color-background-info: var(--color-info-dark);
-
-    --color-border-default: var(--color-neutral-700);
-    --color-border-subtle: var(--color-neutral-800);
-    --color-border-interactive: var(--color-primary-500);
-    --color-border-focus: var(--color-primary-400);
-    --color-border-disabled: var(--color-neutral-600);
-    --color-border-success: var(--color-success-default);
-    --color-border-warning: var(--color-warning-default);
-    --color-border-error: var(--color-error-default);
-    --color-border-info: var(--color-info-default);
+    --color-background: var(--color-gray-1000);
+    --color-foreground: var(--color-gray-50);
+    --color-card-background: var(--color-gray-950);
+    --color-text-primary: var(--color-gray-50);
+    --color-text-secondary: var(--color-gray-400);
+    --color-text-placeholder: var(--color-gray-600);
+    --color-text-disabled: var(--color-gray-700);
+    --color-border-default: var(--color-gray-800);
+    --color-border-subtle: var(--color-gray-900);
+    --color-interactive: var(--color-primary-500);
+    /* DS v1.0 uses primary-400, which is not defined. Using 300 as closest defined lighter shade. */
+    --color-interactive-hover: var(--color-primary-300);
+    --color-interactive-text: var(--color-gray-0);
+    --color-shadow: oklch(0% 0 0);
   }
 
-  /* --- Typography --- */
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'monospace'; /* Assuming a standard monospace font */
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  /* Font Size Base - Using 17px as suggested in DS notes */
+  --font-size-base: 1.0625rem; /* 17px */
 
-  /* Font Sizes (example, adjust based on DS) */
-  --font-size-xs: 0.75rem; /* 12px */
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-base: 1rem; /* 16px */
-  --font-size-lg: 1.125rem; /* 18px */
-  --font-size-xl: 1.25rem; /* 20px */
-  --font-size-2xl: 1.5rem; /* 24px */
-  --font-size-3xl: 1.875rem; /* 30px */
-  --font-size-4xl: 2.25rem; /* 36px */
-  --font-size-5xl: 3rem; /* 48px */
+  /* Spacing (8px Grid) */
+  --spacing: 0.5rem; /* 8px */
 
-  /* Line Heights (example, adjust based on DS) */
-  --line-height-tight: 1.25;
-  --line-height-snug: 1.375;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.625;
-  --line-height-loose: 2;
-
-  /* --- Spacing (Based on 8px grid -> 1 unit = 0.5rem) --- */
-  --spacing-px: 1px;
-  --spacing-0: 0;
-  --spacing-1: 0.125rem; /* 2px */
-  --spacing-2: 0.25rem;  /* 4px */
-  --spacing-3: 0.5rem;   /* 8px */
-  --spacing-4: 0.75rem;  /* 12px */
-  --spacing-5: 1rem;     /* 16px */
-  --spacing-6: 1.25rem;  /* 20px */
-  --spacing-7: 1.5rem;   /* 24px */
-  --spacing-8: 2rem;     /* 32px */
-  --spacing-9: 2.5rem;   /* 40px */
-  --spacing-10: 3rem;    /* 48px */
-  --spacing-11: 3.5rem;  /* 56px */
-  --spacing-12: 4rem;    /* 64px */
-  --spacing-14: 5rem;    /* 80px */
-  --spacing-16: 6rem;    /* 96px */
-  --spacing-20: 8rem;    /* 128px */
-  --spacing-24: 10rem;   /* 160px */
-  /* Add more as needed */
-
-  /* --- Borders & Radii --- */
-  --radius-none: 0px;
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.375rem; /* 6px */
-  --radius-lg: 0.5rem;  /* 8px */
-  --radius-xl: 0.75rem; /* 12px */
-  --radius-2xl: 1rem;   /* 16px */
+  /* Borders & Radii */
+  --radius-md: 0.5rem;   /* 8px - Used for rounded-lg */
+  --radius-lg: 0.75rem;  /* 12px - Used for rounded-xl */
+  --radius-xl: 1rem;     /* 16px - Used for rounded-2xl */
   --radius-full: 9999px;
 
-  /* --- Shadows --- */
-  /* Using Tailwind v3 compatible shadow definitions for now */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
-  --shadow-none: none;
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 oklch(var(--color-shadow) / 0.03);
+  --shadow-md: 0 2px 8px -1px oklch(var(--color-shadow) / 0.06), 0 2px 4px -2px oklch(var(--color-shadow) / 0.04);
+  --shadow-lg: 0 8px 16px -4px oklch(var(--color-shadow) / 0.08), 0 4px 6px -3px oklch(var(--color-shadow) / 0.05);
+  --shadow-xl: 0 16px 24px -8px oklch(var(--color-shadow) / 0.08), 0 6px 10px -6px oklch(var(--color-shadow) / 0.06);
 
-  /* Dark Mode Shadows (adjust if needed) */
-  @media (prefers-color-scheme: dark) {
-    /* Example: Slightly softer shadows for dark mode */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.1);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15);
-    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.3);
-  }
+  /* Animation & Motion */
+   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Base Styles --- */
+/* Custom base styles */
 @layer base {
-  html {
-    @apply font-[var(--font-sans)] antialiased scroll-smooth;
-    font-size: 16px; /* Base font size */
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
   }
 
   body {
-    @apply bg-[var(--color-background-default)] text-[var(--color-text-primary)];
-    min-height: 100vh;
-  }
-
-  #app {
-    @apply min-h-screen flex flex-col;
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base); /* 17px */
+    line-height: 1.5;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold text-[var(--color-text-primary)];
-    /* Apply specific sizes and line heights based on DS */
+    font-weight: 700;
+    color: var(--color-foreground);
+    line-height: 1.2;
+    /* Applying sizes using Tailwind utilities for consistency */
   }
-  h1 { @apply text-[var(--font-size-4xl)] leading-[var(--line-height-tight)]; }
-  h2 { @apply text-[var(--font-size-3xl)] leading-[var(--line-height-tight)]; }
-  h3 { @apply text-[var(--font-size-2xl)] leading-[var(--line-height-snug)]; }
-  h4 { @apply text-[var(--font-size-xl)] leading-[var(--line-height-normal)]; }
-  h5 { @apply text-[var(--font-size-lg)] leading-[var(--line-height-normal)]; }
-  h6 { @apply text-[var(--font-size-base)] leading-[var(--line-height-normal)]; }
 
-  p {
-    @apply text-[var(--font-size-base)] leading-[var(--line-height-relaxed)] text-[var(--color-text-secondary)];
-  }
+  h1 { @apply text-4xl; }  /* 40px - Approx for 17px base */
+  h2 { @apply text-3xl; }  /* 30px - Approx for 17px base */
+  h3 { @apply text-2xl; }  /* 24px - Approx for 17px base */
+  h4 { @apply text-xl; }   /* 20px - Approx for 17px base */
+  h5 { @apply text-lg; }   /* 18px - Approx for 17px base */
+  h6 { @apply text-base; } /* 17px */
 
   a {
-    @apply text-[var(--color-text-link)] transition-colors duration-150 ease-in-out;
-  }
-  a:hover {
-    @apply text-[var(--color-text-link-hover)] underline;
+    color: var(--color-interactive);
+    text-decoration: none;
+    transition: color 150ms var(--ease-out-expo);
   }
 
-  /* Add other base element styles as needed from DS */
+  a:hover {
+    color: var(--color-interactive-hover);
+    text-decoration: underline;
+  }
+
+  #app {
+    height: 100%;
+    width: 100%;
+    display: contents; /* Keep this for SvelteKit structure */
+  }
 }
 
-/* --- Component Styles --- */
+/* Custom component styles */
 @layer components {
-  /* Layout */
-  .app-container {
-    @apply w-full max-w-7xl mx-auto px-[var(--spacing-6)]; /* Example: max-width 1280px, px-24px */
-  }
-
-  /* Materials & Effects */
   .glass {
-    @apply bg-[color:rgb(var(--color-background-default)/0.7)] border border-[color:rgb(var(--color-border-subtle)/0.5)] shadow-[var(--shadow-md)];
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px); /* Safari support */
-  }
+    /* Light Mode Default */
+    background-color: oklch(99% 0.002 240 / 0.65); /* gray-50 @ 65% */
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid oklch(97% 0.004 240 / 0.2); /* gray-100 @ 20% */
 
-  @media (prefers-color-scheme: dark) {
-    .glass {
-      @apply bg-[color:rgb(var(--color-background-default)/0.5)] border-[color:rgb(var(--color-border-subtle)/0.3)];
+    @media (prefers-color-scheme: dark) {
+      /* Dark Mode */
+      background-color: oklch(15% 0.005 240 / 0.7); /* gray-1000 @ 70% */
+      backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid oklch(32% 0.012 240 / 0.15); /* gray-900 @ 15% */
     }
   }
 
-  /* --- Components --- */
-
-  /* Buttons */
-  .button-base { /* Common styles for all buttons */
-    @apply inline-flex items-center justify-center
-           font-medium text-[var(--font-size-sm)] /* 14px */
-           rounded-[var(--radius-md)] /* 6px */
-           px-[var(--spacing-5)] /* 16px */
-           py-[var(--spacing-3)] /* 8px */
-           border
-           transition-colors duration-150 ease-in-out
-           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-border-focus)];
+  /* Define a standard container */
+  .app-container {
+    @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
   }
 
+  /* Buttons Base - Common styles derived from DS v1.0 */
+  .button-base {
+     @apply inline-flex items-center justify-center
+            rounded-lg /* Uses --radius-md = 8px */
+            font-semibold
+            transition duration-150 ease-out
+            focus:outline-none
+            focus-visible:ring-2 focus-visible:ring-offset-2
+            focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-opacity-40
+            active:scale-[0.98]
+            border; /* Added border to base */
+  }
+
+  /* Button Sizes */
+  .button-sm { @apply px-2.5 py-1.5 text-xs; }
+  .button-md { @apply px-4 py-2 text-sm; } /* Default size */
+  .button-lg { @apply px-5 py-2.5 text-base; }
+
+
+  /* Button Variants */
   .button-primary {
     @apply button-base
-           bg-[var(--color-background-interactive)] text-[var(--color-text-on-interactive)] border-transparent
-           hover:bg-[var(--color-background-interactive-hover)]
-           disabled:bg-[var(--color-background-interactive-disabled)] disabled:text-[var(--color-text-disabled)] disabled:cursor-not-allowed;
+           bg-[var(--color-interactive)] text-[var(--color-interactive-text)] border-transparent shadow-sm
+           hover:bg-[var(--color-interactive-hover)]
+           disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .button-secondary {
     @apply button-base
-           bg-[var(--color-background-default)] text-[var(--color-text-primary)] border-[var(--color-border-default)]
-           hover:bg-[var(--color-background-subtle)] hover:border-[var(--color-border-subtle)]
-           disabled:bg-[var(--color-background-default)] disabled:text-[var(--color-text-disabled)] disabled:border-[var(--color-border-disabled)] disabled:cursor-not-allowed;
-    /* Dark mode specific hover if needed */
+           bg-[var(--color-card-background)] text-[var(--color-text-primary)]
+           border border-[var(--color-border-default)] shadow-sm
+           hover:bg-[var(--color-gray-100)]
+           disabled:opacity-50 disabled:cursor-not-allowed;
     @media (prefers-color-scheme: dark) {
-      @apply hover:bg-[var(--color-background-subtle)] hover:border-[var(--color-border-subtle)];
+      @apply hover:bg-[var(--color-gray-800)];
     }
   }
 
   .button-ghost {
     @apply button-base
-           bg-transparent text-[var(--color-text-link)] border-transparent
-           hover:bg-[color:rgb(var(--color-primary-500)/0.1)] /* Subtle primary background on hover */
-           disabled:text-[var(--color-text-disabled)] disabled:cursor-not-allowed;
-    /* Dark mode specific hover if needed */
-     @media (prefers-color-scheme: dark) {
-      @apply hover:bg-[color:rgb(var(--color-primary-400)/0.15)];
+           bg-transparent text-[var(--color-interactive)] border-transparent
+           hover:bg-[oklch(var(--color-primary-100)/0.7)] /* Needs color-mix() or equivalent */
+           disabled:text-[var(--color-text-disabled)] disabled:bg-transparent disabled:cursor-not-allowed;
+    @media (prefers-color-scheme: dark) {
+      /* DS suggests dark:hover:bg-[var(--color-primary-900)]/[0.3] */
+       @apply hover:bg-[oklch(var(--color-primary-900)/0.3)]; /* Needs color-mix() or equivalent */
     }
   }
 
-  /* Cards */
+  /* Card Component Style */
   .card {
-    @apply bg-[var(--color-background-default)]
+    @apply bg-[var(--color-card-background)]
+           rounded-xl /* Uses --radius-lg = 12px */
            border border-[var(--color-border-default)]
-           rounded-[var(--radius-lg)] /* 8px */
-           shadow-[var(--shadow-md)]
-           p-[var(--spacing-7)]; /* 24px padding, adjust if DS specifies differently */
-    /* Add hover effects if specified in DS, e.g., subtle shadow increase or border color change */
-    /* Example hover: */
-    /* @apply transition-shadow duration-200 ease-in-out hover:shadow-[var(--shadow-lg)]; */
+           shadow-md
+           overflow-hidden /* Added for consistency */
+           transition-all duration-200 ease-out;
+     /* Default padding based on DS v1.0 rule (p-4 sm, p-5 md+) */
+     /* Using p-6 as per Card.svelte original implementation for now */
+     @apply p-6;
+  }
+  .card:hover {
+    @apply shadow-lg border-[var(--color-gray-300)];
+  }
+  @media (prefers-color-scheme: dark) {
+    .card:hover {
+      @apply border-[var(--color-gray-700)];
+    }
   }
 
-  /* Inputs & Selects */
+  /* Input Component Style */
   .input {
     @apply block w-full
-           rounded-[var(--radius-md)] /* 6px */
+           rounded-lg /* Uses --radius-md = 8px */
            border border-[var(--color-border-default)]
-           bg-[var(--color-background-default)]
-           px-[var(--spacing-4)] /* 12px */
-           py-[var(--spacing-3)] /* 8px */
-           text-[var(--font-size-sm)] /* 14px */
+           bg-[var(--color-card-background)]
+           px-3 py-2 /* Match Input.svelte original padding */
+           text-sm /* Match Input.svelte original text size */
            text-[var(--color-text-primary)]
            placeholder:text-[var(--color-text-placeholder)]
-           shadow-[var(--shadow-sm)]
-           transition-colors duration-150 ease-in-out
-           focus:outline-none focus:border-[var(--color-border-focus)] focus:ring-1 focus:ring-[var(--color-border-focus)];
+           shadow-sm /* Use Meridian shadow */
+           transition-all duration-200 ease-out
+           focus:outline-none focus:border-[var(--color-border-interactive)] focus:ring-2
+           focus:ring-[var(--color-primary-100)]; /* Focus ring color */
 
     /* Disabled State */
     &:disabled {
-      @apply bg-[var(--color-background-interactive-disabled)] border-[var(--color-border-disabled)] text-[var(--color-text-disabled)] cursor-not-allowed shadow-none;
+       @apply bg-[var(--color-gray-100)] text-[var(--color-text-disabled)] cursor-not-allowed shadow-none;
+       /* Dark mode disabled */
+        @media (prefers-color-scheme: dark) {
+           @apply bg-[var(--color-gray-800)] text-[var(--color-text-disabled)];
+        }
     }
 
-    /* Error State (assuming an `.error` class is added to the input/wrapper) */
+    /* Error State */
     &.error {
-      @apply border-[var(--color-border-error)] focus:border-[var(--color-border-error)] focus:ring-[var(--color-border-error)];
+      @apply border-[var(--color-error-500)] focus:border-[var(--color-error-500)] focus:ring-[var(--color-error-100)];
     }
-
-    /* Specific styles for select dropdown arrow might be needed here or in the component */
   }
 
-  /* Badges */
+  /* Badge Base Style */
   .badge {
     @apply inline-flex items-center
-           px-[var(--spacing-3)] /* 8px */
-           py-[var(--spacing-1)] /* 2px */
-           text-[var(--font-size-xs)] /* 12px */
-           font-medium
-           rounded-[var(--radius-full)]; /* Pill shape */
+           rounded-full
+           px-2.5 py-0.5
+           text-xs font-medium;
   }
 
+  /* Badge Variants */
   .badge-primary {
     @apply badge bg-[var(--color-primary-100)] text-[var(--color-primary-800)];
     @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-primary-900)] text-[var(--color-primary-200)];
+      /* DS: dark:bg-primary-900/30 dark:text-primary-300 */
+       @apply bg-[oklch(var(--color-primary-900)/0.3)] text-[var(--color-primary-300)];
     }
   }
-
   .badge-secondary {
     @apply badge bg-[var(--color-secondary-100)] text-[var(--color-secondary-800)];
-     @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-secondary-700)] text-[var(--color-secondary-100)];
+    @media (prefers-color-scheme: dark) {
+       /* Assuming similar pattern to primary */
+       @apply bg-[oklch(var(--color-secondary-900)/0.3)] text-[var(--color-secondary-300)]; /* secondary-900 not defined, using gray-900 */
+       @apply bg-[oklch(var(--color-gray-900)/0.3)] text-[var(--color-secondary-300)];
     }
   }
-
   .badge-success {
-    @apply badge bg-[var(--color-success-light)] text-[var(--color-text-success)];
+     @apply badge bg-[var(--color-success-100)] text-[var(--color-success-800)];
      @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-background-success)] text-[var(--color-text-success)]; /* Use semantic vars */
+       /* Assuming similar pattern to primary */
+       @apply bg-[oklch(var(--color-success-900)/0.3)] text-[var(--color-success-300)]; /* success-900/300 not defined */
+       @apply bg-[oklch(var(--color-success-700)/0.3)] text-[oklch(var(--color-success-100)/1)];
     }
   }
-
   .badge-warning {
-    @apply badge bg-[var(--color-warning-light)] text-[var(--color-text-warning)];
+     @apply badge bg-[var(--color-warning-100)] text-[var(--color-warning-800)];
      @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-background-warning)] text-[var(--color-text-warning)]; /* Use semantic vars */
+       /* Assuming similar pattern to primary */
+       @apply bg-[oklch(var(--color-warning-900)/0.3)] text-[var(--color-warning-300)]; /* warning-900/300 not defined */
+       @apply bg-[oklch(var(--color-warning-700)/0.3)] text-[oklch(var(--color-warning-100)/1)];
     }
   }
-
   .badge-error {
-    @apply badge bg-[var(--color-error-light)] text-[var(--color-text-error)];
+    @apply badge bg-[var(--color-error-100)] text-[var(--color-error-800)];
+    @media (prefers-color-scheme: dark) {
+      /* Assuming similar pattern to primary */
+       @apply bg-[oklch(var(--color-error-900)/0.3)] text-[var(--color-error-300)]; /* error-900/300 not defined */
+       @apply bg-[oklch(var(--color-error-700)/0.3)] text-[oklch(var(--color-error-100)/1)];
+    }
+  }
+  .badge-neutral {
+     @apply badge bg-[var(--color-neutral-100)] text-[var(--color-neutral-800)]; /* Uses aliases defined above */
      @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-background-error)] text-[var(--color-text-error)]; /* Use semantic vars */
+        /* Assuming similar pattern to primary */
+        @apply bg-[oklch(var(--color-gray-900)/0.3)] text-[var(--color-gray-300)];
     }
   }
 
-  .badge-info {
-    @apply badge bg-[var(--color-info-light)] text-[var(--color-text-info)];
-     @media (prefers-color-scheme: dark) {
-      @apply bg-[var(--color-background-info)] text-[var(--color-text-info)]; /* Use semantic vars */
-    }
+  /* Basic Checkbox Style (based on discover page) */
+  input[type="checkbox"] {
+    @apply h-4 w-4 rounded border-[var(--color-border-default)] text-[var(--color-interactive)] focus:ring-[var(--color-interactive)];
   }
-
-  /* Add other component styles as needed */
 
 }
 
-/* --- Utility Styles --- */
+/* Custom utility styles */
 @layer utilities {
-  /* Animations */
+  /* Simple fade-in animation */
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
   }
 
+  .animate-fade-in {
+    animation: fadeIn 0.5s var(--ease-out-expo) forwards;
+  }
+
+  /* Simple slide-up animation */
   @keyframes slideUp {
-    from { transform: translateY(10px); opacity: 0; }
+    from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.3s ease-out forwards;
-  }
-
   .animate-slide-up {
-    animation: slideUp 0.4s ease-out forwards;
+    animation: slideUp 0.5s var(--ease-out-expo) forwards;
   }
 }
