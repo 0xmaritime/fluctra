@@ -4,8 +4,8 @@
   export let href: string = ''
   export let isMobile: boolean = false
 
-  // Determine if current link is active
-  $: isActive = $page.url.pathname === href
+  // Determine if current link is active (use startsWith for parent routes)
+  $: isActive = $page.url.pathname === href || ($page.url.pathname.startsWith(href) && href !== '/')
 </script>
 
 {#if isMobile}

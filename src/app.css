@@ -1,32 +1,205 @@
+/* Define Tailwind CSS v4 layers */
+@layer theme, base, components, utilities;
+
+/* Import Tailwind's base, components, and utilities */
 @import "tailwindcss";
 
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+/* Define custom theme properties */
+@theme {
+  /* Define semantic colors using CSS variables (OKLCH recommended) */
+  /* Replace these placeholder values with actual project colors */
+
+  /* Primary */
+  --color-primary-50: oklch(98% 0.02 260);
+  --color-primary-100: oklch(95% 0.05 260);
+  --color-primary-500: oklch(70% 0.18 260);
+  --color-primary-600: oklch(60% 0.2 260);
+  --color-primary-700: oklch(50% 0.22 260);
+  --color-primary-800: oklch(40% 0.2 260);
+
+  /* Secondary (Example: Teal) */
+  --color-secondary-50: oklch(98% 0.01 190);
+  --color-secondary-100: oklch(95% 0.03 190);
+  --color-secondary-500: oklch(75% 0.1 190);
+  --color-secondary-800: oklch(45% 0.1 190);
+
+  /* Neutral */
+  --color-neutral-50: oklch(98% 0 0);
+  --color-neutral-100: oklch(95% 0 0);
+  --color-neutral-200: oklch(90% 0 0);
+  --color-neutral-300: oklch(85% 0 0);
+  --color-neutral-400: oklch(70% 0 0);
+  --color-neutral-500: oklch(60% 0 0);
+  --color-neutral-600: oklch(50% 0 0);
+  --color-neutral-700: oklch(40% 0 0);
+  --color-neutral-800: oklch(30% 0 0);
+  --color-neutral-900: oklch(20% 0 0);
+  --color-neutral-950: oklch(10% 0 0);
+
+  /* Success (Example: Green) */
+  --color-success-100: oklch(95% 0.05 145);
+  --color-success-500: oklch(70% 0.15 145);
+  --color-success-600: oklch(60% 0.18 145);
+  --color-success-800: oklch(40% 0.15 145);
+
+  /* Warning (Example: Amber) */
+  --color-warning-100: oklch(95% 0.05 85);
+  --color-warning-500: oklch(80% 0.15 85);
+  --color-warning-800: oklch(50% 0.15 85);
+
+  /* Error (Example: Red) */
+  --color-error-50: oklch(98% 0.02 25);
+  --color-error-100: oklch(95% 0.05 25);
+  --color-error-500: oklch(70% 0.2 25);
+  --color-error-600: oklch(60% 0.22 25);
+  --color-error-800: oklch(40% 0.2 25);
+
+  /* Accent (Example: Purple - used in discover page) */
+  --color-accent-100: oklch(95% 0.05 290);
+  --color-accent-900: oklch(30% 0.15 290);
+
+  /* Define base body styles using variables */
+  --body-bg: var(--color-neutral-100);
+  --body-text: var(--color-neutral-950);
+  /* Add font variables if needed */
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+/* Custom base styles */
+@layer base {
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Consider if this is still needed globally */
+  }
+
+  body {
+    /* Apply base background and text colors using variables defined in @theme */
+    background-color: var(--body-bg);
+    color: var(--body-text);
+    /* font-family can also be set here if needed, e.g., font-family: var(--font-sans); */
+  }
+
+  #app {
+    height: 100%;
+    width: 100%;
+  }
 }
 
-body {
-  @apply bg-neutral-100 text-neutral-950 font-sans;
+/* Custom component styles */
+@layer components {
+  .glass {
+    /* Replaced @apply bg-white/70 backdrop-blur-lg border border-white/20; */
+    /* Translate these using CSS variables if possible, or standard CSS */
+    background-color: oklch(100% 0 0 / 0.7); /* Assuming white with 70% alpha */
+    backdrop-filter: blur(1rem); /* Assuming lg blur is 1rem */
+    border: 1px solid oklch(100% 0 0 / 0.2); /* Assuming white with 20% alpha */
+    /* Note: OKLCH is used here assuming adoption of v4 defaults. Adjust if needed. */
+  }
+
+  /* Define a standard container */
+  .app-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; /* Using @apply temporarily, will convert later if needed */
+    /* Or define directly:
+    max-width: theme(screens.xl); // Assuming 7xl maps to xl screen or define custom var
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: theme(spacing.4); // Assuming px-4 maps to spacing.4 or define custom var
+    padding-right: theme(spacing.4);
+    // Add responsive padding if needed based on sm/lg prefixes
+    */
+  }
+
+  /* Button Variants */
+  .button-primary {
+    @apply inline-flex items-center justify-center rounded-lg border border-transparent bg-primary-600 font-medium text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    /* Note: Colors like primary-600 assume default v4 palette or @theme definition */
+  }
+  .button-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-neutral-300 bg-white font-medium text-neutral-700 shadow-sm transition-colors hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    /* Note: Colors like neutral-300 assume default v4 palette or @theme definition */
+  }
+  .button-ghost {
+    @apply inline-flex items-center justify-center rounded-lg border border-transparent bg-transparent font-medium text-primary-600 transition-colors hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    /* Note: Colors like primary-600 assume default v4 palette or @theme definition */
+  }
+
+  /* Card Component Style */
+  .card {
+    @apply bg-white rounded-xl shadow-md border border-neutral-100 overflow-hidden;
+    /* Note: Colors like neutral-100 assume default v4 palette or @theme definition */
+  }
+
+  /* Input Component Style */
+  .input {
+    @apply block w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm shadow-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-500;
+    /* Note: Colors assume default v4 palette or @theme definition */
+  }
+
+  /* Badge Base Style */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  /* Badge Variants */
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+  .badge-secondary {
+    @apply bg-secondary-100 text-secondary-800; /* Assuming a secondary color exists */
+  }
+  .badge-success {
+    @apply bg-success-100 text-success-800; /* Assuming a success color exists */
+  }
+  .badge-warning {
+    @apply bg-warning-100 text-warning-800; /* Assuming a warning color exists */
+  }
+  .badge-error {
+    @apply bg-error-100 text-error-800; /* Assuming an error color exists */
+  }
+  .badge-neutral {
+    @apply bg-neutral-100 text-neutral-800;
+  }
+  /* Note: Colors assume default v4 palette or @theme definition. Adjust if needed. */
+
+  /* Basic Checkbox Style (if not using @tailwindcss/forms) */
+  input[type="checkbox"] {
+    @apply h-4 w-4 rounded border-neutral-300 text-primary-600 focus:ring-primary-500;
+  }
+
+  /* Other custom component classes will go here */
 }
 
-#app {
-  height: 100%;
-  width: 100%;
-}
+/* Custom utility styles */
+@layer utilities {
+  /* Simple fade-in animation */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-.glass {
-  @apply bg-white/70 backdrop-blur-lg border border-white/20;
-}
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
 
-/* Rest of original CSS with @apply directives */
+  /* Simple slide-up animation */
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  /* Custom utility classes will go here */
+}
