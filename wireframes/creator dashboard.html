@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluctra - Creator Dashboard</title>
+  <style>
+    :root {
+      --primary: #0057b7;
+      --primary-dark: #003b7a;
+      --secondary: #00c2ff;
+      --accent: #7b61ff;
+      --background: #f5f9ff;
+      --card-bg: #ffffff;
+      --text: #1a2a42;
+      --text-light: #6e7a8a;
+      --border: #e1e8f0;
+      --success: #00c853;
+      --warning: #ffc107;
+      --error: #f44336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1, h2, h3, h4 {
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    
+    .page-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .page-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .page-content {
+      padding: 20px;
+    }
+    
+    .button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .button.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: var(--card-bg);
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-tab {
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    
+    .nav-tab.active {
+      border-bottom: 2px solid var(--primary);
+      font-weight: 500;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .badge.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .progress {
+      height: 8px;
+      background-color: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background-color: var(--primary);
+      width: 60%;
+    }
+    
+    .performance-notes {
+      background-color: rgba(0, 194, 255, 0.1);
+      border-left: 4px solid var(--secondary);
+      padding: 16px;
+      margin-top: 24px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .performance-notes h4 {
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fluctra - Creator Dashboard</h1>
+    <p>Performance-optimized wireframe for the token creator dashboard.</p>
+    
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <strong>Fluctra</strong>
+        </div>
+        <div class="button">0x12...789A</div>
+      </div>
+      
+      <div class="nav-tabs">
+        <div class="nav-tab active">Dashboard</div>
+        <div class="nav-tab">Create Discount</div>
+        <div class="nav-tab">My Pools</div>
+        <div class="nav-tab">Analytics</div>
+      </div>
+      
+      <div class="page-content">
+        <h3>Creator Dashboard</h3>
+        <p style="margin-bottom: 20px;">Welcome back! Here's an overview of your discount pools.</p>
+        
+        <div class="grid" style="margin-top: 30px;">
+          <div class="card">
+            <div class="card-title">Active Pools</div>
+            <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">2</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Total Volume</div>
+            <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">$24,560</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Unique Buyers</div>
+            <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">128</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <h4>Your Active Pools</h4>
+          <div class="card" style="margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div class="card-title">MyToken Presale</div>
+                <div><span class="badge">30% Discount</span></div>
+              </div>
+              <div>
+                <div>12h 45m remaining</div>
+                <div>$15,200 / $20,000</div>
+              </div>
+            </div>
+            <div class="progress" style="margin-top: 16px;">
+              <div class="progress-bar" style="width: 76%;"></div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div class="card-title">MyToken Phase 2</div>
+                <div><span class="badge secondary">15% Discount</span></div>
+              </div>
+              <div>
+                <div>2d 8h remaining</div>
+                <div>$9,360 / $50,000</div>
+              </div>
+            </div>
+            <div class="progress" style="margin-top: 16px;">
+              <div class="progress-bar" style="width: 19%;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <h4>AI Recommendations</h4>
+          <div class="card" style="margin-top: 16px;">
+            <div class="card-title">Optimize Your Current Pools</div>
+            <p>Based on current market conditions, we recommend adjusting your Phase 2 discount to 20% to accelerate sales.</p>
+            <div style="margin-top: 16px;">
+              <div class="button secondary">View Details</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="performance-notes">
+      <h4>Performance Optimization Notes</h4>
+      <ul>
+        <li>Implement component-level reactivity for pool statistics</li>
+        <li>Use skeleton loading patterns for pool data while fetching</li>
+        <li>Implement virtualized lists for pools when number exceeds threshold</li>
+        <li>Cache AI recommendations with a periodic refresh strategy</li>
+        <li>Implement time-based progress calculation client-side to avoid unnecessary updates</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

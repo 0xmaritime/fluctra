@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluctra - Analytics Dashboard</title>
+  <style>
+    :root {
+      --primary: #0057b7;
+      --primary-dark: #003b7a;
+      --secondary: #00c2ff;
+      --accent: #7b61ff;
+      --background: #f5f9ff;
+      --card-bg: #ffffff;
+      --text: #1a2a42;
+      --text-light: #6e7a8a;
+      --border: #e1e8f0;
+      --success: #00c853;
+      --warning: #ffc107;
+      --error: #f44336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1, h2, h3, h4 {
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    
+    .page-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .page-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .page-content {
+      padding: 20px;
+    }
+    
+    .button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .button.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: var(--card-bg);
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nav-tab {
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    
+    .nav-tab.active {
+      border-bottom: 2px solid var(--primary);
+      font-weight: 500;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .badge.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .badge.success {
+      background-color: var(--success);
+    }
+    
+    .badge.warning {
+      background-color: var(--warning);
+      color: var(--text);
+    }
+    
+    .performance-notes {
+      background-color: rgba(0, 194, 255, 0.1);
+      border-left: 4px solid var(--secondary);
+      padding: 16px;
+      margin-top: 24px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .performance-notes h4 {
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fluctra - Analytics Dashboard</h1>
+    <p>Performance-optimized wireframe for the token pool analytics dashboard.</p>
+    
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <strong>Fluctra</strong>
+        </div>
+        <div class="button">0x12...789A</div>
+      </div>
+      
+      <div class="nav-tabs">
+        <div class="nav-tab">Dashboard</div>
+        <div class="nav-tab">Create Discount</div>
+        <div class="nav-tab">My Pools</div>
+        <div class="nav-tab active">Analytics</div>
+      </div>
+      
+      <div class="page-content">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3>Pool Analytics</h3>
+          <div>
+            <select class="form-control">
+              <option>MyToken Presale</option>
+              <option>MyToken Phase 2</option>
+              <option>All Pools</option>
+            </select>
+          </div>
+        </div>
+        
+        <div style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+          <div class="card">
+            <div class="card-title">Sale Progress</div>
+            <div style="height: 200px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+              [Area Chart: Sales over time]
+            </div>
+            <div style="margin-top: 16px; display: flex; justify-content: space-between;">
+              <div>
+                <div>Total Sales</div>
+                <div style="font-weight: 600; font-size: 18px;">$15,200</div>
+              </div>
+              <div>
+                <div>Completion</div>
+                <div style="font-weight: 600; font-size: 18px;">76%</div>
+              </div>
+              <div>
+                <div>Remaining</div>
+                <div style="font-weight: 600; font-size: 18px;">12h 45m</div>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <div class="card">
+              <div class="card-title">Buyer Analytics</div>
+              <div style="height: 120px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                [Pie Chart: Buyer Types]
+              </div>
+              <div style="margin-top: 10px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <div>New Wallets:</div>
+                  <div><strong>62%</strong></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                  <div>Previous Holders:</div>
+                  <div><strong>24%</strong></div>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <div>Whale Wallets:</div>
+                  <div><strong>14%</strong></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card" style="margin-top: 16px;">
+              <div class="card-title">Pool Health</div>
+              <div style="display: flex; align-items: center; margin-top: 10px;">
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">85</div>
+                <div style="margin-left: 16px;">
+                  <div style="font-weight: 500;">Excellent</div>
+                  <div style="font-size: 14px; color: var(--text-light);">Higher than average buyer quality</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: 24px; background-color: rgba(0, 194, 255, 0.1); border-color: var(--secondary);">
+          <div style="display: flex; align-items: center; margin-bottom: 10px;">
+            <div style="margin-right: 10px;"><strong>AI Insights</strong></div>
+            <div class="badge secondary">New</div>
+          </div>
+          <p>Based on current sales patterns:</p>
+          <ul style="margin-top: 10px; margin-left: 20px;">
+            <li>Your pool is attracting higher quality holders than 80% of similar tokens</li>
+            <li>Sales acceleration is 2.3x faster than market average</li>
+            <li>Recommended post-sale strategy: Implement a 7-day lockup for price stability</li>
+          </ul>
+          <div style="margin-top: 16px;">
+            <div class="button secondary">View Detailed Analysis</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 24px;">
+          <h4>Top Buyers</h4>
+          <div class="card" style="margin-top: 16px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 1px solid var(--border); text-align: left;">
+                  <th style="padding: 8px;">Wallet</th>
+                  <th style="padding: 8px;">Amount</th>
+                  <th style="padding: 8px;">Transaction</th>
+                  <th style="padding: 8px;">Buyer Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid var(--border);">
+                  <td style="padding: 8px;">0x78...e45d</td>
+                  <td style="padding: 8px;">$2,450</td>
+                  <td style="padding: 8px;">12 hours ago</td>
+                  <td style="padding: 8px;"><span class="badge success">Long-term</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border);">
+                  <td style="padding: 8px;">0x32...87ac</td>
+                  <td style="padding: 8px;">$1,875</td>
+                  <td style="padding: 8px;">1 day ago</td>
+                  <td style="padding: 8px;"><span class="badge">Whale</span></td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px;">0x91...f23b</td>
+                  <td style="padding: 8px;">$1,200</td>
+                  <td style="padding: 8px;">8 hours ago</td>
+                  <td style="padding: 8px;"><span class="badge warning">New</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluctra - Wallet Connection</title>
+  <style>
+    :root {
+      --primary: #0057b7;
+      --primary-dark: #003b7a;
+      --secondary: #00c2ff;
+      --accent: #7b61ff;
+      --background: #f5f9ff;
+      --card-bg: #ffffff;
+      --text: #1a2a42;
+      --text-light: #6e7a8a;
+      --border: #e1e8f0;
+      --success: #00c853;
+      --warning: #ffc107;
+      --error: #f44336;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1, h2, h3, h4 {
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    
+    .page-container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    
+    .page-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .page-content {
+      padding: 20px;
+    }
+    
+    .button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    
+    .button.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background-color: var(--card-bg);
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 500;
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .badge.secondary {
+      background-color: var(--secondary);
+    }
+    
+    .badge.success {
+      background-color: var(--success);
+    }
+    
+    .performance-notes {
+      background-color: rgba(0, 194, 255, 0.1);
+      border-left: 4px solid var(--secondary);
+      padding: 16px;
+      margin-top: 24px;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .performance-notes h4 {
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fluctra - Wallet Connection Flow</h1>
+    <p>Performance-optimized wireframe for the wallet connection process.</p>
+    
+    <div class="page-container">
+      <div class="page-header">
+        <div>
+          <strong>Fluctra</strong>
+        </div>
+        <div class="button">Connect Wallet</div>
+      </div>
+      
+      <div class="page-content">
+        <h3>The AI-Powered Token Distribution Platform</h3>
+        <p style="margin-bottom: 20px;">Control token distribution with optimized discount strategies and targeted holder acquisition.</p>
+        
+        <div class="card">
+          <div class="card-title">Get Started</div>
+          <p>Connect your wallet to start creating discount pools or browse available tokens.</p>
+          <div style="margin-top: 16px;">
+            <div class="button">For Token Creators</div>
+            <div class="button secondary" style="margin-left: 10px;">For Token Buyers</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <h4>Featured Discount Pools</h4>
+          <div class="grid" style="margin-top: 16px;">
+            <div class="card">
+              <div class="card-title">TokenA</div>
+              <div><span class="badge">25% Discount</span></div>
+              <div style="margin-top: 10px;">Ends in 2d 4h</div>
+            </div>
+            <div class="card">
+              <div class="card-title">TokenB</div>
+              <div><span class="badge secondary">15% Discount</span></div>
+              <div style="margin-top: 10px;">Ends in 5h 30m</div>
+            </div>
+            <div class="card">
+              <div class="card-title">TokenC</div>
+              <div><span class="badge success">40% Discount</span></div>
+              <div style="margin-top: 10px;">Ends in 1d 12h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="performance-notes">
+      <h4>Performance Optimization Notes</h4>
+      <ul>
+        <li>Implement efficient wallet connection library with support for multiple chains</li>
+        <li>Use lightweight wallet connection modal that loads only when requested</li>
+        <li>Cache recent user connections for faster reconnection</li>
+        <li>Prefetch featured pool data with priority loading</li>
+        <li>Implement connection state persistence to prevent UI flashes</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

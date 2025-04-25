@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  @apply bg-neutral-100 text-neutral-950 font-sans;
+}
+
+#app {
+  height: 100%;
+  width: 100%;
+}
+
+.glass {
+  @apply bg-white/70 backdrop-blur-lg border border-white/20;
+}
+
+/* Rest of original CSS with @apply directives */

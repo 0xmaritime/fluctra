@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluctra - Combined Wireframes & Project Plan</title>
+  <style>
+    :root {
+      --primary: #0057b7;
+      --primary-dark: #003b7a;
+      --secondary: #00c2ff;
+      --accent: #7b61ff;
+      --background: #f5f9ff;
+      --card-bg: #ffffff;
+      --text: #1a2a42;
+      --text-light: #6e7a8a;
+      --border: #e1e8f0;
+      --success: #00c853;
+      --warning: #ffc107;
+      --error: #f44336;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+        height: 100%; /* Ensure html and body take full height */
+        overflow: hidden; /* Prevent double scrollbars */
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex; /* Use flexbox for layout */
+    }
+
+    #sidebar {
+      width: 250px;
+      background-color: var(--card-bg);
+      padding: 20px;
+      height: 100vh; /* Full viewport height */
+      overflow-y: auto; /* Scrollbar if content overflows */
+      border-right: 1px solid var(--border);
+      flex-shrink: 0; /* Prevent sidebar from shrinking */
+    }
+
+    #sidebar h2 {
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #sidebar li a {
+      display: block;
+      padding: 10px 15px;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 4px;
+      margin-bottom: 5px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    #sidebar li a:hover,
+    #sidebar li a.active {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    #content {
+      flex: 1; /* Take remaining space */
+      padding: 40px;
+      height: 100vh; /* Full viewport height */
+      overflow-y: auto; /* Allow content area to scroll independently */
+    }
+
+    .content-section {
+      display: none; /* Hide sections by default */
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      overflow: hidden; /* Ensures content stays within bounds */
+    }
+
+    .content-section.active {
+      display: block; /* Show active section */
+    }
+
+    /* Styles from wireframes (keep common ones) */
+     .container { /* Use this class for content within sections */
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px; /* Add padding inside sections */
+    }
+
+    h1, h2, h3, h4 {
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+     .page-container { /* Remove default margin/padding if used inside sections */
+       margin-bottom: 0;
+       box-shadow: none;
+       border-radius: 0;
+       background-color: transparent; /* Avoid double background */
+       overflow: visible; /* Allow content to flow */
+     }
+
+     .page-header {
+       padding: 16px;
+       border-bottom: 1px solid var(--border);
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+     }
+
+     .page-content {
+       padding: 20px;
+     }
+
+     .button {
+       background-color: var(--primary);
+       color: white;
+       border: none;
+       border-radius: 6px;
+       padding: 12px 20px;
+       font-weight: 600;
+       cursor: pointer;
+       display: inline-block;
+       text-align: center;
+     }
+
+     .button.secondary {
+       background-color: var(--secondary);
+     }
+
+     .form-group {
+       margin-bottom: 16px;
+     }
+
+     .form-label {
+       display: block;
+       margin-bottom: 8px;
+       font-weight: 500;
+     }
+
+     .form-control {
+       width: 100%;
+       padding: 12px;
+       border: 1px solid var(--border);
+       border-radius: 6px;
+       font-size: 14px;
+     }
+
+     .card {
+       border: 1px solid var(--border);
+       border-radius: 8px;
+       padding: 16px;
+       margin-bottom: 16px;
+       background-color: var(--card-bg);
+     }
+
+     .card-title {
+       font-weight: 600;
+       margin-bottom: 8px;
+     }
+
+     .nav-tabs {
+       display: flex;
+       border-bottom: 1px solid var(--border);
+     }
+
+     .nav-tab {
+       padding: 10px 16px;
+       cursor: pointer;
+     }
+
+     .nav-tab.active {
+       border-bottom: 2px solid var(--primary);
+       font-weight: 500;
+     }
+
+     .badge {
+       display: inline-block;
+       padding: 4px 8px;
+       border-radius: 16px;
+       font-size: 12px;
+       font-weight: 500;
+       background-color: var(--primary);
+       color: white;
+     }
+
+     .badge.secondary {
+       background-color: var(--secondary);
+     }
+
+     .badge.success {
+       background-color: var(--success);
+     }
+
+     .badge.warning {
+       background-color: var(--warning);
+       color: var(--text);
+     }
+
+     .progress {
+       height: 8px;
+       background-color: var(--border);
+       border-radius: 4px;
+       overflow: hidden;
+       margin-bottom: 16px;
+     }
+
+     .progress-bar {
+       height: 100%;
+       background-color: var(--primary);
+       width: 60%; /* Example width */
+     }
+
+     .grid {
+       display: grid;
+       grid-template-columns: repeat(3, 1fr);
+       gap: 16px;
+     }
+
+     .performance-notes {
+       background-color: rgba(0, 194, 255, 0.1);
+       border-left: 4px solid var(--secondary);
+       padding: 16px;
+       margin-top: 24px;
+       border-radius: 0 8px 8px 0;
+     }
+
+     .performance-notes h4 {
+       margin-bottom: 8px;
+       color: var(--primary);
+     }
+
+     @media (max-width: 900px) { /* Adjust breakpoint for responsiveness */
+        body {
+            flex-direction: column;
+            height: auto; /* Allow body height to adjust */
+            overflow: auto; /* Allow body to scroll */
+        }
+        #sidebar {
+            width: 100%;
+            height: auto; /* Adjust height */
+            position: static; /* Remove fixed positioning */
+            border-right: none;
+            border-bottom: 1px solid var(--border);
+            overflow-y: visible; /* Remove sidebar scroll */
+        }
+        #content {
+            height: auto; /* Adjust height */
+            overflow-y: visible; /* Remove content scroll */
+            padding: 20px; /* Adjust padding */
+        }
+        .grid {
+            grid-template-columns: repeat(1, 1fr);
+        }
+     }
+
+     /* Styles for Project Plan (Markdown) */
+     #project-plan-content pre {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        border: 1px solid var(--border);
+        overflow-x: auto; /* Handle long lines */
+        white-space: pre-wrap; /* Wrap text */
+        word-wrap: break-word; /* Break long words */
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+     }
+     /* Basic Markdown styling */
+     #project-plan-content h2 { font-size: 1.5em; margin-top: 1.5em; border-bottom: 1px solid var(--border); padding-bottom: 0.3em; }
+     #project-plan-content h3 { font-size: 1.25em; margin-top: 1.2em; }
+     #project-plan-content ul { margin-left: 20px; margin-bottom: 1em; list-style: disc; }
+     #project-plan-content li { margin-bottom: 0.5em; }
+     #project-plan-content strong { font-weight: bold; }
+
+  </style>
+</head>
+<body>
+
+  <div id="sidebar">
+    <h2>Fluctra Project</h2>
+    <ul>
+      <li><a href="#project-plan" class="nav-link active">Project Plan</a></li>
+      <li><a href="#analytics-dashboard" class="nav-link">Analytics Dashboard</a></li>
+      <li><a href="#creator-dashboard" class="nav-link">Creator Dashboard</a></li>
+      <li><a href="#discount-creation-1" class="nav-link">Discount Creation 1</a></li>
+      <li><a href="#discount-creation-2" class="nav-link">Discount Creation 2</a></li>
+      <li><a href="#discount-creation-3" class="nav-link">Discount Creation 3</a></li>
+      <li><a href="#discovery-interface" class="nav-link">Discovery Interface</a></li>
+      <li><a href="#wallet-connection" class="nav-link">Wallet Connection</a></li>
+    </ul>
+  </div>
+
+  <div id="content">
+    <!-- Project Plan Section -->
+    <div id="project-plan" class="content-section active">
+      <div class="container">
+        <h1>Project Plan: Decentralized Token Discount Platform</h1>
+        <div id="project-plan-content">
+          <pre># Decentralized Token Discount Platform: Implementation Plan
+
+## Project Overview
+
+An AI-powered, SvelteKit-based platform that enables crypto token creators to easily set up and manage strategic token discount sales without coding knowledge. The platform will support Ethereum, Solana, BNB Chain, and Base, providing a performance-optimized interface for creating discount pools while taking a small percentage fee from transactions. By positioning between token creation and DEXs, we capture value in the existing liquidity flow between PumpFun, DEXScreener, and trading bots.
+
+## Phase 1: Foundation (Weeks 1-4)
+
+### Technical Setup
+- Set up SvelteKit project with TypeScript and testing framework (prioritizing performance)
+- Implement wallet connection for multiple chains (Ethereum and Base first)
+- Create core UI components and design system with performance optimization
+- Set up deployment pipeline on Vercel or similar platform
+- Implement basic AI infrastructure for discount optimization
+
+### Smart Contract Development
+- Develop and audit basic discount sale smart contract for Ethereum
+- Create contract interaction layer in JavaScript
+- Test contract functionality with sample tokens
+- Implement transaction monitoring system
+
+### Core User Flows
+- Token creator registration/authentication via wallet signature
+- AI-assisted discount pool creation with suggested rates based on market conditions
+- Discovery page with DEXScreener-like functionality plus direct purchase options
+- Transaction handling for token purchases with trading bot API endpoints
+- Integration points with existing liquidity flow ecosystem
+
+### Deliverable
+A functional MVP supporting Ethereum that allows creating and participating in basic discount sales with a clean, simple interface.
+
+## Phase 2: Multi-chain & Enhanced Features (Weeks 5-8)
+
+### Blockchain Expansion
+- Add support for Base (Ethereum L2)
+- Implement Solana integration and contract equivalents
+- Add BNB Chain support
+- Create unified interface that works across chains
+
+### Advanced Features
+- Time-bound discount pools (start/end times)
+- Tiered discount rates with AI-optimized scheduling
+- Whitelist functionality for targeted sales
+- Detailed analytics dashboard for creators
+- Airdrop farming integration and qualification system
+- Wallet analysis to identify quality holders vs. flippers
+- DEXScreener browser extension/widget integration
+
+### Platform Tools
+- Documentation and guides for creators
+- Fee system implementation (1.5% initially)
+- Admin dashboard for monitoring
+- Basic support system
+
+### Deliverable
+A multi-chain platform with enhanced discount mechanisms and creator tools.
+
+## Phase 3: Growth & Monetization (Weeks 9-12)
+
+### User Acquisition Features
+- "DeFi Summer 2.0" launch package with limited initial slots
+- Revenue sharing for early projects (50% fee share for first 10 projects)
+- Influencer token strategy with special creator packages
+- Social sharing integration with automatic Discord/Telegram announcements
+- Comprehensive referral system for creators, buyers, and communities
+- "Discount Alert" subscription system for premium access
+- Enhanced discovery with AI-powered opportunity scoring
+
+### Monetization Refinement
+- Implement fee collection across all chains
+- Add premium features (featured listings, extended visibility)
+- Optimize transaction costs across chains
+- Implement fee split smart contracts for platform sustainability
+
+### Security & Stability
+- Full security audit of all smart contracts
+- Penetration testing of platform
+- Performance optimization
+- Monitoring and alerting system
+
+### Deliverable
+A full-featured platform ready for public launch with multiple revenue streams.
+
+## Phase 4: Scaling & Ecosystem (Ongoing)
+
+### Community Building
+- Creator community forums/Discord
+- Educational content for token economics
+- Case studies from successful discount sales
+- API for third-party integrations
+
+### Platform Extensions
+- Mobile-responsive optimization
+- Additional chain integrations based on demand
+- Advanced analytics and market insights
+- Integration with existing DEXs for post-sale liquidity
+
+### Business Development
+- Partnerships with token projects
+- Integration with wallet providers
+- Cross-promotion with complementary services
+- Enterprise features for larger projects
+
+## Technology Stack
+
+### Frontend
+- **Framework**: SvelteKit with TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Svelte stores
+- **Wallet Connection**: Web3Modal/WalletConnect
+
+### Backend/API
+- **API Routes**: SvelteKit endpoints
+- **Authentication**: Wallet signature-based
+- **Database**: Supabase (PostgreSQL)
+- **Caching**: Redis (optional)
+
+### Blockchain
+- **Ethereum/Base**: Ethers.js, Solidity contracts
+- **Solana**: Solana Web3.js, Anchor framework
+- **BNB Chain**: Web3.js, Solidity contracts
+- **Indexing**: TheGraph (optional)
+
+### DevOps
+- **Hosting**: Vercel/Netlify
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Sentry
+- **Analytics**: Plausible/Simple Analytics
+
+## Revenue Model
+
+- **Basic Transaction Fee**: 1.5% on all sales processed through the platform
+- **Premium Listings**: Featured placement on discovery page ($10-50 in native tokens)
+- **Extended Features**: Advanced analytics, custom branding, higher limits (subscription model)
+- **Partner Integrations**: Revenue share with complementary services
+- **Launchpad+ Package**: Premium tier with additional marketing support ($500-1000)
+- **Discount Alert Subscriptions**: Paid tier for early access to new discounts
+- **Airdrop Management**: Small fee for managing token airdrops (0.5-1%)
+- **API Access**: Paid access for trading bots and third-party integrations
+
+## Go-to-Market Strategy
+
+### Initial Target Users
+- Small to medium token projects on Ethereum and Solana
+- NFT projects looking to sell tokens to their communities
+- DAO tokens seeking wider distribution
+
+### Marketing Channels
+- Crypto Twitter engagement
+- Discord communities for developers and token projects
+- Targeted content on Mirror.xyz and crypto newsletters
+- Strategic partnerships with wallet providers
+
+### Launch Strategy
+- Identify 50 upcoming token launches and target the top 10
+- Offer 3 high-potential projects completely free service for case studies
+- Private beta with limited slots marketed as exclusive opportunity
+- "DeFi Summer 2.0" marketing campaign focused on superior token distribution
+- Revenue share incentives for early adopters (50% for first 10 projects)
+- Target crypto influencers to launch their tokens exclusively on the platform
+- Position as "AI-powered" with emphasis on intelligent distribution strategies
+
+## Success Metrics
+
+### User Adoption
+- 50+ active token projects in first 3 months
+- 1,000+ unique buyers participating
+- Cross-chain usage distribution
+
+### Financial
+- Process $50,000+ in token sales monthly by end of Q1
+- Achieve $750-1,500 monthly revenue by end of Q1
+- Break even on development costs within 6 months
+
+### Platform Health
+- <0.5% transaction failure rate
+- Average setup time under 10 minutes for new pools
+- 40%+ return rate for creators
+
+## Cost Projection
+
+### Development
+- Smart Contract Auditing: $1,000-3,000 (can use affordable audit services initially)
+- Infrastructure: $50-100/month (Vercel, Supabase, etc.)
+- Domain & Services: $20-50/month
+
+### Marketing & Operations
+- Initial Content Creation: $200-500
+- Community Management: Time investment only initially
+- Legal Consideration: $500-1,000 (basic terms of service)
+
+### Total Initial Investment
+- Approximately $2,000-5,000 + development time
+
+## Risk Assessment & Mitigation
+
+### Technical Risks
+- **Smart Contract Vulnerabilities**: Start with simple contracts, progressive auditing
+- **Cross-chain Complexity**: Phase rollout by chain, thorough testing
+- **Scaling Issues**: Build with scalability in mind, implement caching early
+
+### Market Risks
+- **Low Creator Adoption**: Pre-launch outreach, focus on ease of use
+- **Competition**: Emphasize specialized discount features vs. general platforms
+- **Market Downturns**: Design for sustainability in bear markets
+
+### Regulatory Risks
+- **Compliance Issues**: No custody of funds, clear terms of service
+- **Changing Regulations**: Design with adaptability, monitor regulatory developments
+- **Chain-specific Challenges**: Research compliance requirements per chain
+
+## Next Immediate Steps
+
+1. Create detailed wireframes for core user flows with emphasis on performance optimization
+2. Develop smart contract specification for Ethereum and Base simultaneously
+3. Set up SvelteKit project with performance-focused architecture and wallet connection
+4. Build basic UI components and design system with benchmark testing
+5. Implement first version of AI-assisted discount pool creation form
+6. Develop strategic partnerships with 3-5 upcoming token launches for case studies
+7. Create initial integration points with DEXScreener (data feeds or extension)
+8. Design airdrop farming qualification system proof-of-concept
+9. Build simple API endpoints for trading bot integration</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Dashboard Section -->
+    <div id="analytics-dashboard" class="content-section">
+      <div class="container">
+        <h1>Fluctra - Analytics Dashboard</h1>
+        <p>Performance-optimized wireframe for the token pool analytics dashboard.</p>
+
+        <div class="page-container">
+          <div class="page-header">
+            <div>
+              <strong>Fluctra</strong>
+            </div>
+            <div class="button">0x12...789A</div>
+          </div>
+
+          <div class="nav-tabs">
+            <div class="nav-tab">Dashboard</div>
+            <div class="nav-tab">Create Discount</div>
+            <div class="nav-tab">My Pools</div>
+            <div class="nav-tab active">Analytics</div>
+          </div>
+
+          <div class="page-content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Pool Analytics</h3>
+              <div>
+                <select class="form-control">
+                  <option>MyToken Presale</option>
+                  <option>MyToken Phase 2</option>
+                  <option>All Pools</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+              <div class="card">
+                <div class="card-title">Sale Progress</div>
+                <div style="height: 200px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                  [Area Chart: Sales over time]
+                </div>
+                <div style="margin-top: 16px; display: flex; justify-content: space-between;">
+                  <div>
+                    <div>Total Sales</div>
+                    <div style="font-weight: 600; font-size: 18px;">$15,200</div>
+                  </div>
+                  <div>
+                    <div>Completion</div>
+                    <div style="font-weight: 600; font-size: 18px;">76%</div>
+                  </div>
+                  <div>
+                    <div>Remaining</div>
+                    <div style="font-weight: 600; font-size: 18px;">12h 45m</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="card">
+                  <div class="card-title">Buyer Analytics</div>
+                  <div style="height: 120px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    [Pie Chart: Buyer Types]
+                  </div>
+                  <div style="margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                      <div>New Wallets:</div>
+                      <div><strong>62%</strong></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                      <div>Previous Holders:</div>
+                      <div><strong>24%</strong></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <div>Whale Wallets:</div>
+                      <div><strong>14%</strong></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card" style="margin-top: 16px;">
+                  <div class="card-title">Pool Health</div>
+                  <div style="display: flex; align-items: center; margin-top: 10px;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">85</div>
+                    <div style="margin-left: 16px;">
+                      <div style="font-weight: 500;">Excellent</div>
+                      <div style="font-size: 14px; color: var(--text-light);">Higher than average buyer quality</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px; background-color: rgba(0, 194, 255, 0.1); border-color: var(--secondary);">
+              <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <div style="margin-right: 10px;"><strong>AI Insights</strong></div>
+                <div class="badge secondary">New</div>
+              </div>
+              <p>Based on current sales patterns:</p>
+              <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>Your pool is attracting higher quality holders than 80% of similar tokens</li>
+                <li>Sales acceleration is 2.3x faster than market average</li>
+                <li>Recommended post-sale strategy: Implement a 7-day lockup for price stability</li>
+              </ul>
+              <div style="margin-top: 16px;">
+                <div class="button secondary">View Detailed Analysis</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <h4>Top Buyers</h4>
+              <div class="card" style="margin-top: 16px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr style="border-bottom: 1px solid var(--border); text-align: left;">
+                      <th style="padding: 8px;">Wallet</th>
+                      <th style="padding: 8px;">Amount</th>
+                      <th style="padding: 8px;">Transaction</th>
+                      <th style="padding: 8px;">Buyer Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                      <td style="padding: 8px;">0x78...e45d</td>
+                      <td style="padding: 8px;">$2,450</td>
+                      <td style="padding: 8px;">12 hours ago</td>
+                      <td style="padding: 8px;"><span class="badge success">Long-term</span></td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border);">
+                      <td style="padding: 8px;">0x32...87ac</td>
+                      <td style="padding: 8px;">$1,875</td>
+                      <td style="padding: 8px;">1 day ago</td>
+                      <td style="padding: 8px;"><span class="badge">Whale</span></td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 8px;">0x91...f23b</td>
+                      <td style="padding: 8px;">$1,200</td>
+                      <td style="padding: 8px;">8 hours ago</td>
+                      <td style="padding: 8px;"><span class="badge warning">New</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div> <!-- End page-container -->
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Implement component-level reactivity for pool statistics</li>
+             <li>Use skeleton loading patterns for pool data while fetching</li>
+             <li>Implement virtualized lists for pools when number exceeds threshold</li>
+             <li>Cache AI recommendations with a periodic refresh strategy</li>
+             <li>Implement time-based progress calculation client-side to avoid unnecessary updates</li>
+           </ul>
+         </div>
+      </div> <!-- End container -->
+    </div>
+
+    <!-- Creator Dashboard Section -->
+    <div id="creator-dashboard" class="content-section">
+       <div class="container">
+         <h1>Fluctra - Creator Dashboard</h1>
+         <p>Performance-optimized wireframe for the token creator dashboard.</p>
+
+         <div class="page-container">
+           <div class="page-header">
+             <div>
+               <strong>Fluctra</strong>
+             </div>
+             <div class="button">0x12...789A</div>
+           </div>
+
+           <div class="nav-tabs">
+             <div class="nav-tab active">Dashboard</div>
+             <div class="nav-tab">Create Discount</div>
+             <div class="nav-tab">My Pools</div>
+             <div class="nav-tab">Analytics</div>
+           </div>
+
+           <div class="page-content">
+             <h3>Creator Dashboard</h3>
+             <p style="margin-bottom: 20px;">Welcome back! Here's an overview of your discount pools.</p>
+
+             <div class="grid" style="margin-top: 30px;">
+               <div class="card">
+                 <div class="card-title">Active Pools</div>
+                 <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">2</div>
+               </div>
+               <div class="card">
+                 <div class="card-title">Total Volume</div>
+                 <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">$24,560</div>
+               </div>
+               <div class="card">
+                 <div class="card-title">Unique Buyers</div>
+                 <div style="font-size: 24px; font-weight: 600; margin: 10px 0;">128</div>
+               </div>
+             </div>
+
+             <div style="margin-top: 30px;">
+               <h4>Your Active Pools</h4>
+               <div class="card" style="margin-top: 16px;">
+                 <div style="display: flex; justify-content: space-between; align-items: center;">
+                   <div>
+                     <div class="card-title">MyToken Presale</div>
+                     <div><span class="badge">30% Discount</span></div>
+                   </div>
+                   <div>
+                     <div>12h 45m remaining</div>
+                     <div>$15,200 / $20,000</div>
+                   </div>
+                 </div>
+                 <div class="progress" style="margin-top: 16px;">
+                   <div class="progress-bar" style="width: 76%;"></div>
+                 </div>
+               </div>
+
+               <div class="card">
+                 <div style="display: flex; justify-content: space-between; align-items: center;">
+                   <div>
+                     <div class="card-title">MyToken Phase 2</div>
+                     <div><span class="badge secondary">15% Discount</span></div>
+                   </div>
+                   <div>
+                     <div>2d 8h remaining</div>
+                     <div>$9,360 / $50,000</div>
+                   </div>
+                 </div>
+                 <div class="progress" style="margin-top: 16px;">
+                   <div class="progress-bar" style="width: 19%;"></div>
+                 </div>
+               </div>
+             </div>
+
+             <div style="margin-top: 30px;">
+               <h4>AI Recommendations</h4>
+               <div class="card" style="margin-top: 16px;">
+                 <div class="card-title">Optimize Your Current Pools</div>
+                 <p>Based on current market conditions, we recommend adjusting your Phase 2 discount to 20% to accelerate sales.</p>
+                 <div style="margin-top: 16px;">
+                   <div class="button secondary">View Details</div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- End page-container -->
+
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Implement component-level reactivity for pool statistics</li>
+             <li>Use skeleton loading patterns for pool data while fetching</li>
+             <li>Implement virtualized lists for pools when number exceeds threshold</li>
+             <li>Cache AI recommendations with a periodic refresh strategy</li>
+             <li>Implement time-based progress calculation client-side to avoid unnecessary updates</li>
+           </ul>
+         </div>
+       </div> <!-- End container -->
+    </div>
+
+    <!-- Discount Pool Creation 1 Section -->
+    <div id="discount-creation-1" class="content-section">
+       <div class="container">
+         <h1>Fluctra - Discount Pool Creation (Step 1)</h1>
+         <p>Performance-optimized wireframe for the first step of creating a discount pool.</p>
+
+         <div class="page-container">
+           <div class="page-header">
+             <div>
+               <strong>Fluctra</strong>
+             </div>
+             <div class="button">0x12...789A</div>
+           </div>
+
+           <div class="nav-tabs">
+             <div class="nav-tab">Dashboard</div>
+             <div class="nav-tab active">Create Discount</div>
+             <div class="nav-tab">My Pools</div>
+             <div class="nav-tab">Analytics</div>
+           </div>
+
+           <div class="page-content">
+             <h3>Create New Discount Pool</h3>
+             <p style="margin-bottom: 20px;">Set up a new token discount pool with AI-optimized settings.</p>
+
+             <div class="progress" style="margin: 30px 0; height: 10px;">
+               <div class="progress-bar" style="width: 33%;"></div>
+             </div>
+
+             <div>
+               <div class="card">
+                 <div class="card-title">Step 1: Token Selection</div>
+
+                 <div style="margin-top: 20px;">
+                   <div class="form-group">
+                     <label class="form-label">Select Blockchain</label>
+                     <select class="form-control">
+                       <option>Ethereum</option>
+                       <option>Solana</option>
+                       <option>BNB Chain</option>
+                       <option>Base</option>
+                     </select>
+                   </div>
+
+                   <div class="form-group">
+                     <label class="form-label">Token Address</label>
+                     <div style="display: flex; gap: 8px;">
+                       <input type="text" class="form-control" placeholder="Enter token contract address">
+                       <div class="button secondary">Verify</div>
+                     </div>
+                   </div>
+
+                   <div class="card" style="margin-top: 20px; background-color: #f8f9fa;">
+                     <div class="card-title">Token Information</div>
+                     <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                       <div>Name:</div>
+                       <div><strong>MyToken (MTK)</strong></div>
+                     </div>
+                     <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                       <div>Total Supply:</div>
+                       <div><strong>1,000,000 MTK</strong></div>
+                     </div>
+                     <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                       <div>Your Balance:</div>
+                       <div><strong>500,000 MTK</strong></div>
+                     </div>
+                     <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                       <div>Current Market Price:</div>
+                       <div><strong>$0.05 USD</strong></div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+               <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+                 <div></div>
+                 <div class="button">Continue to Discount Strategy</div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- End page-container -->
+
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Implement blockchain-specific address validation client-side before verification request</li>
+             <li>Use debouncing for address input to prevent excessive verification requests</li>
+             <li>Cache recently verified token data in localStorage</li>
+             <li>Progressively load blockchain-specific components based on selection</li>
+             <li>Implement optimistic UI for token verification with fallback states</li>
+           </ul>
+         </div>
+       </div> <!-- End container -->
+    </div>
+
+    <!-- Discount Pool Creation 2 Section -->
+    <div id="discount-creation-2" class="content-section">
+        <div class="container">
+            <h1>Fluctra - Discount Pool Creation (Step 2)</h1>
+            <p>Performance-optimized wireframe for the second step of creating a discount pool.</p>
+            <div class="page-container">
+              <div class="page-header">
+                <div>
+                  <strong>Fluctra</strong>
+                </div>
+                <div class="button">0x12...789A</div>
+              </div>
+              <div class="nav-tabs">
+                <div class="nav-tab">Dashboard</div>
+                <div class="nav-tab active">Create Discount</div>
+                <div class="nav-tab">My Pools</div>
+                <div class="nav-tab">Analytics</div>
+              </div>
+              <div class="page-content">
+                <h3>Create New Discount Pool</h3>
+                <p style="margin-bottom: 20px;">Set up a new token discount pool with AI-optimized settings.</p>
+                <div class="progress" style="margin: 30px 0; height: 10px;">
+                  <div class="progress-bar" style="width: 66%;"></div>
+                </div>
+                <div>
+                  <div class="card">
+                    <div class="card-title">Step 2: Discount Strategy</div>
+                    <div style="margin-top: 20px;">
+                      <div class="form-group">
+                        <label class="form-label">Discount Rate (%)</label>
+                        <input type="number" class="form-control" value="25">
+                        <div style="margin-top: 8px; font-size: 14px; color: var(--text-light);">AI Recommended: 25-35% based on market volatility</div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Sale Duration (Days)</label>
+                        <input type="number" class="form-control" value="5">
+                        <div style="margin-top: 8px; font-size: 14px; color: var(--text-light);">AI Recommended: 3-7 days for optimal momentum</div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Maximum Sale Amount (Tokens)</label>
+                        <input type="number" class="form-control" value="100000">
+                        <div style="margin-top: 8px; font-size: 14px; color: var(--text-light);">Estimated Value: $3,750 USD at discounted price</div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">Distribution Strategy</label>
+                        <select class="form-control">
+                          <option>Standard (First-come, first-served)</option>
+                          <option selected>Tiered (AI Optimized)</option>
+                          <option>Whitelist Only</option>
+                        </select>
+                        <div style="margin-top: 8px; font-size: 14px; color: var(--text-light);">Tiered strategy recommended for attracting quality holders</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+                    <div class="button secondary">Back</div>
+                    <div class="button">Continue to Review</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="performance-notes">
+              <h4>Performance Optimization Notes</h4>
+              <ul>
+                <li>Implement real-time calculation of estimated value based on inputs</li>
+                <li>Use asynchronous validation for strategy parameters</li>
+                <li>Cache AI recommendations locally to reduce API calls</li>
+                <li>Implement input masking for large numbers</li>
+                <li>Optimize rendering performance for dynamic recommendation text</li>
+              </ul>
+            </div>
+        </div> <!-- End container -->
+    </div>
+
+    <!-- Discount Pool Creation 3 Section -->
+    <div id="discount-creation-3" class="content-section">
+       <div class="container">
+         <h1>Fluctra - Discount Pool Creation (Step 3)</h1>
+         <p>Performance-optimized wireframe for the final step of creating a discount pool.</p>
+
+         <div class="page-container">
+           <div class="page-header">
+             <div>
+               <strong>Fluctra</strong>
+             </div>
+             <div class="button">0x12...789A</div>
+           </div>
+
+           <div class="nav-tabs">
+             <div class="nav-tab">Dashboard</div>
+             <div class="nav-tab active">Create Discount</div>
+             <div class="nav-tab">My Pools</div>
+             <div class="nav-tab">Analytics</div>
+           </div>
+
+           <div class="page-content">
+             <h3>Create New Discount Pool</h3>
+             <p style="margin-bottom: 20px;">Set up a new token discount pool with AI-optimized settings.</p>
+
+             <div class="progress" style="margin: 30px 0; height: 10px;">
+               <div class="progress-bar" style="width: 100%;"></div>
+             </div>
+
+             <div>
+               <div class="card">
+                 <div class="card-title">Step 3: Review & Deploy</div>
+
+                 <div style="margin-top: 20px;">
+                   <div class="card" style="background-color: #f8f9fa;">
+                     <div class="card-title">Pool Summary</div>
+
+                     <div style="margin-top: 10px;">
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Token:</div>
+                         <div><strong>MyToken (MTK)</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Discount Rate:</div>
+                         <div><strong>25%</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Sale Price:</div>
+                         <div><strong>$0.0375 (vs. market $0.05)</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Duration:</div>
+                         <div><strong>5 days</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Maximum Sale:</div>
+                         <div><strong>100,000 MTK ($3,750)</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Distribution:</div>
+                         <div><strong>Tiered (3 levels)</strong></div>
+                       </div>
+                       <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                         <div>Platform Fee:</div>
+                         <div><strong>1.5% ($56.25)</strong></div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="form-group" style="margin-top: 20px;">
+                     <div style="display: flex; align-items: center;">
+                       <input type="checkbox" id="approve" style="margin-right: 10px;">
+                       <label for="approve">I approve Fluctra to transfer tokens to the discount pool smart contract</label>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+
+               <div style="margin-top: 24px; display: flex; justify-content: space-between;">
+                 <div class="button secondary">Back</div>
+                 <div class="button">Deploy Discount Pool</div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- End page-container -->
+
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Pre-compute all summary values to avoid calculation delays during contract deployment</li>
+             <li>Implement optimistic UI during wallet approval and contract deployment</li>
+             <li>Prepare contract data in a web worker to prevent UI blocking</li>
+             <li>Cache form state in case user needs to return to previous steps</li>
+             <li>Implement progressive feedback during multi-step contract deployment</li>
+           </ul>
+         </div>
+       </div> <!-- End container -->
+    </div>
+
+    <!-- Discovery Interface Section -->
+    <div id="discovery-interface" class="content-section">
+       <div class="container">
+         <h1>Fluctra - Discovery & Filtering Interface</h1>
+         <p>Performance-optimized wireframe for the token discovery and filtering interface.</p>
+
+         <div class="page-container">
+           <div class="page-header">
+             <div>
+               <strong>Fluctra</strong>
+             </div>
+             <div class="button">Connect Wallet</div>
+           </div>
+
+           <div class="nav-tabs">
+             <div class="nav-tab active">Discover</div>
+             <div class="nav-tab">My Purchases</div>
+             <div class="nav-tab">Alerts</div>
+           </div>
+
+           <div class="page-content">
+             <div style="display: flex; justify-content: space-between; align-items: center;">
+               <h3>Discover Discount Opportunities</h3>
+               <div>
+                 <div class="button secondary">Create Alert</div>
+               </div>
+             </div>
+
+             <div style="margin-top: 24px; display: flex; flex-wrap: wrap; gap: 16px;"> <!-- Use flex-wrap for responsiveness -->
+               <div style="flex: 1; min-width: 250px;"> <!-- Filter section -->
+                 <div class="card">
+                   <div class="card-title">Filters</div>
+
+                   <div style="margin-top: 16px;">
+                     <div class="form-group">
+                       <label class="form-label">Blockchain</label>
+                       <select class="form-control">
+                         <option>All Chains</option>
+                         <option>Ethereum</option>
+                         <option>Solana</option>
+                         <option>BNB Chain</option>
+                         <option>Base</option>
+                       </select>
+                     </div>
+
+                     <div class="form-group">
+                       <label class="form-label">Minimum Discount</label>
+                       <input type="range" class="form-control" min="0" max="75" value="15" style="padding: 0;"> <!-- Adjust range padding -->
+                       <div style="text-align: center; margin-top: 8px;"><strong>15% or more</strong></div>
+                     </div>
+
+                     <div class="form-group">
+                       <label class="form-label">Token Categories</label>
+                       <div style="margin-top: 8px;">
+                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                           <input type="checkbox" id="cat1" checked style="margin-right: 8px;">
+                           <label for="cat1">DeFi</label>
+                         </div>
+                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                           <input type="checkbox" id="cat2" checked style="margin-right: 8px;">
+                           <label for="cat2">Gaming</label>
+                         </div>
+                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                           <input type="checkbox" id="cat3" style="margin-right: 8px;">
+                           <label for="cat3">NFT</label>
+                         </div>
+                         <div style="display: flex; align-items: center;">
+                           <input type="checkbox" id="cat4" checked style="margin-right: 8px;">
+                           <label for="cat4">AI/Data</label>
+                         </div>
+                       </div>
+                     </div>
+
+                     <div class="form-group">
+                       <label class="form-label">Pool Health Score</label>
+                       <select class="form-control">
+                         <option>Any Score</option>
+                         <option selected>70+ (Good)</option>
+                         <option>85+ (Excellent)</option>
+                       </select>
+                     </div>
+
+                     <div class="form-group">
+                       <label class="form-label">Time Remaining</label>
+                       <select class="form-control">
+                         <option>Any Duration</option>
+                         <option>Ending Soon (< 24h)</option>
+                         <option selected>All Active</option>
+                         <option>Starting Soon</option>
+                       </select>
+                     </div>
+
+                     <div style="margin-top: 16px;">
+                       <div class="button secondary" style="width: 100%;">Apply Filters</div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="card" style="margin-top: 16px; background-color: rgba(0, 194, 255, 0.1); border-color: var(--secondary);">
+                   <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                     <div style="margin-right: 10px;"><strong>AI Recommendation</strong></div>
+                     <div class="badge secondary">Personalized</div>
+                   </div>
+                   <p>Based on your previous purchases and wallet activity, you might be interested in:</p>
+                   <div style="margin-top: 12px;">
+                     <div class="button secondary" style="width: 100%;">Show tokens similar to GameFi Pro</div>
+                   </div>
+                 </div>
+               </div>
+
+               <div style="flex: 3; min-width: 300px;"> <!-- Results section -->
+                 <div style="display: flex; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                   <div>
+                     <strong>24 results</strong> matching your criteria
+                   </div>
+                   <div>
+                     <select class="form-control" style="min-width: 200px;">
+                       <option>Sort: Highest Discount</option>
+                       <option>Sort: Ending Soon</option>
+                       <option>Sort: Newest</option>
+                       <option>Sort: Highest Health Score</option>
+                     </select>
+                   </div>
+                 </div>
+
+                 <div class="card">
+                   <div style="display: flex; gap: 16px; flex-wrap: wrap;"> <!-- Allow wrapping inside card -->
+                     <div style="width: 60px; height: 60px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                       Logo
+                     </div>
+                     <div style="flex: 1; min-width: 200px;">
+                       <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 5px;">
+                         <div>
+                           <div style="font-weight: 600; font-size: 18px;">TokenA Finance</div>
+                           <div style="margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap;">
+                             <span class="badge">DeFi</span>
+                             <span style="margin: 0 8px;">•</span>
+                             <span>Ethereum</span>
+                           </div>
+                         </div>
+                         <div>
+                           <div class="badge success">35% Discount</div>
+                         </div>
+                       </div>
+                       <div style="margin-top: 12px;">TokenA is a lending platform with dynamic interest rates and multi-chain support.</div>
+                       <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                         <div>
+                           <div style="font-size: 14px; color: var(--text-light);">Sale ends in <strong>8h 45m</strong></div>
+                           <div style="font-size: 14px; color: var(--text-light);">Health Score: <strong style="color: var(--success);">92</strong></div>
+                         </div>
+                         <div class="button">View Details</div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="card" style="margin-top: 16px;">
+                   <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                     <div style="width: 60px; height: 60px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                       Logo
+                     </div>
+                     <div style="flex: 1; min-width: 200px;">
+                       <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 5px;">
+                         <div>
+                           <div style="font-weight: 600; font-size: 18px;">GameFi Pro</div>
+                           <div style="margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap;">
+                             <span class="badge">Gaming</span>
+                             <span style="margin: 0 8px;">•</span>
+                             <span>Base</span>
+                           </div>
+                         </div>
+                         <div>
+                           <div class="badge">25% Discount</div>
+                         </div>
+                       </div>
+                       <div style="margin-top: 12px;">A gaming ecosystem with play-to-earn mechanics and NFT integration.</div>
+                       <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                         <div>
+                           <div style="font-size: 14px; color: var(--text-light);">Sale ends in <strong>2d 15h</strong></div>
+                           <div style="font-size: 14px; color: var(--text-light);">Health Score: <strong style="color: var(--success);">85</strong></div>
+                         </div>
+                         <div class="button">View Details</div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="card" style="margin-top: 16px;">
+                   <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                     <div style="width: 60px; height: 60px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                       Logo
+                     </div>
+                     <div style="flex: 1; min-width: 200px;">
+                       <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 5px;">
+                         <div>
+                           <div style="font-weight: 600; font-size: 18px;">AIToken</div>
+                           <div style="margin-top: 4px; display: flex; align-items: center; flex-wrap: wrap;">
+                             <span class="badge">AI/Data</span>
+                             <span style="margin: 0 8px;">•</span>
+                             <span>Solana</span>
+                           </div>
+                         </div>
+                         <div>
+                           <div class="badge">20% Discount</div>
+                         </div>
+                       </div>
+                       <div style="margin-top: 12px;">Decentralized AI computing platform with tokenized machine learning resources.</div>
+                       <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                         <div>
+                           <div style="font-size: 14px; color: var(--text-light);">Sale ends in <strong>5d 8h</strong></div>
+                           <div style="font-size: 14px; color: var(--text-light);">Health Score: <strong style="color: var(--warning);">75</strong></div>
+                         </div>
+                         <div class="button">View Details</div>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div style="margin-top: 24px; display: flex; justify-content: center;">
+                   <div style="display: flex; gap: 8px; align-items: center;">
+                     <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 4px; cursor: pointer;">
+                       <
+                     </div>
+                     <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background-color: var(--primary); color: white; border-radius: 4px; cursor: pointer;">
+                       1
+                     </div>
+                     <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 4px; cursor: pointer;">
+                       2
+                     </div>
+                     <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 4px; cursor: pointer;">
+                       3
+                     </div>
+                     <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 4px; cursor: pointer;">
+                       >
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- End page-container -->
+
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Implement debouncing for filter changes to prevent excess rerenders</li>
+             <li>Use pagination with fixed-size responses to minimize initial load time</li>
+             <li>Implement virtualized lists for token cards to support hundreds of options</li>
+             <li>Cache filter states in localStorage to persist user preferences</li>
+             <li>Implement intersection observer for lazy loading images as they come into viewport</li>
+             <li>Use skeleton loading patterns for token data while initial results are fetched</li>
+           </ul>
+         </div>
+       </div> <!-- End container -->
+    </div>
+
+    <!-- Wallet Connection Section -->
+    <div id="wallet-connection" class="content-section">
+       <div class="container">
+         <h1>Fluctra - Wallet Connection Flow</h1>
+         <p>Performance-optimized wireframe for the wallet connection process.</p>
+
+         <div class="page-container">
+           <div class="page-header">
+             <div>
+               <strong>Fluctra</strong>
+             </div>
+             <div class="button">Connect Wallet</div>
+           </div>
+
+           <div class="page-content">
+             <h3>The AI-Powered Token Distribution Platform</h3>
+             <p style="margin-bottom: 20px;">Control token distribution with optimized discount strategies and targeted holder acquisition.</p>
+
+             <div class="card">
+               <div class="card-title">Get Started</div>
+               <p>Connect your wallet to start creating discount pools or browse available tokens.</p>
+               <div style="margin-top: 16px;">
+                 <div class="button">For Token Creators</div>
+                 <div class="button secondary" style="margin-left: 10px;">For Token Buyers</div>
+               </div>
+             </div>
+
+             <div style="margin-top: 30px;">
+               <h4>Featured Discount Pools</h4>
+               <div class="grid" style="margin-top: 16px;">
+                 <div class="card">
+                   <div class="card-title">TokenA</div>
+                   <div><span class="badge">25% Discount</span></div>
+                   <div style="margin-top: 10px;">Ends in 2d 4h</div>
+                 </div>
+                 <div class="card">
+                   <div class="card-title">TokenB</div>
+                   <div><span class="badge secondary">15% Discount</span></div>
+                   <div style="margin-top: 10px;">Ends in 5h 30m</div>
+                 </div>
+                 <div class="card">
+                   <div class="card-title">TokenC</div>
+                   <div><span class="badge success">40% Discount</span></div>
+                   <div style="margin-top: 10px;">Ends in 1d 12h</div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div> <!-- End page-container -->
+
+         <div class="performance-notes">
+           <h4>Performance Optimization Notes</h4>
+           <ul>
+             <li>Implement efficient wallet connection library with support for multiple chains</li>
+             <li>Use lightweight wallet connection modal that loads only when requested</li>
+             <li>Cache recent user connections for faster reconnection</li>
+             <li>Prefetch featured pool data with priority loading</li>
+             <li>Implement connection state persistence to prevent UI flashes</li>
+           </ul>
+         </div>
+       </div> <!-- End container -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navLinks = document.querySelectorAll('.nav-link');
+      const contentSections = document.querySelectorAll('.content-section');
+      const contentArea = document.getElementById('content');
+
+      // Function to show the target section and hide others
+      function showSection(targetId) {
+        contentSections.forEach(section => {
+          section.classList.toggle('active', section.id === targetId);
+        });
+        // Update active link
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + targetId);
+        });
+         // Scroll content area to top
+         if (contentArea) {
+            contentArea.scrollTop = 0;
+         }
+      }
+
+      // Add click listeners to nav links
+      navLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          const targetId = link.getAttribute('href').substring(1); // Get ID from href
+          showSection(targetId);
+          // Update URL hash without page jump, only if targetId is valid
+          if (document.getElementById(targetId)) {
+              history.pushState(null, null, '#' + targetId);
+          }
+        });
+      });
+
+      // Handle initial page load based on hash
+      const initialHash = window.location.hash.substring(1);
+      let foundHash = false;
+      if (initialHash) {
+        const targetSection = document.getElementById(initialHash);
+        if (targetSection && targetSection.classList.contains('content-section')) {
+          showSection(initialHash);
+          foundHash = true;
+        }
+      }
+      // Default to project plan if no valid hash
+      if (!foundHash) {
+          showSection('project-plan');
+          // Optionally clear the hash or set it to default
+          history.replaceState(null, null, '#project-plan');
+      }
+
+
+      // Handle back/forward navigation
+      window.addEventListener('popstate', () => {
+        const hash = window.location.hash.substring(1);
+        let foundPopHash = false;
+        if (hash) {
+           const targetSection = document.getElementById(hash);
+           if (targetSection && targetSection.classList.contains('content-section')) {
+               showSection(hash);
+               foundPopHash = true;
+           }
+        }
+        // Default if hash is removed or invalid
+        if (!foundPopHash) {
+            showSection('project-plan');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
