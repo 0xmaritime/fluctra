@@ -11,10 +11,10 @@
 {#if isMobile}
   <a
     {href}
-    class="block px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 ease-in-out {
+    class="block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ease-out {
       isActive 
-        ? 'bg-primary-600 text-white' 
-        : 'text-neutral-700 hover:bg-neutral-100'
+        ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' 
+        : 'text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)]'
     }"
     on:click
   >
@@ -23,12 +23,23 @@
 {:else}
   <a
     {href}
-    class="px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ease-in-out {
+    class="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-out {
       isActive 
-        ? 'bg-primary-600 text-white' 
-        : 'text-neutral-700 hover:bg-neutral-100'
+        ? 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]' 
+        : 'text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)]'
     }"
   >
     <slot />
   </a>
 {/if}
+
+<style>
+  @media (prefers-color-scheme: dark) {
+    a:not(.isActive) {
+      color: var(--color-text-primary);
+    }
+    a:not(.isActive):hover {
+      background-color: var(--color-gray-800);
+    }
+  }
+</style>

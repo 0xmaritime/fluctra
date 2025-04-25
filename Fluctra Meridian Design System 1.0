@@ -1,0 +1,198 @@
+Okay, drawing inspiration from the sophisticated interfaces of Base, the clean typography and structure of Ankr, and the polish (while toning down the playfulness) of Rainbow, let's define the enhanced **Fluctra "Meridian" Design System v2.0** and its implementation plan.
+
+**Design Vision:** Professional, trustworthy, precise, and sleek. Evokes clarity and confidence, suitable for an enterprise-grade financial/crypto platform with a subtle nautical undertone (clarity, navigation, expanse). Light mode is the default.
+
+---
+
+## Fluctra Meridian Design System v1.0
+
+**1. Foundation (Defined in `src/app.css`)**
+
+*   **Color Palette (OKLCH - Light Mode Default):** Precise, high-contrast, professional palette with a nautical-inspired blue primary.
+    *   **Primary (Deep Ocean Blue):** Trustworthy, confident blue for actions.
+        *   `--color-primary-50: oklch(97% 0.03 250);`
+        *   `--color-primary-100: oklch(94% 0.06 250);`
+        *   `--color-primary-300: oklch(85% 0.1 250);` (Subtle hover states)
+        *   `--color-primary-500: oklch(68% 0.18 250);` (Key interactive elements, links)
+        *   `--color-primary-600: oklch(60% 0.21 250);` (Primary buttons)
+        *   `--color-primary-700: oklch(52% 0.23 250);` (Hover/pressed states)
+        *   `--color-primary-900: oklch(35% 0.18 250);`
+    *   **Secondary (Seafoam Teal):** Clear, modern accent for highlights, AI features. Use sparingly.
+        *   `--color-secondary-100: oklch(95% 0.03 190);`
+        *   `--color-secondary-300: oklch(88% 0.06 190);`
+        *   `--color-secondary-500: oklch(78% 0.1 190);` (Accents, AI badges)
+        *   `--color-secondary-700: oklch(60% 0.12 190);`
+    *   **Neutrals (Grays - Crisp & Clean):** High contrast and clarity.
+        *   `--color-gray-0: oklch(100% 0 0);` (True White - backgrounds, cards)
+        *   `--color-gray-50: oklch(99% 0.002 240);` (Subtle off-white backgrounds)
+        *   `--color-gray-100: oklch(97% 0.004 240);` (Light dividers, subtle borders)
+        *   `--color-gray-200: oklch(94% 0.006 240);` (Default borders, disabled backgrounds)
+        *   `--color-gray-300: oklch(90% 0.008 240);`
+        *   `--color-gray-400: oklch(82% 0.01 240);` (Placeholder text)
+        *   `--color-gray-500: oklch(72% 0.012 240);` (Secondary text)
+        *   `--color-gray-600: oklch(62% 0.015 240);`
+        *   `--color-gray-700: oklch(52% 0.018 240);` (Body text)
+        *   `--color-gray-800: oklch(42% 0.015 240);`
+        *   `--color-gray-900: oklch(32% 0.012 240);` (Headings, primary text)
+        *   `--color-gray-1000: oklch(15% 0.005 240);` (Deepest text, almost black)
+    *   **Semantic Colors (Success, Warning, Error):** Clear, accessible indicators.
+        *   `--color-success-100: oklch(96% 0.05 145);` ... `--color-success-500: oklch(72% 0.16 145);` ... `--color-success-700: oklch(58% 0.18 145);`
+        *   `--color-warning-100: oklch(97% 0.06 85);` ... `--color-warning-500: oklch(82% 0.17 85);` ... `--color-warning-700: oklch(68% 0.18 85);` (Ensure text contrast)
+        *   `--color-error-100: oklch(96% 0.06 25);` ... `--color-error-500: oklch(72% 0.23 25);` ... `--color-error-700: oklch(58% 0.25 25);`
+    *   **Base Semantic Variables (`@theme`):**
+        *   `--color-background: var(--color-gray-50);`
+        *   `--color-foreground: var(--color-gray-1000);`
+        *   `--color-card-background: var(--color-gray-0);`
+        *   `--color-text-primary: var(--color-gray-900);`
+        *   `--color-text-secondary: var(--color-gray-600);`
+        *   `--color-text-placeholder: var(--color-gray-400);`
+        *   `--color-text-disabled: var(--color-gray-400);`
+        *   `--color-border-default: var(--color-gray-200);`
+        *   `--color-border-subtle: var(--color-gray-100);`
+        *   `--color-border-interactive: var(--color-primary-500);`
+        *   `--color-interactive: var(--color-primary-600);`
+        *   `--color-interactive-hover: var(--color-primary-700);`
+        *   `--color-interactive-text: var(--color-gray-0);`
+        *   `--color-shadow: oklch(0% 0 0);` (Base shadow color - black)
+    *   **Dark Mode Overrides (`@theme` within `@media (prefers-color-scheme: dark)`):**
+        *   `--color-background: var(--color-gray-1000);`
+        *   `--color-foreground: var(--color-gray-50);`
+        *   `--color-card-background: var(--color-gray-950);`
+        *   `--color-text-primary: var(--color-gray-50);`
+        *   `--color-text-secondary: var(--color-gray-400);`
+        *   `--color-text-placeholder: var(--color-gray-600);`
+        *   `--color-text-disabled: var(--color-gray-700);`
+        *   `--color-border-default: var(--color-gray-800);`
+        *   `--color-border-subtle: var(--color-gray-900);`
+        *   `--color-interactive: var(--color-primary-500);`
+        *   `--color-interactive-hover: var(--color-primary-400);`
+        *   `--color-interactive-text: var(--color-gray-0);`
+        *   `--color-shadow: oklch(0% 0 0);` (Can remain black, adjust opacity)
+
+*   **Typography (`@layer base` & `@theme`)**
+    *   **Font:** `--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;` `--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;`
+    *   **Base:** Apply `--font-sans` to `body`. Set base `color: var(--color-text-primary);` `font-size: var(--font-size-base);` etc.
+    *   **Type Scale & Weights:** Use the previously defined scale (adjust sizes slightly if needed for refinement, e.g., slightly larger base size like 17px).
+    *   **Headings:** `h1-h6` defined with clear size/weight differences (e.g., `h1 { @apply text-4xl font-bold text-[var(--color-foreground)]; }`).
+    *   **Links:** `a { @apply text-[var(--color-interactive)] transition-colors duration-150 hover:text-[var(--color-interactive-hover)] hover:underline; }`
+
+*   **Spacing (8px Grid):** Enhance spaciousness.
+    *   `--spacing: 0.5rem;` (8px) in `@theme`.
+    *   **Tailwind:** Rely on `p-1` (8px), `p-2` (16px), `p-3` (24px), `p-4` (32px), `gap-4`, `mb-8`, etc.
+    *   **Rules:** Card Padding `p-4` (sm), `p-5` (md+). Section Padding `py-20`, `py-24`. Gaps `gap-4`, `gap-6`.
+
+*   **Layout:**
+    *   `.app-container`: `max-w-7xl mx-auto px-4 md:px-6 lg:px-8`.
+
+*   **Borders & Radii:**
+    *   Radii: `--radius-md: 0.5rem;` (8px `rounded-lg`), `--radius-lg: 0.75rem;` (12px `rounded-xl`), `--radius-xl: 1rem;` (16px `rounded-2xl`), `--radius-full`.
+    *   **Usage:** `rounded-lg` for buttons/inputs. `rounded-xl` for cards. `rounded-2xl` for modals/larger elements. `rounded-full` for small indicators/badges. Borders use `--color-border-*` and `border` utility.
+
+*   **Shadows (`@theme`):** Refined for light theme. Softer, more diffused.
+    *   `--shadow-sm: 0 1px 2px 0 oklch(var(--color-shadow) / 0.03);`
+    *   `--shadow-md: 0 2px 8px -1px oklch(var(--color-shadow) / 0.06), 0 2px 4px -2px oklch(var(--color-shadow) / 0.04);` (Card default)
+    *   `--shadow-lg: 0 8px 16px -4px oklch(var(--color-shadow) / 0.08), 0 4px 6px -3px oklch(var(--color-shadow) / 0.05);` (Hover/Elevated)
+    *   `--shadow-xl: 0 16px 24px -8px oklch(var(--color-shadow) / 0.08), 0 6px 10px -6px oklch(var(--color-shadow) / 0.06);` (Modals/Dropdowns)
+    *   **Usage:** Apply via `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`.
+
+*   **Icons (Lucide):** Standardize on `w-5 h-5` (20px). `stroke-width="1.75"`.
+
+**2. Materials & Effects (`@layer components` / Utilities)**
+
+*   **Glassmorphism (`.glass`):** Refined for subtlety.
+    ```css
+    @layer components {
+      .glass {
+        /* Light Mode Default */
+        background-color: oklch(99% 0.002 240 / 0.65); /* gray-50 @ 65% */
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid oklch(97% 0.004 240 / 0.2); /* gray-100 @ 20% */
+
+        @media (prefers-color-scheme: dark) {
+          /* Dark Mode */
+          background-color: oklch(15% 0.005 240 / 0.7); /* gray-1000 @ 70% */
+          backdrop-filter: blur(24px) saturate(180%);
+          border: 1px solid oklch(28% 0.015 250 / 0.15); /* gray-900 @ 15% */
+        }
+      }
+    }
+    ```
+    *   **Usage:** Header, Mobile Menu, Dropdowns, Modals.
+*   **Gradients:**
+    *   **Subtle:** Use very soft linear gradients for backgrounds: `bg-gradient-to-b from-[var(--color-background)] to-[var(--color-gray-100)]` (light) or `from-[var(--color-background)] to-[var(--color-gray-950)]` (dark).
+    *   **Accents:** Use primary/secondary for button backgrounds or small highlights: `bg-gradient-to-r from-primary-500 to-primary-600`.
+    *   **Hero:** Consider a subtle radial gradient originating from the center: `bg-[radial-gradient(ellipse_at_center,var(--color-primary-100)_0%,transparent_70%)]`.
+
+**3. Core UI Components (Refined Styles)**
+
+*   **Buttons:** Base: `rounded-lg font-semibold transition duration-150 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)]/[var(--tw-ring-opacity,0.4)] focus:outline-none active:scale-[0.98]`.
+    *   `.button-primary`: `bg-[var(--color-interactive)] text-[var(--color-interactive-text)] shadow-sm hover:bg-[var(--color-interactive-hover)] disabled:opacity-50 disabled:cursor-not-allowed`.
+    *   `.button-secondary`: `bg-[var(--color-card-background)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] shadow-sm hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] disabled:opacity-50 disabled:cursor-not-allowed`.
+    *   `.button-ghost`: `bg-transparent text-[var(--color-interactive)] hover:bg-[var(--color-primary-100)]/[0.7] dark:hover:bg-[var(--color-primary-900)]/[0.3] disabled:text-[var(--color-text-disabled)] disabled:bg-transparent`.
+*   **Inputs/Selects:** `.input`: `rounded-lg border border-[var(--color-border-default)] bg-[var(--color-card-background)] focus:border-[var(--color-border-interactive)] focus:ring-2 ...`.
+*   **Cards:** `.card`: `bg-[var(--color-card-background)] rounded-xl border border-[var(--color-border-default)] shadow-md`. Add optional `hover:shadow-lg hover:border-[var(--color-gray-300)] dark:hover:border-[var(--color-gray-700)] transition-all duration-200`.
+*   **Badges:** `.badge`: `rounded-full px-2.5 py-0.5 text-xs font-medium`. Variants use light background tints and medium text colors (e.g., `bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-300`).
+
+**4. Animation & Motion:**
+
+*   **Easing:** Define `--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);` in `@theme` for smooth decelerations.
+*   **Transitions:** `transition-all duration-200 var(--ease-out-expo)`.
+*   **Loading:** Consistent use of `.skeleton` styling.
+
+---
+
+**Phase 2: Meridian Implementation Plan (Refined, No Timelines)**
+
+1.  **Foundation Implementation:**
+    *   Work on the dedicated migration branch.
+    *   Implement the full "Meridian" Foundation (Colors, Typography, Spacing, Borders, Radii, Shadows) as CSS variables in `src/app.css` `@theme`.
+    *   Define Light Mode as default and add Dark Mode overrides in `@media (prefers-color-scheme: dark)`.
+    *   Define `@layer base` styles (html, body, headings, links).
+    *   Define `.glass`, `.app-container`, `.skeleton`, and animation utilities in appropriate custom layers.
+    *   Setup fonts in `app.html`.
+    *   **Verification:** Run the app; check base styles, fonts, dark/light mode basics.
+
+2.  **Base Component Styles Definition:**
+    *   Implement the base styles for `.button-*`, `.card`, `.input`, `.badge`, `.badge-*` in `src/app.css @layer components`, using `@apply` and Meridian CSS variables.
+    *   **Verification:** Use a test page or Storybook (if available) to check base class rendering.
+
+3.  **Core Component Refactoring:**
+    *   Systematically update each Svelte component in `src/components/`.
+    *   Apply the correct Meridian base class (e.g., `.button-primary`, `.card`).
+    *   Replace *all* utility classes with Meridian system equivalents (check spacing, typography, colors `text-[var(--color-text-primary)]`, borders `border-[var(--color-border-default)]`, shadows `shadow-md`, radii `rounded-xl`, opacity `/alpha`).
+    *   Implement all interactive states (`:hover`, `:focus-visible`, `:active`, `:disabled`) using Meridian variables and standardized transitions.
+    *   Remove component-level `<style>` blocks where possible, relying on base classes and utilities. If specific styles remain, wrap them in `@layer components`.
+    *   **Verification:** Test each component thoroughly across variants, sizes, and states in both light and dark modes.
+
+4.  **Layout & Navigation Refactoring:**
+    *   Refactor `src/components/Layout.svelte` using Meridian styles (spacing, typography, colors, effects like `.glass` for header).
+    *   Refactor `src/components/NavLink.svelte` for consistent active/hover states per the system.
+    *   Ensure `src/routes/+error.svelte` utilizes the main `Layout` component and Meridian styles.
+    *   **Verification:** Check header, footer, navigation appearance and behavior on all pages, including error states and mobile views.
+
+5.  **Page-by-Page Application:**
+    *   Iterate through *all* files in `src/routes/` (including `+page.svelte`, `stepX/+page.svelte`, etc.).
+    *   Replace ad-hoc elements with refactored Meridian components (`Button`, `Card`, `Input`, etc.).
+    *   Apply Meridian spacing, layout grids, typography, colors, borders, shadows consistently.
+    *   Adapt unique page elements (Hero sections, Analytics charts/tables, Discover filters, Create Discount steps) to the Meridian aesthetic using system tokens and utilities.
+    *   Standardize table styling in `analytics/+page.svelte`.
+    *   Apply entry animations (`animate-*`) consistently.
+    *   Implement `.skeleton` styles for all areas where data will be loaded asynchronously.
+    *   **Verification:** Review each page visually against the Meridian system goals in light and dark modes. Check responsiveness.
+
+6.  **Final Polish & Consistency Pass:**
+    *   Conduct a full application review specifically looking for deviations from the Meridian system (inconsistent spacing, colors, radii, typography, etc.).
+    *   Refine micro-interactions and transitions for sleekness.
+    *   Perform basic accessibility checks (contrast, focus states).
+
+7.  **Testing:**
+    *   Execute comprehensive cross-browser (Chrome, Firefox, Safari) and cross-device (mobile, tablet, desktop) testing.
+    *   Perform visual regression testing if tools are available.
+    *   Test all user interaction flows thoroughly.
+
+8.  **Cleanup & Documentation:**
+    *   Remove any old/unused CSS, comments, or configuration files (`postcss.config.js` if applicable).
+    *   Uninstall redundant dependencies (e.g., `@solana/wallet-adapter-react` if unused).
+    *   Run Prettier/Linters.
+    *   Document the Meridian Design System principles, tokens, and component guidelines in `README.md` or `DESIGN_SYSTEM.md`.
+    *   Code review and merge.

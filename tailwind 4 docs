@@ -1,0 +1,213 @@
+Tailwind CSS v4.0
+
+Tailwind CSS v4.0 is an all-new version of the framework optimized for performance and flexibility, with a reimagined configuration and customization experience, and taking full advantage of the latest advancements the web platform has to offer.
+
+Key Features:
+
+New high-performance engine — where full builds are up to 5x faster, and incremental builds are over 100x faster — and measured in microseconds.
+Designed for the modern web — built on cutting-edge CSS features like cascade layers, registered custom properties with @property, and color-mix().
+Simplified installation — fewer dependencies, zero configuration, and just a single line of code in your CSS file.
+First-party Vite plugin — tight integration for maximum performance and minimum configuration.
+Automatic content detection — all of your template files are discovered automatically, with no configuration required.
+Built-in import support — no additional tooling necessary to bundle multiple CSS files.
+CSS-first configuration — a reimagined developer experience where you customize and extend the framework directly in CSS instead of a JavaScript configuration file.
+CSS theme variables — all of your design tokens exposed as native CSS variables so you can access them anywhere.
+Dynamic utility values and variants — stop guessing what values exist in your spacing scale, or extending your configuration for things like basic data attributes.
+Modernized P3 color palette — a redesigned, more vivid color palette that takes full advantage of modern display technology.
+Container queries — first-class APIs for styling elements based on their container size, no plugins required.
+New 3D transform utilities — transform elements in 3D space directly in your HTML.
+Expanded gradient APIs — radial and conic gradients, interpolation modes, and more.
+@starting-style support — a new variant you can use to create enter and exit transitions, without the need for JavaScript.
+not-* variant — style an element only when it doesn't match another variant, custom selector, or media or feature query.
+Even more new utilities and variants — including support for color-scheme, field-sizing, complex shadows, inert, and more.
+
+For existing projects, a comprehensive upgrade guide and an automated upgrade tool are available.
+
+New high-performance engine:
+Tailwind CSS v4.0 is a ground-up rewrite optimized for speed.
+Benchmarking against Catalyst showed median build times:
+v3.4      v4.0      Improvement
+Full build    378ms     100ms     3.78x
+Incremental rebuild with new CSS    44ms      5ms       8.8x
+Incremental rebuild with no new CSS    35ms      192µs     182x
+Incremental builds with no new CSS complete in microseconds, improving developer experience on longer projects.
+
+Designed for the modern web:
+v4.0 takes advantage of modern CSS features:
+Example CSS:
+@layer theme, base, components, utilities;
+@layer utilities {
+  .mx-6 {
+    margin-inline: calc(var(--spacing) * 6);
+  }
+  .bg-blue-500\/50 {
+    background-color: color-mix(in oklab, var(--color-blue-500) 50%, transparent);
+  }
+}
+@property --tw-gradient-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+
+Modern CSS features leveraged:
+Native cascade layers: More control over style interactions.
+Registered custom properties (@property): Enables gradient animation, improves performance.
+color-mix(): Adjust opacity of any color value, including CSS variables and currentColor.
+Logical properties: Simplifies RTL support, reduces CSS size.
+These features simplify Tailwind's internal structure.
+
+Simplified installation:
+Streamlined setup process with fewer steps and less boilerplate.
+1. Install Tailwind CSS: npm i tailwindcss @tailwindcss/postcss; (Note: Example shows postcss plugin, but Vite plugin is preferred for Vite projects)
+2. Add the PostCSS plugin (if using PostCSS):
+export default {
+  plugins: ["@tailwindcss/postcss"],
+};
+3. Import Tailwind in your CSS: @import "tailwindcss";
+
+v4.0 improvements:
+Just one-line of CSS: Replace @tailwind directives with @import "tailwindcss".
+Zero configuration: No initial config needed, including template paths.
+No external plugins required: Bundles @import rules, uses Lightning CSS for prefixing and transforms.
+
+First-party Vite plugin:
+For Vite users, integrate using @tailwindcss/vite instead of PostCSS for better performance.
+vite.config.ts:
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+  ],
+});
+
+Automatic content detection:
+v4.0 automatically detects template files, removing the need for manual `content` array configuration.
+Heuristics used:
+Ignores paths in .gitignore (e.g., /node_modules, /build).
+Ignores binary file extensions (images, videos, .zip).
+Explicitly add sources with the @source directive in CSS if needed:
+CSS:
+@import "tailwindcss";
+@source "../node_modules/@my-company/ui-lib";
+The @source directive uses the same heuristics (e.g., excludes binary files).
+
+Built-in import support:
+Handles @import rules directly, eliminating the need for plugins like postcss-import.
+Tightly integrated with the engine for faster performance.
+
+CSS-first configuration:
+Configuration moves from tailwind.config.js to the main CSS file using the @theme block.
+Example CSS:
+@import "tailwindcss";
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+  --breakpoint-3xl: 1920px;
+  --color-avocado-100: oklch(0.99 0 0);
+  /* ... other theme tokens ... */
+}
+Allows configuring design tokens, custom utilities, and variants directly in CSS.
+
+CSS theme variables:
+All design tokens are exposed as native CSS variables by default.
+Example Generated CSS:
+:root {
+  --font-display: "Satoshi", "sans-serif";
+  --breakpoint-3xl: 1920px;
+  --color-avocado-100: oklch(0.99 0 0);
+  /* ... */
+}
+Variables can be used in inline styles or passed to libraries.
+
+Dynamic utility values and variants:
+Simplified utilities and variants accept certain arbitrary values without config or arbitrary value syntax `[...]`.
+Example Grid:
+HTML: <div class="grid grid-cols-15">...</div>
+Example Data Attribute:
+HTML: <div data-current class="opacity-75 data-current:opacity-100">...</div>
+Spacing utilities (px-*, mt-*, w-*, etc.) are dynamically derived from a single `--spacing` variable and accept any value.
+Example Generated CSS:
+@layer theme {
+  :root {
+    --spacing: 0.25rem;
+  }
+}
+@layer utilities {
+  .mt-8 { margin-top: calc(var(--spacing) * 8); }
+  .w-17 { width: calc(var(--spacing) * 17); }
+  .pr-29 { padding-right: calc(var(--spacing) * 29); }
+}
+The upgrade tool can automatically simplify arbitrary values where applicable.
+
+Modernized P3 color palette:
+Default color palette upgraded from rgb to oklch for more vivid colors using the wider P3 gamut.
+Balance between colors maintained from v3 for smoother upgrades.
+
+Container queries:
+Built-in support, no plugin needed.
+Example HTML:
+<div class="@container">
+  <div class="grid grid-cols-1 @sm:grid-cols-3 @lg:grid-cols-4">...</div>
+</div>
+Support for max-width container queries using `@max-*` variant.
+Example HTML:
+<div class="@container">
+  <div class="grid grid-cols-3 @max-md:grid-cols-1">...</div>
+</div>
+Stacking `@min-*` and `@max-*` variants for ranges.
+Example HTML:
+<div class="@container">
+  <div class="flex @min-md:@max-xl:hidden">...</div>
+</div>
+
+New 3D transform utilities:
+Added APIs for 3D transforms (rotate-x-*, rotate-y-*, scale-z-*, translate-z-*, etc.).
+Example HTML:
+<div class="perspective-distant">
+  <article class="rotate-x-51 rotate-z-43 transform-3d ...">...</article>
+</div>
+
+Expanded gradient APIs:
+Linear gradient angles: Use utilities like `bg-linear-45`. (Note: `bg-gradient-*` renamed to `bg-linear-*`)
+Example HTML: <div class="bg-linear-45 from-indigo-500 via-purple-500 to-pink-500"></div>
+Gradient interpolation modifiers: Control color interpolation mode using `/modifier`. e.g., `bg-linear-to-r/srgb` or `bg-linear-to-r/oklch`. OKLAB is the default.
+Example HTML:
+<div class="bg-linear-to-r/srgb from-indigo-500 to-teal-400">...</div>
+<div class="bg-linear-to-r/oklch from-indigo-500 to-teal-400">...</div>
+Conic and radial gradients: New `bg-conic-*` and `bg-radial-*` utilities work with `from-*`, `via-*`, `to-*`. Modifiers and arbitrary values supported.
+Example HTML:
+<div class="size-24 rounded-full bg-conic/[in_hsl_longer_hue] from-red-600 to-red-600"></div>
+<div class="size-24 rounded-full bg-radial-[at_25%_25%] from-white to-zinc-900 to-75%"></div>
+
+@starting-style support:
+New `starting` variant uses CSS `@starting-style` for enter/exit transitions without JavaScript.
+Example HTML:
+<div>
+  <button popovertarget="my-popover">Check for updates</button>
+  <div popover id="my-popover" class="transition-discrete starting:open:opacity-0 ...">...</div>
+</div>
+
+not-* variant:
+Supports CSS `:not()` pseudo-class. Styles elements when they *don't* match another selector/variant.
+Example HTML: <div class="not-hover:opacity-75">...</div>
+Example CSS Output:
+.not-hover\:opacity-75:not(*:hover) { opacity: 75%; }
+@media not (hover: hover) { .not-hover\:opacity-75 { opacity: 75%; } }
+Also negates media queries and @supports queries.
+Example HTML: <div class="not-supports-hanging-punctuation:px-4">...</div>
+Example CSS Output:
+.not-supports-hanging-punctuation\:px-4 {
+  @supports not (hanging-punctuation: var(--tw)) { padding-inline: calc(var(--spacing) * 4); }
+}
+
+Even more new utilities and variants:
+New `inset-shadow-*` and `inset-ring-*` utilities (stackable up to four layers).
+New `field-sizing` utilities for auto-resizing textareas.
+New `color-scheme` utilities for scrollbar styling in dark mode.
+New `font-stretch` utilities for variable fonts.
+New `inert` variant for styling elements with the `inert` attribute.
+New `nth-*` variants.
+New `in-*` variant (similar to `group-*` without needing `group` class).
+Support for `:popover-open` using the existing `open` variant.
+New `descendant` variant for styling all descendants.

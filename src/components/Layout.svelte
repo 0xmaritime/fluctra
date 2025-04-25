@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { goto } from '$app/navigation'
-  import NavLink from './NavLink.svelte' // Note: NavLink might need refactoring too
+  import NavLink from './NavLink.svelte'
   import WalletConnect from './WalletConnect.svelte'
   import { fade } from 'svelte/transition'
   import { onMount } from 'svelte'
@@ -41,7 +41,7 @@
   <!-- Header -->
   <header class="sticky top-0 z-50">
     <div class="relative">
-      <div class="glass border-b border-neutral-100 shadow-sm">
+      <div class="glass border-b border-[var(--color-border-subtle)] shadow-sm transition-all duration-200 ease-out">
         <div class="app-container">
           <div class="flex items-center justify-between py-4">
             <!-- Logo -->
@@ -50,7 +50,7 @@
                 on:click={() => goto('/')}
                 class="flex items-center space-x-2 focus:outline-none"
               >
-                <div class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center text-white">
+                <div class="w-8 h-8 bg-[var(--color-interactive)] rounded-lg flex items-center justify-center text-[var(--color-interactive-text)]">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
                     <path d="M16 8h-8v8h8v-8z"/>
                     <path d="M3 8l3-3h12l3 3"/>
@@ -61,7 +61,7 @@
                     <path d="M16 3v5"/>
                   </svg>
                 </div>
-                <span class="text-xl font-semibold tracking-tight text-neutral-950">Fluctra</span>
+                <span class="text-xl font-semibold tracking-tight text-[var(--color-foreground)]">Fluctra</span>
               </button>
             </div>
             
@@ -88,7 +88,7 @@
               {#if showAppNav}
                 <button
                   on:click={() => isMenuOpen = !isMenuOpen}
-                  class="ml-4 md:hidden rounded-lg p-2 text-neutral-500 hover:text-neutral-600 hover:bg-neutral-100 focus:outline-none"
+                  class="ml-4 md:hidden rounded-lg p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)] focus:outline-none transition-colors duration-200 ease-out"
                   aria-label="Open menu"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -109,7 +109,7 @@
       {#if isMenuOpen && showAppNav}
         <div 
           transition:fade={{ duration: 150 }}
-          class="glass absolute w-full md:hidden shadow-lg border-b border-neutral-100"
+          class="glass absolute w-full md:hidden shadow-lg border-b border-[var(--color-border-subtle)] transition-all duration-200 ease-out"
         >
           <div class="pt-2 pb-4 space-y-1 px-4">
             <NavLink

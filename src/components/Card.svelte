@@ -8,9 +8,9 @@
 <div class={`card ${padding} ${className}`}>
   {#if title}
     <div class="mb-4">
-      <h3 class="text-lg font-semibold text-neutral-900">{title}</h3>
+      <h3 class="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
       {#if subtitle}
-        <p class="text-sm text-neutral-500 mt-1">{subtitle}</p>
+        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{subtitle}</p>
       {/if}
     </div>
   {/if}
