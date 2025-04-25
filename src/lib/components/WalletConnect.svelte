@@ -50,12 +50,8 @@
     <Button
       variant="primary"
       size="md"
-      stopPropagation={true}
-      onclick={() => {
-        console.log('Button click received');
-        isDropdownOpen = !isDropdownOpen;
-      }}
-      className="flex items-center relative z-10"
+      on:click={() => isDropdownOpen = !isDropdownOpen}
+      className="flex items-center"
     >
       <span class="mr-1">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M22 10c-2.667 0-5.333 0-8 0"></path></svg>
@@ -69,13 +65,7 @@
     <Button
       variant="primary"
       size="md"
-      stopPropagation={true}
-      onclick={() => {
-        console.log('Connect Wallet button clicked');
-        console.log('Current isDropdownOpen:', isDropdownOpen);
-        isDropdownOpen = !isDropdownOpen;
-        console.log('New isDropdownOpen:', isDropdownOpen);
-      }}
+      on:click={() => isDropdownOpen = !isDropdownOpen}
       className="flex items-center"
     >
        <span class="mr-1">
@@ -86,24 +76,17 @@
   {/if}
 
   {#if isDropdownOpen}
-    {@const dropdownExists = browser && !!document.getElementById('wallet-dropdown-menu')}
-    {@const dropdownElement = browser ? document.getElementById('wallet-dropdown-menu') : null}
-    {@const dropdownVisible = dropdownElement ? getComputedStyle(dropdownElement).display !== 'none' : false}
     <div
-      id="wallet-dropdown-menu"
-      class="absolute right-0 top-full mt-2 w-60 h-auto min-h-[200px] rounded-xl glass shadow-xl z-[1000] overflow-visible border-2 border-red-500"
-      style="opacity: 1; transform: none; background: rgba(0,0,0,0.9);"
+      transition:fly={{ y: 8, duration: 200, easing: cubicOut }}
+      class="absolute right-0 mt-2 w-60 rounded-xl glass shadow-xl z-50 overflow-hidden border border-[var(--color-border-subtle)]"
     >
-      {@debug dropdownExists, dropdownVisible}
       <div class="p-2">
         <div class="text-sm font-medium text-[var(--color-text-primary)] mb-1">Connect with</div>
         <div class="space-y-1">
           {#each chains as chain}
             <button
               on:click={() => {
-                console.log('Wallet button clicked');
-                handleToggle();
-                console.log('handleToggle called');
+                handleToggle(); // FIX: Call renamed prop
                 isDropdownOpen = false;
               }}
               class="w-full flex items-center px-3 py-2 text-sm text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] rounded-lg transition-colors duration-200"

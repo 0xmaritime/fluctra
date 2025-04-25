@@ -1,11 +1,10 @@
 <script lang="ts">
   export let variant: 'primary' | 'secondary' | 'ghost' = 'primary';
-  export let size: 'sm' | 'md' | 'lg' = 'md';
+  export let size: 'sm' | 'md' | 'lg' = 'md'; // Now maps to classes
   export let type: 'button' | 'submit' | 'reset' = 'button';
   export let disabled: boolean = false;
   export let fullWidth: boolean = false;
   export let className: string = '';
-  export let stopPropagation: boolean = false;
 
   // Base variant classes from app.css
   const variantClasses = {
@@ -29,10 +28,6 @@
     ${className}
   `.trim();
 
-  function handleClick(e: MouseEvent) {
-    if (stopPropagation) e.stopPropagation();
-    $$restProps.onclick?.(e);
-  }
 </script>
 
 <button
@@ -40,7 +35,7 @@
   class={buttonClass}
   {disabled}
   {...$$restProps}
-  on:click={handleClick}
+  on:click
 >
   <slot />
 </button>

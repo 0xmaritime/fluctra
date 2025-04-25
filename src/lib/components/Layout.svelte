@@ -14,9 +14,7 @@
   $: showAppNav = $page.url.pathname !== '/' && isConnected;
 
   function toggleConnection() {
-    console.log('toggleConnection called');
     isConnected = !isConnected;
-    console.log('isConnected:', isConnected);
     if (isConnected && $page.url.pathname === '/') {
       goto('/dashboard');
     }
@@ -30,8 +28,8 @@
     <div class="relative">
       <div class="glass border-b border-[var(--color-border-subtle)] shadow-sm">
         <div class="app-container">
-          <div class="flex items-center justify-between py-1 px-4 md:px-0 overflow-x-auto">
-            <div class="flex items-center shrink-0 min-w-[120px]">
+          <div class="flex items-center justify-between py-1">
+            <div class="flex items-center shrink-0">
               <button on:click={() => goto('/')} class="flex items-center space-x-2 focus:outline-none">
                 <div class="w-8 h-8 bg-[var(--color-interactive)] rounded-lg flex items-center justify-center text-[var(--color-interactive-text)]">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8h-8v8h8v-8z"/><path d="M3 8l3-3h12l3 3"/><path d="M3 16l3 3h12l3-3"/><path d="M8 21v-5"/><path d="M16 21v-5"/><path d="M8 3v5"/><path d="M16 3v5"/></svg>
@@ -41,7 +39,7 @@
             </div>
 
             {#if showAppNav}
-              <nav class="hidden md:flex flex-1 justify-center space-x-1 px-4">
+              <nav class="hidden md:flex flex-1 min-w-0 overflow-x-auto justify-center space-x-1 px-4">
                 <NavLink href="/dashboard">Dashboard</NavLink>
                 <NavLink href="/create-discount">Create Discount</NavLink>
                 <NavLink href="/my-pools">My Pools</NavLink>
@@ -50,9 +48,10 @@
               </nav>
             {/if}
 
-            <div class="flex items-center shrink-0 space-x-2 min-w-[120px] justify-end">
-              <div>
-                 <WalletConnect {isConnected} {walletAddress} handleToggle={() => toggleConnection()} />
+            <div class="flex items-center shrink-0 space-x-2">
+              <div class="min-w-0">
+                 <!-- FIX: Pass renamed prop handleToggle -->
+                 <WalletConnect {isConnected} {walletAddress} handleToggle={toggleConnection} />
               </div>
 
               {#if showAppNav}
@@ -96,7 +95,7 @@
   </main>
 
   <footer class="border-t border-[var(--color-border-subtle)] py-3 mt-6">
-    <div class="app-container">
+        <div class="app-container px-4 sm:px-6">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 flex items-center">
           <span class="text-sm text-[var(--color-text-secondary)]">© 2025 Fluctra. All rights reserved.</span>
