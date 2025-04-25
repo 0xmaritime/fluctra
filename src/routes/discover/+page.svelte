@@ -1,10 +1,11 @@
 <script lang="ts">
-  import Card from '../../components/Card.svelte';
-  import Input from '../../components/Input.svelte'; // Although range input is used directly
-  import Select from '../../components/Select.svelte';
-  import Button from '../../components/Button.svelte';
-  import Badge from '../../components/Badge.svelte';
-  import AIInsightCard from '../../components/AIInsightCard.svelte';
+  import Card from '$lib/components/Card.svelte';
+  // Input component not directly used for range, but might be for future search
+  // import Input from '$lib/components/Input.svelte';
+  import Select from '$lib/components/Select.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Badge from '$lib/components/Badge.svelte';
+  import AIInsightCard from '$lib/components/AIInsightCard.svelte';
   import { onMount } from 'svelte';
 
   // State for filters
@@ -45,7 +46,7 @@
     { id: 1, name: 'TokenA Finance', category: 'DeFi', chain: 'Ethereum', description: 'TokenA is a lending platform with dynamic interest rates and multi-chain support.', discount: 35, endTime: '8h 45m', healthScore: 92 },
     { id: 2, name: 'GameFi Pro', category: 'Gaming', chain: 'Base', description: 'A gaming ecosystem with play-to-earn mechanics and NFT integration.', discount: 25, endTime: '2d 15h', healthScore: 85 },
     { id: 3, name: 'AIToken', category: 'AI/Data', chain: 'Solana', description: 'Decentralized AI computing platform with tokenized machine learning resources.', discount: 20, endTime: '5d 8h', healthScore: 75 }
-  ]; // Removed color props, handle in template
+  ];
 
   // AI recommendations
   const aiRecommendations = [
@@ -55,22 +56,19 @@
   // Apply filters function (placeholder)
   function applyFilters() {
     console.log('Applying filters:', { blockchain, minDiscount, categories, healthScore, timeRemaining, sortBy });
-    // Add logic to filter `tokens` array or fetch new data
   }
 
   function showPersonalizedRecommendations() {
     console.log('Loading personalized recommendations');
-    // Add logic to fetch/display personalized tokens
   }
 
   // Helper functions for badge variants
-  // FIX: Added 'info' to return type
   function getCategoryBadgeVariant(category: string): 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral' | 'info' {
       switch (category.toLowerCase()) {
           case 'defi': return 'primary';
           case 'gaming': return 'secondary';
           case 'ai/data': return 'success';
-          case 'nft': return 'info'; // Return 'info' type
+          case 'nft': return 'info';
           default: return 'neutral';
       }
   }
@@ -82,13 +80,10 @@
    function getHealthScoreColor(score: number): string {
        if (score >= 85) return 'var(--color-success-700)';
        if (score >= 70) return 'var(--color-primary-600)';
-       return 'var(--color-warning-700)'; // Or secondary
+       return 'var(--color-warning-700)';
    }
 
-
-  onMount(() => {
-    // Initialization if needed
-  });
+  onMount(() => {});
 </script>
 
 <div class="animate-slide-up">
@@ -100,6 +95,7 @@
     <Button variant="secondary">Create Alert</Button>
   </div>
 
+   <!-- Added grid-cols-1 default -->
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
     <!-- Filters Section -->
     <div class="lg:col-span-1 space-y-6">
@@ -121,14 +117,14 @@
           </div>
 
           <div>
-             <!-- FIX: Use div instead of label for group heading -->
-            <div class="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+             <!-- Fixed A11y heading -->
+            <div class="block text-sm font-medium text-[var(--color-text-primary)] mb-2" id="category-label">
               Token Categories
             </div>
-            <div class="space-y-2">
+             <!-- Use aria-labelledby if needed, though structure is clear -->
+            <div class="space-y-2" role="group" aria-labelledby="category-label">
               {#each Object.entries(categories) as [key, checked]}
                  <div class="flex items-center">
-                   <!-- FIX: Cast key type for indexing -->
                   <input type="checkbox" id="cat-{key}" bind:checked={categories[key as keyof typeof categories]} />
                   <label for="cat-{key}" class="ml-2 text-sm text-[var(--color-text-secondary)] capitalize">{key}</label>
                 </div>
@@ -166,14 +162,12 @@
         {#each tokens as token (token.id)}
           <Card className="hover:shadow-lg transition-shadow duration-200">
             <div class="flex flex-col md:flex-row gap-4">
-              <!-- Token Logo Placeholder -->
               <div class="flex-shrink-0">
                  <div class="w-14 h-14 rounded-lg bg-[var(--color-background-subtle)] flex items-center justify-center font-bold text-xl text-[var(--color-text-primary)] border border-[var(--color-border-subtle)]">
                   {token.name.charAt(0)}
                 </div>
               </div>
 
-              <!-- Token Info -->
               <div class="flex-1">
                 <div class="flex flex-col sm:flex-row justify-between gap-y-2">
                   <div>
@@ -190,7 +184,8 @@
 
                 <p class="mt-3 text-[var(--color-text-secondary)] text-sm line-clamp-2">{token.description}</p>
 
-                <div class="mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3">
+                <!-- Added flex-wrap to this inner div -->
+                <div class="mt-4 flex flex-wrap flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 gap-x-4">
                   <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm">
                      <div class="text-[var(--color-text-secondary)]">
                        Ends in <span class="font-medium text-[var(--color-text-primary)]">{token.endTime}</span>
@@ -199,7 +194,7 @@
                        Health Score: <span class="font-medium" style:color={getHealthScoreColor(token.healthScore)}>{token.healthScore}</span>
                      </div>
                   </div>
-                  <Button size="md">View & Buy</Button>
+                  <Button size="md" class="mt-2 sm:mt-0">View & Buy</Button> <!-- Ensure button doesn't cause wrap issue -->
                 </div>
               </div>
             </div>
@@ -261,27 +256,16 @@
 
      /* Checkbox base inherited from app.css */
      input[type="checkbox"] {
-       /* Inherited: h-4 w-4 rounded border-[var(--color-border-default)] text-[var(--color-interactive)] focus:ring-[var(--color-interactive)] */
-       /* Add margin if needed */
        margin-right: 0.5rem; /* Spacing from label */
      }
      input[type="checkbox"] + label {
          cursor: pointer;
      }
 
-
     @media (prefers-color-scheme: dark) {
-         input[type="range"]::-webkit-slider-runnable-track {
-            background: var(--color-gray-700);
-        }
-         input[type="range"]::-moz-range-track {
-            background: var(--color-gray-700);
-        }
-         input[type="range"]::-webkit-slider-thumb {
-             background: var(--color-interactive); /* Interactive color is already adjusted for dark mode */
-        }
-         input[type="range"]::-moz-range-thumb {
-             background: var(--color-interactive);
-        }
+         input[type="range"]::-webkit-slider-runnable-track { background: var(--color-gray-700); }
+         input[type="range"]::-moz-range-track { background: var(--color-gray-700); }
+         input[type="range"]::-webkit-slider-thumb { background: var(--color-interactive); }
+         input[type="range"]::-moz-range-thumb { background: var(--color-interactive); }
     }
 </style>

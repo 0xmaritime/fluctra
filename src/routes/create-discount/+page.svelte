@@ -1,75 +1,168 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import Button from '../../components/Button.svelte';
-  import ProgressBar from '../../components/ProgressBar.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Badge from '$lib/components/Badge.svelte';
   import { discountFormData } from './formStore';
-  import { page } from '$app/stores'; // Import page store to get current step route
+  import { derived } from 'svelte/store';
 
-  // Determine current step from the route
-  $: currentStep = (() => {
-    const path = $page.url.pathname;
-    if (path.endsWith('/step1')) return 1;
-    if (path.endsWith('/step2')) return 2;
-    if (path.endsWith('/step3')) return 3;
-    // Default to step 1 if on the base route or unknown step
-    // Consider redirecting from base '/create-discount' to '/create-discount/step1' in a +layout.server.ts or +page.server.ts
-    return 1;
-  })();
+  let isDeploying = false;
 
-  // Progress calculation
-  $: progressValue = (currentStep / 3) * 100;
+  const calculatedValues = derived(discountFormData, ($data) => {
+    const discountRateNum = parseFloat($data.discountRate) || 0;
+    const maxSaleAmountNum = parseFloat($data.maxSaleAmount) || 0;
+    const marketPrice = $data.tokenInfo?.marketPrice || 0;
+    const discountedPrice = marketPrice > 0 ? marketPrice * (1 - discountRateNum / 100) : 0;
+    const totalValue = discountedPrice * maxSaleAmountNum;
+    return { discountedPrice, totalValue, marketPrice };
+  });
 
-  // Function to handle pool deployment (example)
-  function deployPool() {
-      // Add actual deployment logic here (e.g., smart contract interaction)
-      alert('Pool created!');
-      // Potentially reset form store:
-      // discountFormData.set({ /* initial state */ });
-      goto('/dashboard'); // Redirect after deployment
+  function formatCurrency(amount: number): string {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: amount < 1 ? 6 : 2
+    }).format(amount);
+  }
+
+  async function deployPool() {
+    if (!$discountFormData.verified || isDeploying) return;
+
+    isDeploying = true;
+    console.log("Deploying pool with data:", $discountFormData);
+
+    try {
+      // --- ACTUAL DEPLOYMENT LOGIC ---
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      // --- END ---
+
+      alert('Pool deployed successfully!');
+      goto('/dashboard');
+    } catch (error) {
+      console.error("Deployment failed:", error);
+      alert('Deployment failed. Please check console for details.');
+    } finally {
+      isDeploying = false;
+    }
   }
 
 </script>
 
-<div class="animate-slide-up">
-  <div class="mb-[calc(var(--spacing)*3)]"> <!-- mb-6 -> 24px -->
-    <h1 class="text-2xl font-bold text-[var(--color-foreground)]">Create New Discount Pool</h1>
-    <p class="text-[var(--color-text-secondary)] mt-[calc(var(--spacing))]">Set up a new token discount pool with AI-optimized settings.</p> <!-- mt-2 -> 8px -->
-  </div>
+<Card>
+  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-3">Review & Deploy</h2> <!-- Standardized -->
 
-  <!-- Progress Tracker -->
-  <div class="mb-[calc(var(--spacing)*4)]"> <!-- mb-8 -> 32px -->
-    <ProgressBar progress={progressValue} color="primary" className="mb-[calc(var(--spacing))]" /> <!-- mb-2 -> 8px -->
-    <div class="flex justify-between text-sm text-[var(--color-text-secondary)]">
-      <span class:font-medium={currentStep >= 1} class:text-[var(--color-interactive)]={currentStep >= 1}>Token Selection</span>
-      <span class:font-medium={currentStep >= 2} class:text-[var(--color-interactive)]={currentStep >= 2}>Discount Strategy</span>
-      <span class:font-medium={currentStep >= 3} class:text-[var(--color-interactive)]={currentStep >= 3}>Review & Deploy</span>
+  <div class="space-y-3"> <!-- Standardized -->
+    <div>
+      <h3 class="font-medium text-[var(--color-text-primary)] mb-2">Token Details</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2"> <!-- Standardized -->
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Token Name</p>
+          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.tokenInfo.name || '-'}</p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Token Symbol</p>
+          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.tokenInfo.symbol || '-'}</p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Blockchain</p>
+          <p class="font-medium text-[var(--color-text-primary)] capitalize">{$discountFormData.blockchain || '-'}</p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Contract Address</p>
+          <p class="font-mono text-sm text-[var(--color-text-primary)] break-all">{$discountFormData.tokenAddress || '-'}</p>
+        </div>
+         <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Current Market Price</p>
+          <p class="font-medium text-[var(--color-text-primary)]">
+            {#if $calculatedValues.marketPrice > 0}
+              {formatCurrency($calculatedValues.marketPrice)}
+            {:else}
+              <span class="text-[var(--color-text-secondary)] italic">Not available</span>
+            {/if}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-medium text-[var(--color-text-primary)] mb-2">Discount Details</h3>
+       <div class="grid grid-cols-1 md:grid-cols-3 gap-2"> <!-- Standardized -->
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Discount Rate</p>
+          <div class="flex items-center">
+            <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.discountRate}%</p>
+            <!-- <div class="ml-2"><Badge variant="primary">AI Optimized</Badge></div> -->
+          </div>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Duration</p>
+          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.duration} days</p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Max Tokens for Sale</p>
+          <p class="font-medium text-[var(--color-text-primary)]">{parseFloat($discountFormData.maxSaleAmount).toLocaleString() || '-'}</p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Price per Token (Discounted)</p>
+          <p class="font-medium text-[var(--color-text-primary)]">
+            {#if $calculatedValues.discountedPrice > 0}
+              {formatCurrency($calculatedValues.discountedPrice)}
+            {:else}
+               <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
+            {/if}
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Est. Total Pool Value</p>
+          <p class="font-medium text-[var(--color-text-primary)]">
+             {#if $calculatedValues.totalValue > 0}
+              {formatCurrency($calculatedValues.totalValue)}
+             {:else}
+                <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
+             {/if}
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Strategy</p>
+          <p class="font-medium text-[var(--color-text-primary)] capitalize">{$discountFormData.distributionStrategy || '-'}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-2 border-t border-[var(--color-border-default)]"> <!-- Standardized -->
+      <div class="flex items-start">
+        <input
+          type="checkbox"
+          id="confirm-verified"
+          bind:checked={$discountFormData.verified}
+          class="mt-1 mr-2 h-4 w-4 rounded border-[var(--color-border-default)] text-[var(--color-interactive)] focus:ring-[var(--color-interactive)]"
+          disabled={isDeploying}
+        />
+        <label for="confirm-verified" class="text-sm text-[var(--color-text-secondary)]">
+          I confirm that all information is accurate, I have verified the contract address, and understand the associated gas fees for deployment.
+        </label>
+      </div>
+      {#if !$discountFormData.verified}
+        <p class="mt-1 text-xs text-[var(--color-error-500)]">Confirmation required to deploy.</p>
+      {/if}
     </div>
   </div>
 
-  <!-- Step content will be loaded via nested routes -->
-  <div class="min-h-[300px]"> <!-- Add min height to prevent layout jumps -->
-    <slot />
-  </div>
-
-  <!-- Navigation buttons -->
-  <div class="flex justify-between mt-[calc(var(--spacing)*4)]"> <!-- mt-8 -> 32px -->
-    {#if currentStep > 1}
-      <Button variant="ghost" on:click={() => goto(`/create-discount/step${currentStep - 1}`)}>
-        Back
+  <!-- Deployment button within the step content -->
+  <div class="flex justify-end mt-4"> <!-- Standardized -->
+      <Button
+          on:click={deployPool}
+          disabled={!$discountFormData.verified || isDeploying || $calculatedValues.marketPrice <= 0}
+          title={$calculatedValues.marketPrice <= 0 ? 'Market price must be available to deploy' : !$discountFormData.verified ? 'Please confirm details above' : ''}
+      >
+          {#if isDeploying}
+              Deploying...
+          {:else}
+              Deploy Discount Pool
+          {/if}
       </Button>
-    {:else}
-      <div></div> <!-- Spacer to keep the right button aligned -->
-    {/if}
-
-    {#if currentStep < 3}
-      <Button on:click={() => goto(`/create-discount/step${currentStep + 1}`)}>
-        Continue
-      </Button>
-    {:else if currentStep === 3}
-       <!-- The deploy action is now handled within step3 page for verification check -->
-       <!-- This button might be removed if step3 handles final action -->
-       <!-- Keeping a disabled placeholder for structure review -->
-       <Button disabled={true}>Deploy Pool (Action in Review Step)</Button>
-    {/if}
   </div>
-</div>
+</Card>
+
+<!-- Back button remains in parent layout -->

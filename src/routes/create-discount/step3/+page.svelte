@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import Card from '../../../components/Card.svelte';
-  import Button from '../../../components/Button.svelte';
-  import Badge from '../../../components/Badge.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Badge from '$lib/components/Badge.svelte';
   import { discountFormData } from '../formStore';
   import { derived } from 'svelte/store';
 

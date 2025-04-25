@@ -1,23 +1,22 @@
 <script lang="ts">
-  import Card from '../../../components/Card.svelte';
-  import Input from '../../../components/Input.svelte';
-  import Select from '../../../components/Select.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import Input from '$lib/components/Input.svelte';
+  import Select from '$lib/components/Select.svelte';
   import { discountFormData } from '../formStore';
 
   // Blockchain options for select
   const blockchainOptions = [
     { value: 'ethereum', label: 'Ethereum' },
     { value: 'solana', label: 'Solana' },
-    { value: 'bnb', label: 'BNB Chain' }, // Added BNB Chain
+    { value: 'bnb', label: 'BNB Chain' },
     { value: 'base', label: 'Base' }
-    // Removed Polygon as it wasn't in original list and might be less relevant
   ];
 </script>
 
 <Card>
-  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-[calc(var(--spacing)*3)]">Token Selection</h2> <!-- mb-6 -> 24px -->
+  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-3">Token Selection</h2> <!-- Standardized utility -->
 
-  <div class="space-y-[calc(var(--spacing)*2)]"> <!-- space-y-4 -> 16px -->
+  <div class="space-y-2"> <!-- Standardized utility -->
     <Select
       label="Blockchain Network"
       options={blockchainOptions}
@@ -34,7 +33,6 @@
       helpText="Enter the verified contract address of the token you want to discount."
     />
 
-    <!-- Token Info might be fetched based on address, but keeping manual input for now -->
     <Input
       label="Token Name (Auto-fetched if possible)"
       placeholder="My Awesome Token"

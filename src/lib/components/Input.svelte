@@ -18,7 +18,7 @@
 
 <div class={className}>
   {#if label}
-    <label for={id} class="block text-sm font-medium text-[var(--color-text-primary)] mb-[calc(var(--spacing)/2)]"> <!-- mb-1 ~ 4px -->
+    <label for={id} class="block text-sm font-medium text-[var(--color-text-primary)] mb-0.5"> <!-- Changed from mb-[calc(var(--spacing)/2)] to mb-0.5 (4px) -->
       {label}
       {#if required}
         <span class="text-[var(--color-error-500)]">*</span>
@@ -42,10 +42,10 @@
   />
 
   {#if helpText && !error}
-    <p class="mt-[calc(var(--spacing)/2)] text-sm text-[var(--color-text-secondary)]">{helpText}</p> <!-- mt-1 ~ 4px -->
+    <p class="mt-0.5 text-sm text-[var(--color-text-secondary)]">{helpText}</p> <!-- Changed from mt-[calc(var(--spacing)/2)] to mt-0.5 (4px) -->
   {/if}
 
   {#if error}
-    <p class="mt-[calc(var(--spacing)/2)] text-sm text-[var(--color-error-500)]">{error}</p> <!-- mt-1 ~ 4px -->
+    <p class="mt-0.5 text-sm text-[var(--color-error-500)]">{error}</p> <!-- Changed from mt-[calc(var(--spacing)/2)] to mt-0.5 (4px) -->
   {/if}
 </div>

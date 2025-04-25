@@ -31,10 +31,10 @@
   <div class="flex items-start justify-between">
     <div>
       <p class="text-sm font-medium text-[var(--color-text-secondary)]">{title}</p>
-      <p class="mt-[calc(var(--spacing))] text-3xl font-semibold text-[var(--color-text-primary)]">{value}</p>
+      <p class="mt-2 text-3xl font-semibold text-[var(--color-text-primary)]">{value}</p> <!-- Changed from mt-[calc(var(--spacing))] to mt-2 (16px) -->
 
       {#if change !== null}
-        <div class="mt-[calc(var(--spacing))] flex items-center">
+        <div class="mt-2 flex items-center"> <!-- Changed from mt-[calc(var(--spacing))] to mt-2 (16px) -->
           <span class="text-sm font-medium flex items-center" style:color={changeColorVar}>
             {#if change > 0}
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-1"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" /></svg>

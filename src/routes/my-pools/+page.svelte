@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import Card from '../../components/Card.svelte';
-  import Button from '../../components/Button.svelte';
-  import Badge from '../../components/Badge.svelte';
-  import ProgressBar from '../../components/ProgressBar.svelte';
-  import Select from '../../components/Select.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Badge from '$lib/components/Badge.svelte';
+  import ProgressBar from '$lib/components/ProgressBar.svelte';
+  import Select from '$lib/components/Select.svelte';
   import { onMount } from 'svelte';
 
   // Filter options
@@ -46,15 +46,15 @@
       }
   }
   function getDiscountBadgeVariant(discount: number): 'success' | 'primary' | 'secondary' {
-      if (discount >= 30) return 'success'; // Adjusted threshold slightly
+      if (discount >= 30) return 'success';
       if (discount >= 15) return 'primary';
       return 'secondary';
   }
    function getProgressBarColor(status: 'active' | 'ended' | 'draft', progress: number): 'success' | 'primary' | 'secondary' {
-      if (status === 'draft') return 'secondary'; // Draft is always secondary/neutral visually
+      if (status === 'draft') return 'secondary';
       if (progress >= 80) return 'success';
       if (progress >= 40) return 'primary';
-      return 'secondary'; // Use secondary for low progress active pools
+      return 'secondary';
    }
 
   // Function to handle resetting the filter
@@ -62,16 +62,12 @@
       statusFilter = 'all';
   }
 
-  // FIX: Define SVG icon path data in variable
   const noPoolsIcon = `<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="8" y1="12" x2="16" y2="12"></line><line x1="12" y1="8" x2="12" y2="16"></line>`;
 
-
-  onMount(() => {
-    // Any initialization needed
-  });
+  onMount(() => {});
 </script>
 
-<div class="animate-slide-up space-y-6"> <!-- Added root spacing -->
+<div class="animate-slide-up space-y-6">
   <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-4">
      <div>
         <h1 class="text-2xl font-bold text-[var(--color-foreground)]">My Discount Pools</h1>
@@ -92,7 +88,6 @@
     <Card>
       <div class="text-center py-8">
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 mx-auto text-[var(--color-text-secondary)] opacity-50">
-            <!-- FIX: Use variable for SVG content -->
            {@html noPoolsIcon}
          </svg>
         <h3 class="mt-4 text-lg font-medium text-[var(--color-foreground)]">No pools found</h3>
@@ -108,6 +103,7 @@
     <div class="space-y-6">
       {#each filteredPools as pool (pool.id)}
         <Card className="hover:shadow-lg transition-shadow duration-200">
+          <!-- Added flex-wrap here -->
           <div class="flex justify-between flex-wrap gap-y-4 gap-x-2 items-start">
             <div>
               <div class="flex items-center gap-x-3">

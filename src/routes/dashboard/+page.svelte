@@ -1,11 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import Card from '../../components/Card.svelte';
-  import StatCard from '../../components/StatCard.svelte';
-  import Button from '../../components/Button.svelte';
-  import Badge from '../../components/Badge.svelte';
-  import ProgressBar from '../../components/ProgressBar.svelte';
-  import AIInsightCard from '../../components/AIInsightCard.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import StatCard from '$lib/components/StatCard.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Badge from '$lib/components/Badge.svelte';
+  import ProgressBar from '$lib/components/ProgressBar.svelte';
+  import AIInsightCard from '$lib/components/AIInsightCard.svelte';
   import { onMount } from 'svelte';
 
   // Active pools data (example)
@@ -37,7 +37,7 @@
    function getProgressBarColor(progress: number): 'success' | 'primary' | 'secondary' {
       if (progress >= 80) return 'success';
       if (progress >= 40) return 'primary';
-      return 'secondary'; // Or perhaps 'warning' if very low?
+      return 'secondary';
    }
 
    // Define icon PATH DATA strings as variables using template literals
@@ -61,6 +61,7 @@
   </div>
 
   <!-- Stats Overview -->
+   <!-- Added grid-cols-1 default -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <StatCard
       title="Active Pools"
@@ -68,7 +69,6 @@
       iconPaths={activePoolsIconPaths}
       variant="primary"
     />
-
     <StatCard
       title="Total Volume"
       value={formatCurrency(activePools.reduce((sum, pool) => sum + pool.raised, 0))}
@@ -76,7 +76,6 @@
       iconPaths={totalVolumeIconPaths}
       variant="secondary"
     />
-
     <StatCard
       title="Unique Buyers (Total)"
       value="128"

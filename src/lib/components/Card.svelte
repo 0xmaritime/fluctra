@@ -8,10 +8,10 @@
 
 <div class={`card ${className}`}>
   {#if title}
-    <div class="mb-[calc(var(--spacing)*2.5)]"> <!-- Equivalent to mb-5 (20px) ~mb-4 original -->
+    <div class="mb-5"> <!-- Changed from mb-[calc(var(--spacing)*2.5)] to mb-5 (20px) -->
       <h3 class="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
       {#if subtitle}
-        <p class="text-sm text-[var(--color-text-secondary)] mt-[var(--spacing)]">{subtitle}</p> <!-- Equivalent to mt-1 (8px) -->
+        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{subtitle}</p> <!-- Changed from mt-[var(--spacing)] to mt-1 (8px) -->
       {/if}
     </div>
   {/if}

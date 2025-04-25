@@ -1,10 +1,8 @@
 <script lang="ts">
-  // No need for goto here as navigation is in parent
-  import Card from '../../../components/Card.svelte';
-  // No need for Button here
-  import Input from '../../../components/Input.svelte';
-  import Select from '../../../components/Select.svelte';
-  import { discountFormData, type TokenInfo } from '../formStore'; // Import type
+  import Card from '$lib/components/Card.svelte';
+  import Input from '$lib/components/Input.svelte';
+  import Select from '$lib/components/Select.svelte';
+  import { discountFormData, type TokenInfo } from '../formStore';
   import { derived } from 'svelte/store';
 
   // Distribution strategy options
@@ -18,7 +16,6 @@
   const calculatedValues = derived(discountFormData, ($data) => {
     const discountRateNum = parseFloat($data.discountRate) || 0;
     const maxSaleAmountNum = parseFloat($data.maxSaleAmount) || 0;
-    // Using a placeholder market price if not set
     const marketPrice = $data.tokenInfo?.marketPrice || 0.05; // Example placeholder
     const discountedPrice = marketPrice * (1 - discountRateNum / 100);
     const estimatedValue = discountedPrice * maxSaleAmountNum;
@@ -31,15 +28,13 @@
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2,
-      maximumFractionDigits: 4 // Allow more precision for token prices
+      maximumFractionDigits: 4
     }).format(amount);
   }
 
   // Example: Fetch market price based on token address/chain (placeholder)
   $: {
       if ($discountFormData.tokenAddress && $discountFormData.blockchain) {
-          // console.log('Fetching market price for', $discountFormData.tokenAddress);
-          // Simulating fetch
           setTimeout(() => {
               discountFormData.update(data => ({
                   ...data,
@@ -52,9 +47,9 @@
 </script>
 
 <Card>
-  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-[calc(var(--spacing)*3)]">Discount Strategy</h2> <!-- mb-6 -> 24px -->
+  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-3">Discount Strategy</h2> <!-- Standardized utility -->
 
-  <div class="space-y-[calc(var(--spacing)*3)]"> <!-- space-y-6 -> 24px -->
+  <div class="space-y-3"> <!-- Standardized utility -->
     <div>
       <Input
         type="number"

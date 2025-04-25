@@ -19,7 +19,6 @@
   $: formattedProgress = formatter.format(validProgress / 100);
 
   // Map prop colors to Meridian CSS variables
-  // Using the '-500' or '-600' variants based on typical usage for main elements
   const colorVarMap = {
     primary: 'var(--color-primary-600)',
     secondary: 'var(--color-secondary-500)',
@@ -30,24 +29,24 @@
 
   // Map sizes to height classes (using standard Tailwind heights)
   const sizeClasses = {
-    xs: 'h-1',
-    sm: 'h-2',
-    md: 'h-3',
-    lg: 'h-4'
+    xs: 'h-1', // 4px
+    sm: 'h-2', // 8px
+    md: 'h-3', // 12px
+    lg: 'h-4'  // 16px
   };
 
   $: progressBgColor = colorVarMap[color];
 </script>
 
 <div class={className}>
-  <div class="flex justify-between items-center mb-[calc(var(--spacing)/2)]"> <!-- mb-1 ~ 4px -->
+  <div class="flex justify-between items-center mb-1"> <!-- Replaced calc() with mb-1 (8px) -->
     <slot name="label"></slot>
     {#if showValue}
       <span class="text-sm font-medium text-[var(--color-text-secondary)]">{formattedProgress}</span>
     {/if}
   </div>
 
-  <div class={`w-full bg-[var(--color-gray-200)] dark:bg-[var(--color-gray-700)] rounded-full overflow-hidden ${sizeClasses[size]}`}> <!-- Track color -->
+  <div class={`w-full bg-[var(--color-gray-200)] dark:bg-[var(--color-gray-700)] rounded-full overflow-hidden ${sizeClasses[size]}`}>
     <div
       class="transition-all duration-500 ease-out h-full rounded-full"
       style:width="{validProgress}%"
