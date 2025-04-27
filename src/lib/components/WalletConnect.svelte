@@ -9,6 +9,7 @@
   export let walletAddress: string = '';
   // FIX: Rename prop from onToggle to handleToggle
   export let handleToggle: () => void = () => {};
+  export let className: string = '';
 
   let isDropdownOpen = false;
 
@@ -51,7 +52,7 @@
       variant="primary"
       size="md"
       on:click={() => isDropdownOpen = !isDropdownOpen}
-      className="flex items-center"
+      className={`flex items-center ${className} truncate max-w-[120px] md:max-w-none`}
     >
       <span class="mr-1">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M22 10c-2.667 0-5.333 0-8 0"></path></svg>
@@ -78,7 +79,7 @@
   {#if isDropdownOpen}
     <div
       transition:fly={{ y: 8, duration: 200, easing: cubicOut }}
-      class="absolute right-0 mt-2 w-60 rounded-xl glass shadow-xl z-50 overflow-hidden border border-[var(--color-border-subtle)]"
+      class="absolute right-0 mx-4 mt-2 rounded-xl glass shadow-xl z-50 overflow-hidden border border-[var(--color-border-subtle)] md:mx-0 md:w-60"
     >
       <div class="p-2">
         <div class="text-sm font-medium text-[var(--color-text-primary)] mb-1">Connect with</div>

@@ -31,9 +31,15 @@
           <div class="flex items-center justify-between py-1">
             <div class="flex items-center shrink-0">
               <button on:click={() => goto('/')} class="flex items-center space-x-2 focus:outline-none">
-                <div class="w-8 h-8 bg-[var(--color-interactive)] rounded-lg flex items-center justify-center text-[var(--color-interactive-text)]">
-                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8h-8v8h8v-8z"/><path d="M3 8l3-3h12l3 3"/><path d="M3 16l3 3h12l3-3"/><path d="M8 21v-5"/><path d="M16 21v-5"/><path d="M8 3v5"/><path d="M16 3v5"/></svg>
-                </div>
+                <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
+                  <g transform="translate(8, 12)">
+                    <rect x="4" y="10" width="12" height="30" fill="#0057b7" />
+                    <rect x="18" y="10" width="8" height="30" fill="#0057b7" opacity="0.7" />
+                    <rect x="28" y="10" width="6" height="30" fill="#0057b7" opacity="0.5" />
+                    <rect x="36" y="10" width="4" height="30" fill="#0057b7" opacity="0.3" />
+                    <rect x="42" y="10" width="2" height="30" fill="#0057b7" opacity="0.15" />
+                  </g>
+                </svg>
                 <span class="text-xl font-semibold tracking-tight text-[var(--color-foreground)]">Fluctra</span>
               </button>
             </div>
@@ -48,10 +54,10 @@
               </nav>
             {/if}
 
-            <div class="flex items-center shrink-0 space-x-2">
-              <div class="min-w-0">
+            <div class="flex items-center shrink-0 space-x-2 md:space-x-4">
+              <div class="min-w-0 mr-1 md:mr-0">
                  <!-- FIX: Pass renamed prop handleToggle -->
-                 <WalletConnect {isConnected} {walletAddress} handleToggle={toggleConnection} />
+                 <WalletConnect {isConnected} {walletAddress} handleToggle={toggleConnection} className="px-2 md:px-4" />
               </div>
 
               {#if showAppNav}
