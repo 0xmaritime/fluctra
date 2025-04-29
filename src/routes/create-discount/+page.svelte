@@ -2,12 +2,27 @@
   import { goto } from '$app/navigation';
   import Card from '$lib/components/Card.svelte';
   import Button from '$lib/components/Button.svelte';
-  import Badge from '$lib/components/Badge.svelte';
+  import Input from '$lib/components/Input.svelte';
+  import Select from '$lib/components/Select.svelte';
   import { discountFormData } from './formStore';
   import { derived } from 'svelte/store';
 
-  let isDeploying = false;
+  // Blockchain options
+  const blockchainOptions = [
+    { value: 'ethereum', label: 'Ethereum' },
+    { value: 'solana', label: 'Solana' },
+    { value: 'bnb', label: 'BNB Chain' },
+    { value: 'base', label: 'Base' }
+  ];
 
+  // Distribution strategy options
+  const strategyOptions = [
+    { value: 'standard', label: 'Standard (First-come, first-served)' },
+    { value: 'tiered', label: 'Tiered (AI Optimized Schedule)' },
+    { value: 'whitelist', label: 'Whitelist Only (Requires Setup)' }
+  ];
+
+  // Reactive calculations
   const calculatedValues = derived(discountFormData, ($data) => {
     const discountRateNum = parseFloat($data.discountRate) || 0;
     const maxSaleAmountNum = parseFloat($data.maxSaleAmount) || 0;
@@ -17,6 +32,7 @@
     return { discountedPrice, totalValue, marketPrice };
   });
 
+  // Format currency
   function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -26,17 +42,14 @@
     }).format(amount);
   }
 
+  // Deployment function
+  let isDeploying = false;
   async function deployPool() {
     if (!$discountFormData.verified || isDeploying) return;
 
     isDeploying = true;
-    console.log("Deploying pool with data:", $discountFormData);
-
     try {
-      // --- ACTUAL DEPLOYMENT LOGIC ---
       await new Promise(resolve => setTimeout(resolve, 2000));
-      // --- END ---
-
       alert('Pool deployed successfully!');
       goto('/dashboard');
     } catch (error) {
@@ -46,91 +59,129 @@
       isDeploying = false;
     }
   }
-
 </script>
 
 <Card>
-  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-3">Review & Deploy</h2> <!-- Standardized -->
+  <h2 class="text-xl font-semibold text-[var(--color-foreground)] mb-6">Create Discount Pool</h2>
 
-  <div class="space-y-3"> <!-- Standardized -->
+  <div class="space-y-6">
+    <!-- Token Selection Section -->
     <div>
-      <h3 class="font-medium text-[var(--color-text-primary)] mb-2">Token Details</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2"> <!-- Standardized -->
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Token Name</p>
-          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.tokenInfo.name || '-'}</p>
-        </div>
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Token Symbol</p>
-          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.tokenInfo.symbol || '-'}</p>
-        </div>
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Blockchain</p>
-          <p class="font-medium text-[var(--color-text-primary)] capitalize">{$discountFormData.blockchain || '-'}</p>
-        </div>
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Contract Address</p>
-          <p class="font-mono text-sm text-[var(--color-text-primary)] break-all">{$discountFormData.tokenAddress || '-'}</p>
-        </div>
-         <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Current Market Price</p>
-          <p class="font-medium text-[var(--color-text-primary)]">
-            {#if $calculatedValues.marketPrice > 0}
-              {formatCurrency($calculatedValues.marketPrice)}
-            {:else}
-              <span class="text-[var(--color-text-secondary)] italic">Not available</span>
-            {/if}
-          </p>
-        </div>
+      <h3 class="font-medium text-[var(--color-text-primary)] mb-3">Token Details</h3>
+      <div class="space-y-3">
+        <Select
+          label="Blockchain Network"
+          options={blockchainOptions}
+          bind:value={$discountFormData.blockchain}
+          placeholder="Select Network"
+          required
+        />
+
+        <Input
+          label="Token Contract Address"
+          placeholder="0x..."
+          bind:value={$discountFormData.tokenAddress}
+          required
+          helpText="Enter the verified contract address of the token you want to discount."
+        />
+
+        <Input
+          label="Token Name (Auto-fetched if possible)"
+          placeholder="My Awesome Token"
+          bind:value={$discountFormData.tokenInfo.name}
+          required
+        />
+
+        <Input
+          label="Token Symbol (Auto-fetched if possible)"
+          placeholder="MAT"
+          bind:value={$discountFormData.tokenInfo.symbol}
+          required
+        />
       </div>
     </div>
 
+    <!-- Discount Parameters Section -->
     <div>
-      <h3 class="font-medium text-[var(--color-text-primary)] mb-2">Discount Details</h3>
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-2"> <!-- Standardized -->
+      <h3 class="font-medium text-[var(--color-text-primary)] mb-3">Discount Parameters</h3>
+      <div class="space-y-3">
+        <Input
+          type="number"
+          label="Discount Rate (%)"
+          bind:value={$discountFormData.discountRate}
+          required
+          min="1"
+          max="90"
+          helpText="Set the percentage discount off the current market price."
+        />
+
+        <Input
+          type="number"
+          label="Sale Duration (Days)"
+          bind:value={$discountFormData.duration}
+          required
+          min="1"
+          max="30"
+        />
+
+        <Input
+          type="number"
+          label="Maximum Sale Amount (Total Tokens)"
+          bind:value={$discountFormData.maxSaleAmount}
+          required
+          min="1"
+        />
+
+        <Select
+          label="Distribution Strategy"
+          options={strategyOptions}
+          bind:value={$discountFormData.distributionStrategy}
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Review Section -->
+    <div>
+      <h3 class="font-medium text-[var(--color-text-primary)] mb-3">Summary</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Discount Rate</p>
-          <div class="flex items-center">
-            <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.discountRate}%</p>
-            <!-- <div class="ml-2"><Badge variant="primary">AI Optimized</Badge></div> -->
-          </div>
+          <p class="text-sm text-[var(--color-text-secondary)]">Token</p>
+          <p class="font-medium text-[var(--color-text-primary)]">
+            {$discountFormData.tokenInfo.name} ({$discountFormData.tokenInfo.symbol})
+          </p>
         </div>
         <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Duration</p>
-          <p class="font-medium text-[var(--color-text-primary)]">{$discountFormData.duration} days</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Network</p>
+          <p class="font-medium text-[var(--color-text-primary)] capitalize">
+            {$discountFormData.blockchain}
+          </p>
         </div>
         <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Max Tokens for Sale</p>
-          <p class="font-medium text-[var(--color-text-primary)]">{parseFloat($discountFormData.maxSaleAmount).toLocaleString() || '-'}</p>
-        </div>
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Price per Token (Discounted)</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Discounted Price</p>
           <p class="font-medium text-[var(--color-text-primary)]">
             {#if $calculatedValues.discountedPrice > 0}
               {formatCurrency($calculatedValues.discountedPrice)}
             {:else}
-               <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
+              <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
             {/if}
           </p>
         </div>
         <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Est. Total Pool Value</p>
+          <p class="text-sm text-[var(--color-text-secondary)]">Total Pool Value</p>
           <p class="font-medium text-[var(--color-text-primary)]">
-             {#if $calculatedValues.totalValue > 0}
+            {#if $calculatedValues.totalValue > 0}
               {formatCurrency($calculatedValues.totalValue)}
-             {:else}
-                <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
-             {/if}
+            {:else}
+              <span class="text-[var(--color-text-secondary)] italic">Requires Market Price</span>
+            {/if}
           </p>
-        </div>
-        <div>
-          <p class="text-sm text-[var(--color-text-secondary)]">Strategy</p>
-          <p class="font-medium text-[var(--color-text-primary)] capitalize">{$discountFormData.distributionStrategy || '-'}</p>
         </div>
       </div>
     </div>
 
-    <div class="pt-2 border-t border-[var(--color-border-default)]"> <!-- Standardized -->
+    <!-- Confirmation and Deployment -->
+    <div class="pt-4 border-t border-[var(--color-border-default)]">
       <div class="flex items-start">
         <input
           type="checkbox"
@@ -140,29 +191,22 @@
           disabled={isDeploying}
         />
         <label for="confirm-verified" class="text-sm text-[var(--color-text-secondary)]">
-          I confirm that all information is accurate, I have verified the contract address, and understand the associated gas fees for deployment.
+          I confirm that all information is accurate and understand the associated gas fees.
         </label>
       </div>
-      {#if !$discountFormData.verified}
-        <p class="mt-1 text-xs text-[var(--color-error-500)]">Confirmation required to deploy.</p>
-      {/if}
+    </div>
+
+    <div class="flex justify-end">
+      <Button
+        on:click={deployPool}
+        disabled={!$discountFormData.verified || isDeploying || $calculatedValues.marketPrice <= 0}
+      >
+        {#if isDeploying}
+          Deploying...
+        {:else}
+          Deploy Discount Pool
+        {/if}
+      </Button>
     </div>
   </div>
-
-  <!-- Deployment button within the step content -->
-  <div class="flex justify-end mt-4"> <!-- Standardized -->
-      <Button
-          on:click={deployPool}
-          disabled={!$discountFormData.verified || isDeploying || $calculatedValues.marketPrice <= 0}
-          title={$calculatedValues.marketPrice <= 0 ? 'Market price must be available to deploy' : !$discountFormData.verified ? 'Please confirm details above' : ''}
-      >
-          {#if isDeploying}
-              Deploying...
-          {:else}
-              Deploy Discount Pool
-          {/if}
-      </Button>
-  </div>
 </Card>
-
-<!-- Back button remains in parent layout -->
