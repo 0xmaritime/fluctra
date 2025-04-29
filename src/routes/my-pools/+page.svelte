@@ -20,10 +20,11 @@
 
   // Mock data for pools
   const myPools = [
-    { id: 1, name: 'MyToken Presale', status: 'active' as const, discount: 30, timeRemaining: '12h 45m', raised: 15200, target: 20000, progress: 76, uniqueBuyers: 82, startDate: 'Jul 15, 2025', endDate: 'Jul 20, 2025', chain: 'Ethereum' },
-    { id: 2, name: 'MyToken Phase 2', status: 'active' as const, discount: 15, timeRemaining: '2d 8h', raised: 9360, target: 50000, progress: 19, uniqueBuyers: 46, startDate: 'Jul 18, 2025', endDate: 'Jul 25, 2025', chain: 'Base' },
-    { id: 3, name: 'NFT Holders Event', status: 'ended' as const, discount: 40, timeRemaining: 'Ended', raised: 25000, target: 25000, progress: 100, uniqueBuyers: 134, startDate: 'Jun 28, 2025', endDate: 'Jul 10, 2025', chain: 'Ethereum' },
-    { id: 4, name: 'Community Round', status: 'draft' as const, discount: 20, timeRemaining: 'Not started', raised: 0, target: 30000, progress: 0, uniqueBuyers: 0, startDate: 'Scheduled for Aug 1, 2025', endDate: 'Scheduled for Aug 10, 2025', chain: 'Solana' }
+    { id: 1, name: 'Solana DeFi Launch', status: 'active' as const, discount: 25, timeRemaining: '3d 2h', raised: 45000, target: 100000, progress: 45, uniqueBuyers: 62, startDate: 'Jul 15, 2025', endDate: 'Jul 25, 2025', chain: 'Solana' },
+    { id: 2, name: 'Solana NFT Drop', status: 'active' as const, discount: 35, timeRemaining: '1d 6h', raised: 80000, target: 100000, progress: 80, uniqueBuyers: 94, startDate: 'Jul 20, 2025', endDate: 'Jul 27, 2025', chain: 'Solana' },
+    { id: 3, name: 'GameFi Token', status: 'ended' as const, discount: 40, timeRemaining: 'Ended', raised: 100000, target: 100000, progress: 100, uniqueBuyers: 156, startDate: 'Jun 15, 2025', endDate: 'Jul 10, 2025', chain: 'Solana' },
+    { id: 4, name: 'Community Round', status: 'draft' as const, discount: 20, timeRemaining: 'Not started', raised: 0, target: 30000, progress: 0, uniqueBuyers: 0, startDate: 'Scheduled for Aug 1, 2025', endDate: 'Scheduled for Aug 10, 2025', chain: 'Solana' },
+    { id: 5, name: 'Solana DAO', status: 'draft' as const, discount: 15, timeRemaining: 'Not started', raised: 0, target: 50000, progress: 0, uniqueBuyers: 0, startDate: 'Scheduled for Aug 15, 2025', endDate: 'Scheduled for Aug 30, 2025', chain: 'Solana' }
   ];
 
   // Computed properties

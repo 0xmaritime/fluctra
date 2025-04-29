@@ -18,9 +18,10 @@
 
   // Blockchain options
   const blockchainOptions = [
-    { value: 'all', label: 'All Chains' }, { value: 'ethereum', label: 'Ethereum' },
-    { value: 'solana', label: 'Solana' }, { value: 'bnb', label: 'BNB Chain' },
-    { value: 'base', label: 'Base' }
+    { value: 'solana', label: 'Solana' },
+    { value: 'ethereum', label: 'Ethereum (coming soon)', disabled: true },
+    { value: 'bnb', label: 'BNB Chain (coming soon)', disabled: true },
+    { value: 'base', label: 'Base (coming soon)', disabled: true }
   ];
 
   // Health score options
@@ -43,9 +44,16 @@
 
   // Mock data for token listings
   const tokens = [
-    { id: 1, name: 'TokenA Finance', category: 'DeFi', chain: 'Ethereum', description: 'TokenA is a lending platform with dynamic interest rates and multi-chain support.', discount: 35, endTime: '8h 45m', healthScore: 92 },
-    { id: 2, name: 'GameFi Pro', category: 'Gaming', chain: 'Base', description: 'A gaming ecosystem with play-to-earn mechanics and NFT integration.', discount: 25, endTime: '2d 15h', healthScore: 85 },
-    { id: 3, name: 'AIToken', category: 'AI/Data', chain: 'Solana', description: 'Decentralized AI computing platform with tokenized machine learning resources.', discount: 20, endTime: '5d 8h', healthScore: 75 }
+    { id: 1, name: 'Solana DeFi', category: 'DeFi', chain: 'Solana', description: 'High-yield decentralized finance platform on Solana.', discount: 35, endTime: '2d 3h', healthScore: 92 },
+    { id: 2, name: 'NFT Gallery', category: 'NFT', chain: 'Solana', description: 'Premium NFT marketplace with zero gas fees.', discount: 25, endTime: '1d 12h', healthScore: 88 },
+    { id: 3, name: 'AI Compute', category: 'AI/Data', chain: 'Solana', description: 'Decentralized AI computing platform.', discount: 20, endTime: '5d 8h', healthScore: 75 },
+    { id: 4, name: 'GameFi Pro', category: 'Gaming', chain: 'Solana', description: 'Play-to-earn gaming ecosystem.', discount: 40, endTime: '3d 6h', healthScore: 95 },
+    { id: 5, name: 'Web3 Social', category: 'Social', chain: 'Solana', description: 'Decentralized social media platform.', discount: 15, endTime: '4d 2h', healthScore: 68 },
+    { id: 6, name: 'Crypto Bank', category: 'DeFi', chain: 'Solana', description: 'Interest-bearing crypto accounts.', discount: 30, endTime: '6d 1h', healthScore: 85 },
+    { id: 7, name: 'Metaverse Land', category: 'NFT', chain: 'Solana', description: 'Virtual real estate ownership.', discount: 45, endTime: '1d 8h', healthScore: 90 },
+    { id: 8, name: 'DEX Aggregator', category: 'DeFi', chain: 'Solana', description: 'Best price swaps across DEXs.', discount: 18, endTime: '2d 10h', healthScore: 82 },
+    { id: 9, name: 'DAO Platform', category: 'Governance', chain: 'Solana', description: 'Community governance tools.', discount: 22, endTime: '3d 4h', healthScore: 79 },
+    { id: 10, name: 'Streaming', category: 'Media', chain: 'Solana', description: 'Decentralized video streaming.', discount: 28, endTime: '5d 5h', healthScore: 87 }
   ];
 
   // AI recommendations
@@ -105,14 +113,17 @@
 
           <div>
             <label for="minDiscount" class="block text-sm font-medium text-[var(--color-text-primary)] mb-1">
-              Minimum Discount ({minDiscount}%)
+              Minimum Discount
             </label>
-             <input
+            <div class="text-xs text-[var(--color-text-secondary)] mb-1">
+              Current: {minDiscount}%
+            </div>
+            <input
               id="minDiscount"
               type="range"
               min="0" max="75" step="5"
               bind:value={minDiscount}
-              class="w-full h-2 bg-[var(--color-gray-200)] dark:bg-[var(--color-gray-700)] rounded-lg appearance-none cursor-pointer accent-[var(--color-interactive)]"
+              class="w-full h-2 bg-[var(--color-gray-200)] dark:bg-[var(--color-gray-700)] rounded-lg appearance-none cursor-pointer accent-[var(--color-interactive)] transition-none"
             />
           </div>
 
@@ -158,45 +169,46 @@
         <Select options={sortOptions} bind:value={sortBy} className="w-full sm:w-auto" />
       </div>
 
-      <div class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {#each tokens as token (token.id)}
-          <Card className="hover:shadow-lg transition-shadow duration-200">
-            <div class="flex flex-col md:flex-row gap-4">
-              <div class="flex-shrink-0">
-                 <div class="w-14 h-14 rounded-lg bg-[var(--color-background-subtle)] flex items-center justify-center font-bold text-xl text-[var(--color-text-primary)] border border-[var(--color-border-subtle)]">
+          <Card className="hover:shadow-lg transition-shadow duration-200 h-full flex flex-col p-4">
+            <div class="flex-1 flex flex-col gap-2">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center text-xl font-bold text-white border border-[var(--color-border-subtle)]" 
+                     style:background="var(--color-{['primary','secondary','success','warning','error','info'][Math.floor(Math.random() * 6)]}-500)">
                   {token.name.charAt(0)}
                 </div>
+                <h3 class="text-base font-semibold text-[var(--color-text-primary)] truncate flex-1">
+                  {token.name}
+                </h3>
+              </div>
+              
+              <div class="flex flex-wrap gap-2 mt-2">
+                <Badge variant={getCategoryBadgeVariant(token.category)}>{token.category}</Badge>
+                <Badge variant="neutral">{token.chain}</Badge>
+                <Badge variant={getDiscountBadgeVariant(token.discount)}>{token.discount}%</Badge>
               </div>
 
-              <div class="flex-1">
-                <div class="flex flex-col sm:flex-row justify-between gap-y-2">
-                  <div>
-                    <h3 class="text-lg font-semibold text-[var(--color-text-primary)]">{token.name}</h3>
-                    <div class="flex items-center mt-1 flex-wrap gap-x-2 gap-y-1">
-                       <Badge variant={getCategoryBadgeVariant(token.category)}>{token.category}</Badge>
-                       <Badge variant="neutral">{token.chain}</Badge>
-                    </div>
-                  </div>
-                   <Badge variant={getDiscountBadgeVariant(token.discount)} className="h-min text-base px-3 py-1">
-                    {token.discount}% Discount
-                  </Badge>
+              <p class="text-[var(--color-text-secondary)] text-sm mt-2 line-clamp-2 leading-snug">
+                {token.description}
+              </p>
+
+              <div class="mt-auto grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <div class="text-[var(--color-text-secondary)]">Ends in</div>
+                  <div class="text-[var(--color-text-primary)]">{token.endTime}</div>
                 </div>
-
-                <p class="mt-3 text-[var(--color-text-secondary)] text-sm line-clamp-2">{token.description}</p>
-
-                <!-- Added flex-wrap to this inner div -->
-                <div class="mt-4 flex flex-wrap flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 gap-x-4">
-                  <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm">
-                     <div class="text-[var(--color-text-secondary)]">
-                       Ends in <span class="font-medium text-[var(--color-text-primary)]">{token.endTime}</span>
-                     </div>
-                     <div class="text-[var(--color-text-secondary)]">
-                       Health Score: <span class="font-medium" style:color={getHealthScoreColor(token.healthScore)}>{token.healthScore}</span>
-                     </div>
+                <div>
+                  <div class="text-[var(--color-text-secondary)]">Health</div>
+                  <div class="text-[var(--color-text-primary)]" style:color={getHealthScoreColor(token.healthScore)}>
+                    {token.healthScore}
                   </div>
-                  <Button size="md" class="mt-2 sm:mt-0">View & Buy</Button> <!-- Ensure button doesn't cause wrap issue -->
                 </div>
               </div>
+            </div>
+
+            <div class="mt-4 border-t border-[var(--color-border-default)] pt-3">
+              <Button size="md" fullWidth={true}>View & Buy</Button>
             </div>
           </Card>
         {/each}

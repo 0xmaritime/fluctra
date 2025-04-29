@@ -11,6 +11,28 @@
   const holdersIcon = '<path d="M4 13.5V16a2 2 0 002 2h12a2 2 0 002-2v-2.5"></path><path d="M15 11l-3 3-3-3"></path><path d="M12 14V4"></path>';
   const zeroCodeIcon = '<circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line>'; // Adjusted to close the SVG tag correctly if needed
 
+  // Mock data for featured pools
+  const tokens = [
+    { 
+      id: 1, 
+      name: 'Solana DeFi', 
+      description: 'High-yield decentralized finance platform on Solana.', 
+      discount: 35 
+    },
+    { 
+      id: 2, 
+      name: 'GameFi Pro', 
+      description: 'Play-to-earn gaming ecosystem with NFT integration.', 
+      discount: 40 
+    },
+    { 
+      id: 3, 
+      name: 'AI Compute', 
+      description: 'Decentralized AI computing platform for machine learning.', 
+      discount: 25 
+    }
+  ];
+
 </script>
 
 <div class="relative -mt-4 z-10 min-h-[calc(100vh-theme(space.16))-\
@@ -34,9 +56,49 @@
         <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Button on:click={() => goto('/create-discount')} size="lg" className="px-8 py-4">
             Launch Your Token Now
-             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 ml-2"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 ml-2"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
           </Button>
+          <Button on:click={() => goto('/discover')} variant="secondary" size="lg" className="px-8 py-4">
+            Get Discounted Tokens
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 ml-2"><path d="M5 12h14"></path><path d="M12 5l7 7-7 7"></path></svg>
+          </Button>
+        </div>
+
+        <!-- Featured Pools Gallery -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-[var(--color-foreground)] mb-6">Featured Token Pools</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {#each tokens.slice(0, 3) as token (token.id)}
+              <div class="bg-[var(--color-background-elevated)] rounded-xl p-4 border border-[var(--color-border-default)] hover:shadow-lg transition-shadow">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold text-white" 
+                       style:background="var(--color-{['primary','secondary','success'][Math.floor(Math.random() * 3)]}-500)">
+                    {token.name.charAt(0)}
+                  </div>
+                  <h3 class="text-base font-semibold text-[var(--color-text-primary)] truncate">
+                    {token.name}
+                  </h3>
+                </div>
+                <p class="text-sm text-[var(--color-text-secondary)] line-clamp-2 mb-3">
+                  {token.description}
+                </p>
+                <div class="flex justify-between items-center">
+                  <span class="text-sm font-medium text-[var(--color-text-primary)]">
+                    {token.discount}% Discount
+                  </span>
+                  <Button size="sm" on:click={() => goto('/discover')}>
+                    View Pool
+                  </Button>
+                </div>
+              </div>
+            {/each}
           </div>
+          <div class="mt-6 text-center">
+            <Button on:click={() => goto('/discover')} variant="secondary">
+              View All Pools
+            </Button>
+          </div>
+        </div>
 
          <div class="mt-12 flex justify-center">
             <div class="w-16 h-16 rounded-full bg-[var(--color-primary-600)] text-[var(--color-interactive-text)] flex items-center justify-center shadow-lg">

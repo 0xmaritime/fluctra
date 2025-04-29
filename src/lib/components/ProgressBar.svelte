@@ -39,16 +39,16 @@
 </script>
 
 <div class={className}>
-  <div class="flex justify-between items-center mb-1"> <!-- Replaced calc() with mb-1 (8px) -->
+  <div class="flex justify-between items-center mb-[calc(var(--spacing)/2)]">
     <slot name="label"></slot>
     {#if showValue}
-      <span class="text-sm font-medium text-[var(--color-text-secondary)]">{formattedProgress}</span>
+      <span class="text-[length:var(--text-sm)] font-medium text-[var(--color-text-secondary)]">{formattedProgress}</span>
     {/if}
   </div>
 
   <div class={`w-full bg-[var(--color-gray-200)] dark:bg-[var(--color-gray-700)] rounded-full overflow-hidden ${sizeClasses[size]}`}>
     <div
-      class="transition-all duration-500 ease-out h-full rounded-full"
+      class="transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] h-full rounded-full"
       style:width="{validProgress}%"
       style:background-color={progressBgColor}
     ></div>

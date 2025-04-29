@@ -18,7 +18,7 @@
 
 <div class={className}>
   {#if label}
-    <label for={id} class="block text-sm font-medium text-[var(--color-text-primary)] mb-0.5"> <!-- Changed from mb-[calc(var(--spacing)/2)] to mb-0.5 (4px) -->
+    <label for={id} class="block text-[length:var(--text-sm)] font-medium text-[var(--color-text-primary)] mb-[calc(var(--spacing)/2)]">
       {label}
       {#if required}
         <span class="text-[var(--color-error-500)]">*</span>
@@ -43,17 +43,17 @@
     </select>
 
     <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-[var(--color-text-secondary)]">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="var(--color-text-secondary)" class="w-5 h-5">
         <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
       </svg>
     </div>
   </div>
 
   {#if helpText && !error}
-    <p class="mt-0.5 text-sm text-[var(--color-text-secondary)]">{helpText}</p> <!-- Changed from mt-[calc(var(--spacing)/2)] to mt-0.5 (4px) -->
+    <p class="mt-[calc(var(--spacing)/2)] text-[length:var(--text-sm)] text-[var(--color-text-secondary)]">{helpText}</p>
   {/if}
 
   {#if error}
-    <p class="mt-0.5 text-sm text-[var(--color-error-500)]">{error}</p> <!-- Changed from mt-[calc(var(--spacing)/2)] to mt-0.5 (4px) -->
+    <p class="mt-[calc(var(--spacing)/2)] text-[length:var(--text-sm)] text-[var(--color-error-500)]">{error}</p>
   {/if}
 </div>

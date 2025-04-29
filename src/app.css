@@ -4,12 +4,24 @@
 /* Import Tailwind's base, components, and utilities */
 @import "tailwindcss";
 
-/* Define NON-COLOR theme variables in @theme */
+/* Define theme variables in @theme */
 @theme {
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-size-base: 1.0625rem; /* 17px */
+  
+  /* Typography Scale (8px baseline) */
+  --text-xs: 0.75rem;   /* 12px */
+  --text-sm: 0.875rem;  /* 14px */
+  --text-base: 1rem;    /* 16px */
+  --text-lg: 1.125rem;  /* 18px */
+  --text-xl: 1.25rem;   /* 20px */
+  --text-2xl: 1.5rem;   /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem;  /* 36px */
+  --text-5xl: 3rem;     /* 48px */
+  --text-6xl: 3.75rem;  /* 60px */
 
   /* Spacing (8px Grid) */
   --spacing: 0.5rem; /* 8px */
@@ -31,6 +43,9 @@
 
   /* Animation & Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
 }
 
 /* Define COLOR variables and base styles in @layer base */
@@ -44,14 +59,14 @@
     --color-primary-500: oklch(68% 0.18 250);
     --color-primary-600: oklch(60% 0.21 250);
     --color-primary-700: oklch(52% 0.23 250);
-    --color-primary-800: oklch(40% 0.2 250); /* Interpolated */
+    --color-primary-800: oklch(40% 0.2 250);
     --color-primary-900: oklch(35% 0.18 250);
 
     --color-secondary-100: oklch(95% 0.03 190);
     --color-secondary-300: oklch(88% 0.06 190);
     --color-secondary-500: oklch(78% 0.1 190);
     --color-secondary-700: oklch(60% 0.12 190);
-    --color-secondary-800: oklch(45% 0.14 190); /* Interpolated */
+    --color-secondary-800: oklch(45% 0.14 190);
 
     --color-gray-0: oklch(100% 0 0);
     --color-gray-50: oklch(99% 0.002 240);
@@ -64,30 +79,35 @@
     --color-gray-700: oklch(52% 0.018 240);
     --color-gray-800: oklch(42% 0.015 240);
     --color-gray-900: oklch(32% 0.012 240);
-    --color-gray-950: oklch(22% 0.008 240); /* Interpolated */
+    --color-gray-950: oklch(22% 0.008 240);
     --color-gray-1000: oklch(15% 0.005 240);
 
     --color-success-100: oklch(96% 0.05 145);
     --color-success-500: oklch(72% 0.16 145);
     --color-success-700: oklch(58% 0.18 145);
-    --color-success-800: oklch(45% 0.2 145); /* Interpolated */
+    --color-success-800: oklch(45% 0.2 145);
 
     --color-warning-100: oklch(97% 0.06 85);
     --color-warning-500: oklch(82% 0.17 85);
     --color-warning-700: oklch(68% 0.18 85);
-    --color-warning-800: oklch(55% 0.2 85); /* Interpolated */
+    --color-warning-800: oklch(55% 0.2 85);
 
     --color-error-100: oklch(96% 0.06 25);
     --color-error-500: oklch(72% 0.23 25);
     --color-error-700: oklch(58% 0.25 25);
-    --color-error-800: oklch(45% 0.27 25); /* Interpolated */
+    --color-error-800: oklch(45% 0.27 25);
+
+    /* Additional Semantic Colors */
+    --color-text-tertiary: var(--color-gray-500);
+    --color-background-subtle: var(--color-gray-50);
+    --color-background-emphasis: var(--color-gray-100);
+    --color-border-interactive-hover: var(--color-primary-600);
 
     /* Aliases for Badge consistency (Light mode) */
     --color-neutral-100: var(--color-gray-100);
     --color-neutral-800: var(--color-gray-800);
     --color-info-100: var(--color-primary-100);
     --color-info-800: var(--color-primary-800);
-
 
     /* Base Semantic Variables (Light Mode Defaults) */
     --color-background: var(--color-gray-50);
@@ -103,10 +123,9 @@
     --color-interactive: var(--color-primary-600);
     --color-interactive-hover: var(--color-primary-700);
     --color-interactive-text: var(--color-gray-0);
-    /* --color-shadow defined in @theme */
   }
 
-  /* Dark Mode Overrides - Defined OUTSIDE @theme */
+  /* Dark Mode Overrides */
   @media (prefers-color-scheme: dark) {
     :root {
       --color-background: var(--color-gray-1000);
@@ -119,8 +138,11 @@
       --color-border-default: var(--color-gray-800);
       --color-border-subtle: var(--color-gray-900);
       --color-interactive: var(--color-primary-500);
-      --color-interactive-hover: var(--color-primary-300); /* Adjusted */
+      --color-interactive-hover: var(--color-primary-300);
       --color-interactive-text: var(--color-gray-0);
+      --color-background-subtle: var(--color-gray-900);
+      --color-background-emphasis: var(--color-gray-800);
+      --color-border-interactive-hover: var(--color-primary-400);
 
       /* Dark mode badge aliases */
       --color-neutral-100: color-mix(in oklch, var(--color-gray-900) 30%, transparent);
@@ -149,7 +171,7 @@
 
   body {
     font-family: var(--font-sans);
-    font-size: var(--font-size-base); /* 17px */
+    font-size: var(--font-size-base);
     line-height: 1.5;
     background-color: var(--color-background);
     color: var(--color-text-primary);
@@ -161,17 +183,17 @@
     line-height: 1.2;
   }
 
-  h1 { @apply text-4xl; }
-  h2 { @apply text-3xl; }
-  h3 { @apply text-2xl; }
-  h4 { @apply text-xl; }
-  h5 { @apply text-lg; }
-  h6 { @apply text-base; }
+  h1 { font-size: var(--text-4xl); }
+  h2 { font-size: var(--text-3xl); }
+  h3 { font-size: var(--text-2xl); }
+  h4 { font-size: var(--text-xl); }
+  h5 { font-size: var(--text-lg); }
+  h6 { font-size: var(--text-base); }
 
   a {
     color: var(--color-interactive);
     text-decoration: none;
-    transition: color 150ms var(--ease-out-expo);
+    transition: color var(--duration-fast) var(--ease-out-expo);
   }
 
   a:hover {
@@ -192,6 +214,7 @@
     background-color: color-mix(in oklch, var(--color-background) 65%, transparent);
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid color-mix(in oklch, var(--color-border-subtle) 20%, transparent);
+    transition: all var(--duration-normal) var(--ease-out-expo);
 
     @media (prefers-color-scheme: dark) {
       background-color: color-mix(in oklch, var(--color-background) 70%, transparent);
@@ -200,82 +223,88 @@
     }
   }
 
-
   .app-container {
     @apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8;
   }
 
   /* --- Button Styles --- */
-  .button-sm { @apply px-2.5 py-1.5 text-xs; }
-  .button-md { @apply px-4 py-2 text-sm; }
-  .button-lg { @apply px-5 py-2.5 text-base; }
+  .button-sm { 
+    @apply px-2.5 py-1.5;
+    font-size: var(--text-xs);
+  }
+  .button-md { 
+    @apply px-4 py-2;
+    font-size: var(--text-sm);
+  }
+  .button-lg { 
+    @apply px-5 py-2.5;
+    font-size: var(--text-base);
+  }
 
   .button-primary {
-    @apply inline-flex items-center justify-center rounded-lg font-semibold transition duration-150 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
+    @apply inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
     @apply bg-[var(--color-interactive)] text-[var(--color-interactive-text)] border-transparent shadow-sm hover:bg-[var(--color-interactive-hover)] disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .button-secondary {
-    @apply inline-flex items-center justify-center rounded-lg font-semibold transition duration-150 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
-    @apply bg-[var(--color-card-background)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] shadow-sm hover:bg-[var(--color-gray-100)] disabled:opacity-50 disabled:cursor-not-allowed;
-    @media (prefers-color-scheme: dark) { @apply hover:bg-[var(--color-gray-800)]; }
+    @apply inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
+    @apply bg-[var(--color-card-background)] text-[var(--color-text-primary)] border border-[var(--color-border-default)] shadow-sm hover:bg-[var(--color-background-emphasis)] disabled:opacity-50 disabled:cursor-not-allowed;
   }
   .button-ghost {
-    @apply inline-flex items-center justify-center rounded-lg font-semibold transition duration-150 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
+    @apply inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40] active:scale-[0.98] border;
     @apply bg-transparent text-[var(--color-interactive)] border-transparent hover:bg-[color-mix(in_oklch,var(--color-primary-100)_70%,transparent)] disabled:text-[var(--color-text-disabled)] disabled:bg-transparent disabled:cursor-not-allowed;
     @media (prefers-color-scheme: dark) { @apply hover:bg-[color-mix(in_oklch,var(--color-primary-900)_30%,transparent)]; }
   }
 
   /* Card Component Style */
   .card {
-    @apply bg-[var(--color-card-background)] rounded-xl border border-[var(--color-border-default)] shadow-md overflow-hidden transition-all duration-200 ease-out p-6;
+    @apply bg-[var(--color-card-background)] rounded-xl border border-[var(--color-border-default)] shadow-md overflow-hidden transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] p-6;
   }
-  .card:hover { @apply shadow-lg border-[var(--color-gray-300)]; }
-  @media (prefers-color-scheme: dark) { .card:hover { @apply border-[var(--color-gray-700)]; } }
+  .card:hover { 
+    @apply shadow-lg border-[var(--color-border-interactive-hover)]; 
+  }
 
   /* Input Component Style */
   .input {
-    @apply block w-full rounded-lg border border-[var(--color-border-default)] bg-[var(--color-card-background)] px-3 py-2 text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-placeholder)] shadow-sm transition-all duration-200 ease-out focus:outline-none focus:border-[var(--color-border-interactive)] focus:ring-2 focus:ring-[var(--color-primary-100)];
-    &:disabled { @apply bg-[var(--color-gray-100)] text-[var(--color-text-disabled)] cursor-not-allowed shadow-none; }
+    @apply block w-full rounded-lg border border-[var(--color-border-default)] bg-[var(--color-card-background)] px-3 py-2 text-[length:var(--text-sm)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-placeholder)] shadow-sm transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)] focus:outline-none focus:border-[var(--color-border-interactive)] focus:ring-2 focus:ring-[var(--color-primary-100)];
+    &:disabled { @apply bg-[var(--color-background-emphasis)] text-[var(--color-text-disabled)] cursor-not-allowed shadow-none; }
     &.error { @apply border-[var(--color-error-500)] focus:border-[var(--color-error-500)] focus:ring-[var(--color-error-100)]; }
-    @media (prefers-color-scheme: dark) { &:disabled { @apply bg-[var(--color-gray-800)] text-[var(--color-text-disabled)]; } }
   }
 
-  /* --- Badge Styles --- */
-  /* NOTE: Removed .badge base class, incorporated styles into variants */
+  /* Badge Styles */
   .badge-primary {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-primary-100)] text-[var(--color-primary-800)];
     @media (prefers-color-scheme: dark) { @apply bg-[color-mix(in_oklch,var(--color-primary-900)_30%,transparent)] text-[var(--color-primary-300)]; }
   }
   .badge-secondary {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-secondary-100)] text-[var(--color-secondary-800)];
     @media (prefers-color-scheme: dark) { @apply bg-[color-mix(in_oklch,var(--color-gray-900)_30%,transparent)] text-[var(--color-secondary-300)]; }
   }
   .badge-success {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-success-100)] text-[var(--color-success-800)];
     @media (prefers-color-scheme: dark) { @apply bg-[color-mix(in_oklch,var(--color-success-700)_30%,transparent)] text-[oklch(var(--color-success-100)/1)]; }
   }
   .badge-warning {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-warning-100)] text-[var(--color-warning-800)];
     @media (prefers-color-scheme: dark) { @apply bg-[color-mix(in_oklch,var(--color-warning-700)_30%,transparent)] text-[oklch(var(--color-warning-100)/1)]; }
   }
   .badge-error {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-error-100)] text-[var(--color-error-800)];
     @media (prefers-color-scheme: dark) { @apply bg-[color-mix(in_oklch,var(--color-error-700)_30%,transparent)] text-[oklch(var(--color-error-100)/1)]; }
   }
   .badge-neutral {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-neutral-100)] text-[var(--color-neutral-800)];
-    @media (prefers-color-scheme: dark) { @apply bg-[var(--color-neutral-100)] text-[var(--color-neutral-800)]; } /* Uses dark mode alias */
+    @media (prefers-color-scheme: dark) { @apply bg-[var(--color-neutral-100)] text-[var(--color-neutral-800)]; }
   }
   .badge-info {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-[length:var(--text-xs)] font-medium;
     @apply bg-[var(--color-info-100)] text-[var(--color-info-800)];
-    @media (prefers-color-scheme: dark) { @apply bg-[var(--color-info-100)] text-[var(--color-info-800)]; } /* Uses dark mode alias */
+    @media (prefers-color-scheme: dark) { @apply bg-[var(--color-info-100)] text-[var(--color-info-800)]; }
   }
 
   /* Checkbox Style */

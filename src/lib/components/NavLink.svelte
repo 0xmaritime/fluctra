@@ -8,18 +8,22 @@
   $: isActive = $page.url.pathname === href || ($page.url.pathname.startsWith(href) && href !== '/');
 
   // Base classes for common styling
-  const baseClasses = "px-3 py-2 rounded-lg font-medium transition-all duration-200 ease-out"; // Using --radius-md implicitly
+  const baseClasses = `
+    px-[calc(var(--spacing)*1.5)] py-[calc(var(--spacing))] 
+    rounded-lg font-semibold 
+    transition-all duration-[var(--duration-normal)] ease-[var(--ease-out-expo)]
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--color-primary-500)/40]
+  `; // Using --radius-md implicitly
 
   // Conditional classes based on state and mode
   $: activeClass = 'bg-[var(--color-interactive)] text-[var(--color-interactive-text)]';
   $: inactiveClass = `
     text-[var(--color-text-primary)]
-    hover:bg-[var(--color-gray-100)]
-    dark:hover:bg-[var(--color-gray-800)]
-  `; // Hover styles defined directly as they differ for dark mode
+    hover:bg-[var(--color-background-emphasis)]
+  `;
 
   // Text size class based on mobile prop
-  $: textSizeClass = isMobile ? 'text-base' : 'text-sm';
+  $: textSizeClass = isMobile ? 'text-[length:var(--text-base)]' : 'text-[length:var(--text-sm)]';
 
   // Final combined classes
   $: linkClass = `

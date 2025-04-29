@@ -1,10 +1,5 @@
-&lt;svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"&gt;
-  &lt;!-- Simplified Phase Change for Favicon --&gt;
-  &lt;g transform="translate(8, 12)"&gt;
-    &lt;rect x="4" y="10" width="12" height="30" fill="#0057b7" /&gt;
-    &lt;rect x="18" y="10" width="8" height="30" fill="#0057b7" opacity="0.7" /&gt;
-    &lt;rect x="28" y="10" width="6" height="30" fill="#0057b7" opacity="0.5" /&gt;
-    &lt;rect x="36" y="10" width="4" height="30" fill="#0057b7" opacity="0.3" /&gt;
-    &lt;rect x="42" y="10" width="2" height="30" fill="#0057b7" opacity="0.15" /&gt;
-  &lt;/g&gt;
-&lt;/svg&gt;
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="3" width="3" height="8" fill="#0057b7" />
+  <rect x="5" y="3" width="2" height="8" fill="#0057b7" />
+  <rect x="8" y="3" width="1" height="8" fill="#0057b7" />
+</svg>

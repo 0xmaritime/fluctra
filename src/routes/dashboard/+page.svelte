@@ -10,8 +10,10 @@
 
   // Active pools data (example)
   const activePools = [
-    { id: 1, name: 'MyToken Presale', discount: 30, timeRemaining: '12h 45m', raised: 15200, target: 20000, progress: 76, chain: 'Ethereum' },
-    { id: 2, name: 'MyToken Phase 2', discount: 15, timeRemaining: '2d 8h', raised: 9360, target: 50000, progress: 19, chain: 'Base' }
+    { id: 1, name: 'MyToken Presale', discount: 30, timeRemaining: '12h 45m', raised: 15200, target: 20000, progress: 76, chain: 'Solana' },
+    { id: 2, name: 'Solana DeFi Launch', discount: 25, timeRemaining: '3d 2h', raised: 45000, target: 100000, progress: 45, chain: 'Solana' },
+    { id: 3, name: 'NFT Marketplace', discount: 15, timeRemaining: '5d 8h', raised: 12000, target: 50000, progress: 24, chain: 'Solana' },
+    { id: 4, name: 'GameFi Token', discount: 40, timeRemaining: '1d 6h', raised: 80000, target: 100000, progress: 80, chain: 'Solana' }
   ];
 
   // AI-generated recommendations (example)

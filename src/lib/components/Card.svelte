@@ -8,10 +8,10 @@
 
 <div class={`card ${className}`}>
   {#if title}
-    <div class="mb-5"> <!-- Changed from mb-[calc(var(--spacing)*2.5)] to mb-5 (20px) -->
-      <h3 class="text-lg font-semibold text-[var(--color-text-primary)]">{title}</h3>
+    <div class="mb-[calc(var(--spacing)*3)]"> <!-- Use 24px spacing -->
+      <h3 class="text-[length:var(--text-lg)] font-bold text-[var(--color-text-primary)]">{title}</h3> <!-- Use DS text size and bold weight -->
       {#if subtitle}
-        <p class="text-sm text-[var(--color-text-secondary)] mt-1">{subtitle}</p> <!-- Changed from mt-[var(--spacing)] to mt-1 (8px) -->
+        <p class="text-[length:var(--text-sm)] text-[var(--color-text-secondary)] mt-[calc(var(--spacing)/2)]">{subtitle}</p> <!-- Use DS text size and 4px margin -->
       {/if}
     </div>
   {/if}

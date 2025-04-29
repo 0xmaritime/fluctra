@@ -31,16 +31,16 @@
           <div class="flex items-center justify-between py-1">
             <div class="flex items-center shrink-0">
               <button on:click={() => goto('/')} class="flex items-center space-x-2 focus:outline-none">
-                <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
-                  <g transform="translate(8, 12)">
-                    <rect x="4" y="10" width="12" height="30" fill="#0057b7" />
-                    <rect x="18" y="10" width="8" height="30" fill="#0057b7" opacity="0.7" />
-                    <rect x="28" y="10" width="6" height="30" fill="#0057b7" opacity="0.5" />
-                    <rect x="36" y="10" width="4" height="30" fill="#0057b7" opacity="0.3" />
-                    <rect x="42" y="10" width="2" height="30" fill="#0057b7" opacity="0.15" />
+                <svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
+                  <g transform="translate(8, 0)">
+                    <rect x="4" y="10" width="12" height="30" fill="var(--color-primary-600)" />
+                    <rect x="18" y="10" width="8" height="30" fill="var(--color-primary-600)" opacity="0.7" />
+                    <rect x="28" y="10" width="6" height="30" fill="var(--color-primary-600)" opacity="0.5" />
+                    <rect x="36" y="10" width="4" height="30" fill="var(--color-primary-600)" opacity="0.3" />
+                    <rect x="42" y="10" width="2" height="30" fill="var(--color-primary-600)" opacity="0.15" />
                   </g>
                 </svg>
-                <span class="text-xl font-semibold tracking-tight text-[var(--color-foreground)]">Fluctra</span>
+                <span class="text-[length:var(--text-xl)] font-bold tracking-tight text-[var(--color-foreground)]">Fluctra</span>
               </button>
             </div>
 
@@ -63,7 +63,7 @@
               {#if showAppNav}
                 <button
                   on:click={() => isMenuOpen = !isMenuOpen}
-                  class="md:hidden rounded-lg p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-gray-100)] dark:hover:bg-[var(--color-gray-800)] focus:outline-none transition-colors duration-200 ease-out"
+                  class="md:hidden rounded-lg p-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-background-emphasis)] focus:outline-none transition-colors duration-[var(--duration-normal)] ease-[var(--ease-out-expo)]"
                   aria-label="Open menu"
                 >
                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -94,13 +94,13 @@
     </div>
   </header>
 
-  <main class="flex-1 py-3">
+  <main class="flex-1 py-[calc(var(--spacing)*1.5)]">
     <div class="app-container animate-fade-in">
       <slot />
     </div>
   </main>
 
-  <footer class="border-t border-[var(--color-border-subtle)] py-3 mt-6">
+  <footer class="border-t border-[var(--color-border-subtle)] py-[calc(var(--spacing)*1.5)] mt-[calc(var(--spacing)*3)]">
         <div class="app-container px-4 sm:px-6">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0 flex items-center">
