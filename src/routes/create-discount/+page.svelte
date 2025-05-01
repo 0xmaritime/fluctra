@@ -42,6 +42,11 @@
     }).format(amount);
   }
 
+  import { FluctraLaunchClient } from '$lib/solana/fluctra-launch';
+  import { connection, createAnchorWallet } from '$lib/solana/wallet';
+  import { PublicKey } from '@solana/web3.js';
+  import { useWallet } from '@solana/wallet-adapter-react';
+
   // Deployment function
   let isDeploying = false;
   async function deployPool() {
@@ -49,7 +54,30 @@
 
     isDeploying = true;
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const walletState = useWallet();
+      const wallet = createAnchorWallet(walletState);
+      const client = new FluctraLaunchClient(connection, wallet);
+      
+      // Convert days to seconds
+      const durationSeconds = parseInt($discountFormData.duration) * 24 * 60 * 60;
+      
+      // Convert discount rate from percentage to basis points (e.g. 25% -> 2500)
+      const discountRateBasisPoints = parseInt($discountFormData.discountRate) * 100;
+      
+      // Convert token amount to number
+      const totalTokensForSale = parseInt($discountFormData.maxSaleAmount);
+      
+      // TODO: Get token mint address from form data
+      const tokenMint = new PublicKey($discountFormData.tokenAddress);
+
+      const tx = await client.initializePool(
+        tokenMint,
+        totalTokensForSale,
+        discountRateBasisPoints,
+        durationSeconds
+      );
+
+      console.log('Transaction successful:', tx);
       alert('Pool deployed successfully!');
       goto('/dashboard');
     } catch (error) {
