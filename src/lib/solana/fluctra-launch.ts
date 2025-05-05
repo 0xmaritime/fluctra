@@ -2,7 +2,8 @@ import * as anchor from '@coral-xyz/anchor';
 import { Program } from '@coral-xyz/anchor';
 import { PublicKey, Connection, Keypair, SystemProgram } from '@solana/web3.js';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
-import { FluctraLaunch } from './types/fluctra_launch';
+import type { FluctraLaunch } from './types/fluctra_launch';
+import idl from '../../../target/idl/fluctra_launch.json';
 
 // Program ID from the deployed contract
 const PROGRAM_ID = new PublicKey('FL1ctrAL111111111111111111111111111111111');
@@ -29,8 +30,29 @@ export class FluctraLaunchClient {
       { commitment: 'confirmed' }
     );
     
-    // @ts-ignore - We'll need to generate the IDL types
-    this.program = new Program(FluctraLaunch, PROGRAM_ID, provider);
+    // Create program instance using the IDL
+    this.program = new Program(
+      idl as FluctraLaunch,
+      provider
+    );
+  }
+
+  async getPoolAccount(poolAddress: PublicKey): Promise<{
+    creator: PublicKey;
+    tokenMint: PublicKey;
+    poolTokenAccount: PublicKey;
+    totalTokensForSale: anchor.BN;
+    tokensSold: anchor.BN;
+    discountRateBasisPoints: number;
+    durationSeconds: anchor.BN;
+    startTime: anchor.BN;
+    isActive: boolean;
+    platformFeeBasisPoints: number;
+    treasury: PublicKey;
+    bump: number;
+    buyers: PublicKey[];
+  }> {
+    return this.program.account.poolAccount.fetch(poolAddress);
   }
 
   /**
@@ -141,8 +163,8 @@ export class FluctraLaunchClient {
       const pools = await this.program.account.poolAccount.all([
         {
           memcmp: {
-            offset: 8 + 32 + 32 + 32 + 8 + 2 + 8 + 8, // Skip to is_active field
-            bytes: this.wallet.publicKey.toBase58(), // Filter by creator's public key
+            offset: 8 + 32 + 32 + 32 + 8 + 8 + 2 + 8 + 8 + 1, // Skip to is_active field
+            bytes: '1', // 1 = true
           },
         },
       ]);
@@ -150,6 +172,114 @@ export class FluctraLaunchClient {
       return pools;
     } catch (error) {
       console.error('Error fetching active pools:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Purchase tokens from a pool
+   * 
+   * @param poolAddress The pool address
+   * @param tokenAmount The amount of tokens to purchase
+   * @returns Transaction signature
+   */
+  async purchaseTokens(poolAddress: PublicKey, tokenAmount: number): Promise<string> {
+    try {
+      const pool = await this.getPoolAccount(poolAddress);
+      
+      // Get buyer token account
+      const buyerTokenAccount = await getAssociatedTokenAddress(
+        pool.tokenMint,
+        this.wallet.publicKey
+      );
+
+      // Get buyer info PDA
+      const [buyerInfo, _] = await PublicKey.findProgramAddress(
+        [
+          Buffer.from('buyer'),
+          this.wallet.publicKey.toBuffer(),
+          poolAddress.toBuffer()
+        ],
+        this.program.programId
+      );
+
+      const tx = await this.program.methods
+        .purchaseTokens(new anchor.BN(tokenAmount))
+        .accounts({
+          poolAccount: poolAddress,
+          poolTokenAccount: pool.poolTokenAccount,
+          buyer: this.wallet.publicKey,
+          buyerInfo,
+          buyerTokenAccount,
+          creator: pool.creator,
+          treasury: pool.treasury,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          systemProgram: SystemProgram.programId,
+        })
+        .rpc();
+
+      return tx;
+    } catch (error) {
+      console.error('Error purchasing tokens:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Close a pool (mark as inactive)
+   * 
+   * @param poolAddress The pool address
+   * @returns Transaction signature
+   */
+  async closePool(poolAddress: PublicKey): Promise<string> {
+    try {
+      const pool = await this.getPoolAccount(poolAddress);
+      
+      const tx = await this.program.methods
+        .closePool()
+        .accounts({
+          poolAccount: poolAddress,
+          creator: this.wallet.publicKey,
+        })
+        .rpc();
+
+      return tx;
+    } catch (error) {
+      console.error('Error closing pool:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Withdraw remaining tokens from a pool
+   * 
+   * @param poolAddress The pool address
+   * @returns Transaction signature
+   */
+  async withdrawRemainingTokens(poolAddress: PublicKey): Promise<string> {
+    try {
+      const pool = await this.getPoolAccount(poolAddress);
+      
+      // Get creator token account
+      const creatorTokenAccount = await getAssociatedTokenAddress(
+        pool.tokenMint,
+        this.wallet.publicKey
+      );
+
+      const tx = await this.program.methods
+        .withdrawRemainingTokens()
+        .accounts({
+          poolAccount: poolAddress,
+          creator: this.wallet.publicKey,
+          poolTokenAccount: pool.poolTokenAccount,
+          creatorTokenAccount,
+          tokenProgram: TOKEN_PROGRAM_ID,
+        })
+        .rpc();
+
+      return tx;
+    } catch (error) {
+      console.error('Error withdrawing tokens:', error);
       throw error;
     }
   }

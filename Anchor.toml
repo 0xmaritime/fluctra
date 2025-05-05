@@ -1,16 +1,19 @@
 [features]
 seeds = false
-skip-lint = false
 
 [programs.localnet]
 fluctra_launch = "FL1ctrAL111111111111111111111111111111111111"
 
 [registry]
-url = "https://api.apr.dev"
+url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
-wallet = "~/.config/solana/id.json"
+cluster = "Localnet"
+wallet = "/Users/pavelkeller/.config/solana/id.json"
+
+[toolchain]
+anchor_version = "0.25.0"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+skip-lint = "false"
