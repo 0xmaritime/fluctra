@@ -3,7 +3,7 @@ import { Program } from '@coral-xyz/anchor';
 import { PublicKey, Connection, Keypair, SystemProgram } from '@solana/web3.js';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
 import type { FluctraLaunch } from './types/fluctra_launch';
-import idl from '../../../target/idl/fluctra_launch.json';
+import idl from './idl/fluctra_launch.json';
 
 // Program ID from the deployed contract
 const PROGRAM_ID = new PublicKey('FL1ctrAL111111111111111111111111111111111');
@@ -30,8 +30,8 @@ export class FluctraLaunchClient {
       { commitment: 'confirmed' }
     );
     
-    // Create program instance using the IDL
-    this.program = new Program(
+    // Create program instance with proper typing
+    this.program = new Program<FluctraLaunch>(
       idl as FluctraLaunch,
       provider
     );
@@ -52,7 +52,7 @@ export class FluctraLaunchClient {
     bump: number;
     buyers: PublicKey[];
   }> {
-    return this.program.account.poolAccount.fetch(poolAddress);
+    return (this.program.account as any).poolAccount.fetch(poolAddress);
   }
 
   /**
@@ -109,7 +109,7 @@ export class FluctraLaunchClient {
         )
         .accounts({
           creator: this.wallet.publicKey,
-          poolAccount,
+          poolAccount: poolAccount as any,
           creatorTokenAccount,
           poolTokenAccount,
           feeRecipientWallet: FEE_RECIPIENT_WALLET,
@@ -118,7 +118,7 @@ export class FluctraLaunchClient {
           tokenProgram: TOKEN_PROGRAM_ID,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
           rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        })
+        } as any)
         .rpc();
 
       return tx;
@@ -136,7 +136,7 @@ export class FluctraLaunchClient {
   async getMyPools() {
     try {
       // Filter for pools where the creator is the current wallet
-      const pools = await this.program.account.poolAccount.all([
+      const pools = await (this.program.account as any).poolAccount.all([
         {
           memcmp: {
             offset: 8, // Skip the discriminator
@@ -160,7 +160,7 @@ export class FluctraLaunchClient {
   async getAllActivePools() {
     try {
       // Filter for pools where is_active is true
-      const pools = await this.program.account.poolAccount.all([
+      const pools = await (this.program.account as any).poolAccount.all([
         {
           memcmp: {
             offset: 8 + 32 + 32 + 32 + 8 + 8 + 2 + 8 + 8 + 1, // Skip to is_active field
@@ -206,16 +206,16 @@ export class FluctraLaunchClient {
       const tx = await this.program.methods
         .purchaseTokens(new anchor.BN(tokenAmount))
         .accounts({
-          poolAccount: poolAddress,
+          poolAccount: poolAddress as any,
           poolTokenAccount: pool.poolTokenAccount,
           buyer: this.wallet.publicKey,
-          buyerInfo,
+          buyerInfo: buyerInfo as any,
           buyerTokenAccount,
           creator: pool.creator,
           treasury: pool.treasury,
           tokenProgram: TOKEN_PROGRAM_ID,
           systemProgram: SystemProgram.programId,
-        })
+        } as any)
         .rpc();
 
       return tx;
